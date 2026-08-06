@@ -20,7 +20,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // Hide body scroll when success overlay is open
     if (orderComplete) {
       document.body.style.overflow = "hidden";
     } else {
@@ -40,14 +39,14 @@ export default function Home() {
     return (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center px-4"
-        style={{ background: "rgba(26, 26, 26, 0.7)" }}
+        style={{ background: "rgba(62, 39, 35, 0.7)" }}
         onClick={handleCloseSuccess}
       >
         <div
           className="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex justify-center mb-3 text-green-500">
+          <div className="flex justify-center mb-3 text-[#d4af37]">
             <CheckCircle size={48} />
           </div>
           <h3 className="font-bold text-lg text-[#3e2723] mb-3">
@@ -62,8 +61,8 @@ export default function Home() {
           </p>
           <button
             onClick={handleCloseSuccess}
-            className="w-full py-2.5 rounded-xl font-bold text-sm text-[#3e2723]"
-            style={{ background: "#d4af37" }}
+            className="w-full py-2.5 rounded-xl font-bold text-sm"
+            style={{ background: "#d4af37", color: "#3e2723" }}
           >
             إغلاق
           </button>
@@ -74,12 +73,12 @@ export default function Home() {
 
   return (
     <>
-      {/* 1. Ad-ception Sticky Banner */}
+      {/* 1. Ad-cession Sticky Banner */}
       <StickyBanner text={psychologyPack.tagline} />
 
       {/* Main content */}
       <main className="max-w-[420px] mx-auto pb-24">
-        {/* 2. Hero Section */}
+        {/* 2. HERO SECTION (Attention) — Hook + transformation headline + 3D mockup + price anchoring + CTA */}
         <HeroSection
           headline={psychologyPack.headline}
           subheadline={psychologyPack.subheadline}
@@ -90,24 +89,24 @@ export default function Home() {
           onCtaClick={scrollToForm}
         />
 
-        {/* 3. Ethical Urgency Banner */}
+        {/* 3. Ethical Urgency Banner (scarcity for free gift) */}
         <UrgencyBanner text={psychologyPack.urgency} />
 
-        {/* 4. Value Proposition Section */}
+        {/* 4. VALUE & DESIRE SECTION (Interest & Desire) — Moved up beneath the Hero */}
         <ValuePropSection
           title={psychologyPack.valuePropTitle}
           benefits={psychologyPack.benefits}
         />
 
-        {/* 5. Risk Reversal — Golden Guarantee */}
+        {/* 5. GOLDEN GUARANTEE (Trust — eliminates risk hesitation) */}
         <GuaranteeSection guarantee={psychologyPack.guarantee} />
 
-        {/* 6. High-Speed Checkout Engine */}
+        {/* 6. CHECKOUT FORM (Action) */}
         <div ref={formRef}>
           <CheckoutSection pack={psychologyPack} onSuccess={handleSuccess} />
         </div>
 
-        {/* Other packs footer */}
+        {/* Other packs footer (keep users browsing inside the store) */}
         <section className="mt-10 mx-4">
           <h2 className="font-display text-center text-[#d4af37] text-sm mb-3">
             باقي الباكات الخاصة بنا
@@ -128,7 +127,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 7. Mobile Sticky Footer (only after scroll + only on mobile) */}
+      {/* 7. Mobile Sticky Footer (only on mobile, value-driven copy) */}
       <MobileStickyFooter
         price={psychologyPack.price}
         onCtaClick={scrollToForm}
