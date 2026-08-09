@@ -59,7 +59,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       <StickyBanner text={pack.tagline} />
 
       {/* Main content */}
-      <main className="mx-auto max-w-[420px] pb-32">
+      <main className="mx-auto max-w-[420px] pb-6">
         {/* 2. HERO SECTION (Attention) */}
         <HeroSection
           headline={pack.headline}
