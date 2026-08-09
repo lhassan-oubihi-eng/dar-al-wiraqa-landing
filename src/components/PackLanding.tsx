@@ -20,13 +20,6 @@ export function PackLanding({ pack }: PackLandingProps) {
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
-    // Auto-focus the name input after scroll to trigger the mobile virtual keyboard
-    setTimeout(() => {
-      const nameInput = document.getElementById("name");
-      if (nameInput) {
-        nameInput.focus();
-      }
-    }, 800);
   };
 
   const otherPacks = offers.filter((o) => o.slug !== pack.slug);
@@ -37,7 +30,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       <StickyBanner text={pack.tagline} />
 
       {/* Main content */}
-      <main className="mx-auto max-w-[420px] pb-24">
+      <main className="mx-auto max-w-[420px] pb-40">
         {/* 2. HERO SECTION (Attention) */}
         <HeroSection
           headline={pack.headline}

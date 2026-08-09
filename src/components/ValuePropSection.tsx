@@ -1,15 +1,6 @@
 import React from "react";
-import { Brain, Lock, Shield, Heart, Sparkles, BookOpen } from "lucide-react";
 import { Benefit } from "@/data/offers";
-
-const ICON_MAP: Record<Benefit["icon"], React.ReactNode> = {
-  brain: <Brain size={20} />,
-  lock: <Lock size={20} />,
-  shield: <Shield size={20} />,
-  heart: <Heart size={20} />,
-  sparkles: <Sparkles size={20} />,
-  "book-open": <BookOpen size={20} />,
-};
+import { BookCover } from "@/components/BookCover";
 
 interface ValuePropSectionProps {
   title: string;
@@ -24,14 +15,28 @@ export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
         {benefits.map((benefit, index) => (
           <div
             key={index}
-            className="border border-[#3A2E22] rounded-xl p-4 text-center transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+            className="border border-[#3A2E22] rounded-xl p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
           >
-            <div className="flex justify-center mb-2 text-[#e8e0d4]">
-              <span className="text-[#e8e0d4]">
-                {ICON_MAP[benefit.icon] || <Brain size={20} />}
-              </span>
+            <div className="mb-3 flex justify-center">
+              <div className="h-40 w-28 overflow-hidden rounded-lg shadow-md">
+                <BookCover
+                  title={benefit.title}
+                  src={benefit.coverUrl}
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
-            <h3 className="font-bold text-sm text-[#e8e0d4] mb-1">{benefit.title}</h3>
+            <h3 className="text-center font-bold text-sm text-[#e8e0d4] mb-1">
+              {benefit.title}
+              {benefit.gift && (
+                <span
+                  className="mr-2 rounded px-1.5 py-0.5 text-[10px] font-black"
+                  style={{ background: "#d4af37", color: "#3e2723" }}
+                >
+                  هدية
+                </span>
+              )}
+            </h3>
             <p className="text-xs text-[#cdbba9]/80 leading-relaxed text-right">
               {benefit.description}
             </p>

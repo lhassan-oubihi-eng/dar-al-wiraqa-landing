@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
-import { PackConfig, coverUrlFor } from "@/data/offers";
+import { PackConfig } from "@/data/offers";
+import { BookCover } from "@/components/BookCover";
 
 interface PackCardProps {
   pack: PackConfig;
@@ -23,12 +24,9 @@ export function PackCard({ pack }: PackCardProps) {
           return (
             <div key={book.id} className="flex flex-col">
               <div className="relative aspect-[5/7] overflow-hidden rounded-md border border-[#3A2E22]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={coverUrlFor(book.id)}
-                  alt={book.title}
-                  loading="lazy"
-                  decoding="async"
+                <BookCover
+                  title={book.title}
+                  src={book.coverUrl}
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 {isGift && (

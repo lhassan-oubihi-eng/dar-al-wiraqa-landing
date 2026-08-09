@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Lock } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 interface CheckoutSectionProps {
@@ -8,23 +9,8 @@ interface CheckoutSectionProps {
 interface FormData {
   name: string;
   phone: string;
-  city: string;
   address: string;
 }
-
-const CITY_OPTIONS = [
-  "الدار البيضاء",
-  "الرباط",
-  "مراكش",
-  "طنجة",
-  "أكادير",
-  "فاس",
-  "مكناس",
-  "وجدة",
-  "سلا",
-  "القنيطرة",
-  "أخرى",
-];
 
 const INPUT_CLASSES =
   "w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]";
@@ -33,15 +19,12 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   const [form, setForm] = useState<FormData>({
     name: "",
     phone: "",
-    city: "",
     address: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -50,7 +33,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
     e.preventDefault();
     setError(null);
 
-    if (!form.name || !form.phone || !form.address || !form.city) {
+    if (!form.name || !form.phone || !form.address) {
       setError("رجاءً املأ جميع الحقول.");
       return;
     }
@@ -65,7 +48,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
     const books = pack.books
       .map(
         (b, i) =>
-          `${String(b.id).padStart(3, "0")} — ${b.title} (${b.author})` +
+          `${String(b.id).padStart(3, "0")} — ${b.title}` +
           (i === pack.giftBookIndex ? " [هدية]" : "")
       )
       .join("\n");
@@ -74,9 +57,8 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
       name: form.name,
       phone: form.phone,
-      city: form.city,
       address: form.address,
-      message: `${pack.packName} — ${form.city}\n${books}`,
+      message: `${pack.packName} — ${form.address}\n${books}`,
       books: books,
       price: `${pack.price} درهم`,
       payment: "نقداً عند الاستلام",
@@ -159,7 +141,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             required
             autoComplete="tel"
           />
-          <p className="text-sm text-[#cdbba9] text-right mt-1">
+          <p className="text-[11px] text-[#cdbba9] text-right mt-1">
             سنتصل بك في غضون 24 ساعة لتأكيد طلبك.
           </p>
         </div>
@@ -167,36 +149,9 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <div>
           <label
             className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
-            htmlFor="city"
-          >
-            المدينة
-          </label>
-          <select
-            id="city"
-            name="city"
-            value={form.city}
-            onChange={handleChange}
-            className={INPUT_CLASSES}
-            defaultValue=""
-            required
-          >
-            <option value="" disabled hidden>
-              اختر المدينة
-            </option>
-            {CITY_OPTIONS.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label
-            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
             htmlFor="address"
           >
-            العنوان الكامل
+            المدينة والعنوان الكامل
           </label>
           <input
             id="address"
@@ -205,7 +160,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             value={form.address}
             onChange={handleChange}
             className={INPUT_CLASSES}
-            placeholder="مثال: شارع الحسن الثاني رقم 12"
+            placeholder="مثال: الدار البيضاء، شارع الحسن الثاني رقم 12"
             required
             autoComplete="street-address"
           />
@@ -218,11 +173,18 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           style={{ opacity: isSubmitting ? 0.7 : 1 }}
         >
           {isSubmitting ? (
-            <span>جارٍ إرسال الطلب...</span>
+            <span>جاري تأكيد الطلب...</span>
           ) : (
             <span>{pack.checkout.submitText}</span>
           )}
         </button>
+
+        <div className="flex justify-center items-center gap-1 mt-3">
+          <Lock size={14} className="text-gray-500" />
+          <span className="text-xs text-gray-500">
+            معلوماتك مشفرة ومحمية بالكامل 100%
+          </span>
+        </div>
       </form>
     </section>
   );
