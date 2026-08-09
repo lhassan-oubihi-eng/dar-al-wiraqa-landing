@@ -1,6 +1,6 @@
 import React from "react";
 import { Brain, Lock, Shield, Heart, Sparkles, BookOpen } from "lucide-react";
-import { Benefit } from "@/config/psychologyPack";
+import { Benefit } from "@/data/offers";
 
 const ICON_MAP: Record<Benefit["icon"], React.ReactNode> = {
   brain: <Brain size={20} />,

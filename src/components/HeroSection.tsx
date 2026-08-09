@@ -1,6 +1,6 @@
 import React from "react";
 import { BookOpen, ShoppingCart } from "lucide-react";
-import { Book } from "@/config/psychologyPack";
+import { Book } from "@/data/offers";
 
 interface HeroSectionProps {
   headline: string;

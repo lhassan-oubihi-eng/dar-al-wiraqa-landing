@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import { psychologyPack } from "@/config/psychologyPack";
+import Link from "next/link";
+import { STORE } from "@/data/offers";
 
 /**
- * The order value used for ad conversion events (MAD). Sourced from the
- * central pack config so the pixel value can never drift from the price shown.
+ * The order value used for ad conversion events (MAD). All packs share the
+ * same fixed price, sourced from the store config so the pixel value can
+ * never drift from the price shown.
  */
-const orderValue = psychologyPack.price;
+const orderValue = STORE.price;
 
 /**
  * Fires the post-purchase conversion event for ad pixels.
@@ -20,9 +22,15 @@ const orderValue = psychologyPack.price;
  * We call these with a short delay so any globally-loaded pixel base has
  * registered its `fbq`/`ttq`/`gtag` globals by the time we fire.
  */
+interface PixelWindow extends Window {
+  fbq?: (event: string, name: string, params?: Record<string, unknown>) => void;
+  ttq?: { track: (event: string, params?: Record<string, unknown>) => void };
+  gtag?: (event: string, name: string, params?: Record<string, unknown>) => void;
+}
+
 function fireConversion() {
   try {
-    const w = window as any;
+    const w = window as PixelWindow;
     if (typeof w.fbq === "function") {
       w.fbq("track", "Purchase", { currency: "MAD", value: orderValue });
     }
@@ -81,7 +89,7 @@ export function ThankYouClient() {
         </div>
 
         <h1 className="font-extrabold text-xl mb-2">
-          {psychologyPack.packName} — تم استلام طلبك!
+          {STORE.name} — تم استلام طلبك!
         </h1>
         <p className="text-[#cdbba9]/85 text-sm mb-1">
           شكراً لثقتك في دار الوِراقة.
@@ -99,15 +107,15 @@ export function ThankYouClient() {
           الطلب.
         </p>
 
-        <a
+        <Link
           href="/"
           className="inline-block w-full rounded-xl bg-[#d4af37] py-3 font-extrabold text-[#3e2723] transition-transform hover:scale-[1.02]"
         >
           العودة إلى المتجر
-        </a>
+        </Link>
 
         <footer className="mt-6 text-[11px] text-[#cdbba9]/60">
-          {psychologyPack.footer.copyright}
+          {STORE.copyright}
         </footer>
       </div>
     </main>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PackConfig } from "@/config/psychologyPack";
+import { PackConfig } from "@/data/offers";
 
 interface CheckoutSectionProps {
   pack: PackConfig;
