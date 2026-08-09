@@ -33,7 +33,7 @@ interface WaOrder {
 const WA_NUMBER = "212602800548";
 
 /**
- * Discounted price for adding a second pack on the thank-you page. Kept as a
+ * Discounted price for each additional pack on the thank-you page. Kept as a
  * named constant so the upsell copy, WhatsApp message and math always agree.
  */
 const UPSELL_PRICE = 149;
@@ -71,48 +71,41 @@ function readOrderData(): WaOrder | null {
 
 /**
  * Pre-fills the WhatsApp confirmation message with the order saved by the
- * checkout form (localStorage "orderData"). If the customer added a second
- * pack via the visual upsell selector, it compiles one unified invoice with
- * both orders so operations can ship them together in a single package.
+ * checkout form (localStorage "orderData"). Every pack toggled on via the
+ * multi-select upsell selector is appended as its own line so operations
+ * receive one itemized invoice covering the full order.
  */
 function buildWaMessage(
   order: WaOrder | null,
-  addedPack: PackConfig | null
+  selectedUpsells: PackConfig[]
 ): string {
-  if (!order && !addedPack) return "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦";
-
-  if (addedPack) {
-    return [
-      "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦",
-      "",
-      "📌 الطلب الأساسي:",
-      `- الباقة الأولى: ${order?.offer ?? "-"} (${orderValue} درهم)`,
-      "",
-      "🔥 الباقة الإضافية المختارة:",
-      `- الباقة الثانية: ${addedPack.packName} (${UPSELL_PRICE} درهم)`,
-      `- الإجمالي الكلي: ${orderValue + UPSELL_PRICE} درهم (+ توصيل مجاني)`,
-      "",
-      "👤 معلومات العميل:",
-      `- الاسم: ${order?.name ?? "-"}`,
-      `- المدينة/العنوان: ${order?.city ?? "-"}`,
-      "",
-      "أرجو تأكيد الطلب وشحنه معاً. شكراً لكم!",
-    ].join("\n");
+  if (!order && selectedUpsells.length === 0) {
+    return "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦";
   }
 
-  return [
+  const lines = [
     "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦",
     "",
     "📌 تفاصيل الطلب:",
-    `- الباقة: ${order?.offer ?? "-"}`,
-    `- السعر: ${orderValue} درهم`,
+    `- الباقة الأساسية: ${order?.offer ?? "-"} (${orderValue} درهم)`,
+  ];
+
+  for (const upsell of selectedUpsells) {
+    lines.push(`- باقة إضافية: ${upsell.packName} (${UPSELL_PRICE} درهم)`);
+  }
+
+  const finalTotal = orderValue + selectedUpsells.length * UPSELL_PRICE;
+  lines.push(
+    `💰 السعر الإجمالي النهائي: ${finalTotal} درهم (+ توصيل مجاني)`,
     "",
     "👤 معلومات العميل:",
     `- الاسم: ${order?.name ?? "-"}`,
     `- المدينة/العنوان: ${order?.city ?? "-"}`,
     "",
-    "أرجو تأكيد الطلب وشحنه. شكراً لكم!",
-  ].join("\n");
+    "أرجو تأكيد الطلب وشحن جميع الباقات معاً. شكراً لكم!"
+  );
+
+  return lines.join("\n");
 }
 
 function fireConversion() {
@@ -140,8 +133,7 @@ export function ThankYouClient() {
     () => null
   );
 
-  const [selectedPack, setSelectedPack] = useState<PackConfig | null>(null);
-  const [addedPack, setAddedPack] = useState<PackConfig | null>(null);
+  const [selectedUpsells, setSelectedUpsells] = useState<PackConfig[]>([]);
 
   useEffect(() => {
     const t = setTimeout(fireConversion, 700);
@@ -158,9 +150,26 @@ export function ThankYouClient() {
     return offers.filter((p) => (purchased ? p.packName !== purchased : true));
   }, [order]);
 
+  const toggleUpsell = (pack: PackConfig) => {
+    setSelectedUpsells((prev) =>
+      prev.some((p) => p.slug === pack.slug)
+        ? prev.filter((p) => p.slug !== pack.slug)
+        : [...prev, pack]
+    );
+  };
+
+  const upsellCount = selectedUpsells.length;
+  const upsellTotal = upsellCount * UPSELL_PRICE;
+  const finalTotal = orderValue + upsellTotal;
+
   const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
-    buildWaMessage(order, addedPack)
+    buildWaMessage(order, selectedUpsells)
   )}`;
+
+  const confirmLabel =
+    upsellCount > 0
+      ? `تأكيد الطلب الموحد عبر الواتساب (${finalTotal} درهم) 💬`
+      : "تأكيد الطلب عبر الواتساب 💬";
 
   return (
     <main
@@ -207,15 +216,12 @@ export function ThankYouClient() {
         <hr className="border-[#3A2E22] my-4" />
         <p className="text-sm text-[#cdbba9] mb-4">
           إجمالي الطلب:{" "}
-          <span className="text-[#d4af37] font-bold">{orderValue} درهم</span>
-          {addedPack && (
-            <>
+          <span className="text-[#d4af37] font-bold">{finalTotal} درهم</span>
+          {upsellCount > 0 && (
+            <span className="text-xs text-[#cdbba9]/70">
               {" "}
-              + {UPSELL_PRICE} درهم ={" "}
-              <span className="text-[#d4af37] font-bold">
-                {orderValue + UPSELL_PRICE} درهم
-              </span>
-            </>
+              (شامل {upsellCount} باقة إضافية)
+            </span>
           )}
         </p>
         <p className="text-xs text-[#cdbba9]/70 mb-6">
@@ -223,20 +229,9 @@ export function ThankYouClient() {
           الطلب.
         </p>
 
-        <a
-          href={waHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block w-full rounded-xl bg-[#25D366] py-4 text-base font-extrabold text-white transition-transform hover:scale-[1.02]"
-        >
-          {addedPack
-            ? "تأكيد الطلبين عبر الواتساب 💬"
-            : "تأكيد الطلب عبر الواتساب (تسريع الشحن) 💬"}
-        </a>
-
-        {/* Post-purchase upsell — interactive visual pack preview */}
+        {/* Post-purchase upsell — interactive multi-select visual pack preview */}
         <div
-          className="mt-6 rounded-2xl p-5 text-center"
+          className="rounded-2xl p-5 text-center"
           style={{
             background: "linear-gradient(180deg,#2E251C 0%,#241D17 100%)",
             border: "1px solid rgba(212,175,55,.6)",
@@ -244,11 +239,11 @@ export function ThankYouClient() {
           }}
         >
           <h2 className="mb-1 text-sm font-extrabold text-[#e8e0d4]">
-            🎁 أضف باك ثاني لطلبيتك بخصم خاص
+            🎁 أضف باقات إضافية لطلبيتك بخصم خاص
           </h2>
           <p className="mb-4 text-xs text-[#cdbba9]">
             <span className="font-bold text-[#d4af37]">
-              {UPSELL_PRICE} درهم فقط
+              {UPSELL_PRICE} درهم للباقة
             </span>{" "}
             بدلاً من{" "}
             <del className="text-[#cdbba9]/50">{STORE.price} درهم</del> — بدون
@@ -256,20 +251,22 @@ export function ThankYouClient() {
           </p>
 
           <p className="mb-2 text-right text-[11px] font-bold text-[#cdbba9]/80">
-            اختر الباقة التي تريد إضافتها:
+            اضغط على الباقات لإضافتها أو إزالتها (يمكنك اختيار عدة باقات):
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
             {alternatives.map((p) => {
-              const isSelected = selectedPack?.slug === p.slug;
-              const isAdded = addedPack?.slug === p.slug;
+              const isSelected = selectedUpsells.some(
+                (s) => s.slug === p.slug
+              );
               return (
                 <button
                   key={p.slug}
                   type="button"
-                  onClick={() => setSelectedPack(p)}
+                  onClick={() => toggleUpsell(p)}
+                  aria-pressed={isSelected}
                   className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition-all duration-200 ${
                     isSelected
-                      ? "border-[#d4af37] bg-[#3a2e1f]"
+                      ? "border-[#d4af37] bg-[#3a2e1f] shadow-[0_0_12px_rgba(212,175,55,.25)]"
                       : "border-[#3A2E22] bg-[#2B241C] hover:border-[#d4af37]/60"
                   }`}
                 >
@@ -278,25 +275,39 @@ export function ThankYouClient() {
                     <span className="block text-xs font-bold text-[#e8e0d4] leading-snug">
                       {p.packName}
                     </span>
-                    <span className="block text-[10px] text-[#cdbba9]/70">
-                      {isAdded
-                        ? "✓ تمت الإضافة"
+                    <span
+                      className={`block text-[10px] ${
+                        isSelected
+                          ? "font-bold text-[#d4af37]"
+                          : "text-[#cdbba9]/70"
+                      }`}
+                    >
+                      {isSelected
+                        ? `✓ تمت الإضافة (+${UPSELL_PRICE} درهم)`
                         : `${UPSELL_PRICE} درهم`}
                     </span>
                   </span>
+                  {isSelected && (
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#d4af37] text-[10px] font-black text-[#3e2723]">
+                      ✓
+                    </span>
+                  )}
                 </button>
               );
             })}
           </div>
 
-          {/* X-Ray preview: 6 book covers + titles of the selected pack */}
-          {selectedPack && (
-            <div className="mb-4 rounded-xl border border-[#3A2E22] bg-[#1d1712] p-3 text-right">
+          {/* X-Ray previews: 6 book covers + titles for every selected pack */}
+          {selectedUpsells.map((p) => (
+            <div
+              key={p.slug}
+              className="mb-4 rounded-xl border border-[#3A2E22] bg-[#1d1712] p-3 text-right last:mb-0"
+            >
               <p className="mb-2 text-[11px] font-bold text-[#d4af37]">
-                📚 محتوى باقة {selectedPack.packName}:
+                📚 محتوى باقة {p.packName}:
               </p>
               <div className="grid grid-cols-3 gap-2">
-                {selectedPack.books.map((b) => (
+                {p.books.map((b) => (
                   <div key={b.id} className="flex flex-col items-center">
                     <div className="relative h-20 w-14 overflow-hidden rounded shadow-md">
                       <BookCover
@@ -320,31 +331,52 @@ export function ThankYouClient() {
                 ))}
               </div>
             </div>
-          )}
+          ))}
 
-          {/* Add button — revealed once a pack is selected */}
-          {selectedPack && (
-            <button
-              type="button"
-              onClick={() => setAddedPack(selectedPack)}
-              className="w-full rounded-xl bg-[#d4af37] py-3.5 px-4 text-sm font-extrabold text-[#3e2723] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              أضف هذه الباقة لطلبيتي بـ {UPSELL_PRICE} درهم 🚀
-            </button>
-          )}
-
-          {addedPack && (
+          {upsellCount > 0 && (
             <p className="mt-3 text-[11px] text-[#cdbba9]/80">
               ✅ تمت إضافة{" "}
-              <span className="font-bold text-[#e8e0d4]">
-                {addedPack.packName}
+              <span className="font-bold text-[#d4af37]">
+                {upsellCount} باقة
               </span>{" "}
-              — اضغط زر الواتساب الأخضر أعلاه لإرسال الفاتورة الموحدة.
+              — زر الواتساب أسفل الصفحة سيرسل فاتورة موحدة بكل الباقات.
             </p>
           )}
         </div>
 
-        <footer className="mt-6 text-[11px] text-[#cdbba9]/60">
+        {/* Live price summary — always above the final WhatsApp button */}
+        <div className="mt-5 rounded-xl border border-[#d4af37]/40 bg-[#241D17] px-4 py-3 text-sm text-[#cdbba9]">
+          <p>
+            إجمالي الطلب:{" "}
+            <span className="font-bold text-[#e8e0d4]">{orderValue} درهم</span>
+            {upsellCount > 0 && (
+              <>
+                {" "}
+                +{" "}
+                <span className="font-bold text-[#e8e0d4]">
+                  {upsellTotal} درهم
+                </span>
+              </>
+            )}
+            <span className="mx-1 text-[#cdbba9]">=</span>
+            <span className="font-black text-[#d4af37]">{finalTotal} درهم</span>
+          </p>
+          <p className="mt-1 text-[11px] text-[#cdbba9]/70">
+            (+ توصيل مجاني — الدفع عند الاستلام)
+          </p>
+        </div>
+
+        {/* Final WhatsApp confirmation button — at the bottom of the page */}
+        <a
+          href={waHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-block w-full rounded-xl bg-[#25D366] py-4 text-base font-extrabold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+        >
+          {confirmLabel}
+        </a>
+
+        <footer className="mt-5 text-[11px] text-[#cdbba9]/60">
           {STORE.copyright}
         </footer>
       </div>
