@@ -75,6 +75,15 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         console.log("Order payload:", payload);
       });
 
+      localStorage.setItem(
+        "orderData",
+        JSON.stringify({
+          name: form.name,
+          city: form.address,
+          offer: pack.packName,
+        })
+      );
+
       window.location.href = "/thank-you";
     } catch {
       setError("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
@@ -105,12 +114,12 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <div>
           <label
             className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
-            htmlFor="name"
+            htmlFor="nameInput"
           >
             الاسم الكامل
           </label>
           <input
-            id="name"
+            id="nameInput"
             name="name"
             type="text"
             value={form.name}

@@ -49,7 +49,7 @@ export function PackLanding({ pack }: PackLandingProps) {
     });
     formRef.current?.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
-      document.getElementById("name")?.focus();
+      document.getElementById("nameInput")?.focus();
     }, 600);
   };
 
@@ -59,11 +59,10 @@ export function PackLanding({ pack }: PackLandingProps) {
       <StickyBanner text={pack.tagline} />
 
       {/* Main content */}
-      <main className="mx-auto max-w-[420px] pb-40">
+      <main className="mx-auto max-w-[420px] pb-32">
         {/* 2. HERO SECTION (Attention) */}
         <HeroSection
           headline={pack.headline}
-          subheadline={pack.subheadline}
           books={pack.books}
           giftBookIndex={pack.giftBookIndex}
           originalPrice={pack.originalPrice}

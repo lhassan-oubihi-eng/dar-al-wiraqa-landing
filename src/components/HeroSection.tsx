@@ -1,10 +1,10 @@
 import React from "react";
-import { BookOpen, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Book } from "@/data/offers";
+import { BookCover } from "@/components/BookCover";
 
 interface HeroSectionProps {
   headline: string;
-  subheadline: string;
   books: Book[];
   giftBookIndex: number;
   originalPrice: number;
@@ -14,7 +14,6 @@ interface HeroSectionProps {
 
 export function HeroSection({
   headline,
-  subheadline,
   books,
   giftBookIndex,
   originalPrice,
@@ -26,12 +25,9 @@ export function HeroSection({
   return (
     <section className="px-4 pt-8 pb-10" id="hero">
       {/* Headline */}
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-[1.8] mb-4 text-center">
+      <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-[1.8] mb-6 text-center">
         {headline}
       </h1>
-
-      {/* Subheadline */}
-      <p className="text-sm text-[#cdbba9]/80 mb-6 text-center">{subheadline}</p>
 
       {/* Product Image (3D stacked book mockup) */}
       <div className="relative mx-auto w-52 h-60 mb-6 flex items-end justify-center">
@@ -47,21 +43,17 @@ export function HeroSection({
                 style={{
                   width: "60px",
                   height: "90px",
-                  background: isGift
-                    ? "linear-gradient(135deg, #d4af37, #f3e6b3)"
-                    : "linear-gradient(135deg, #4a2920, #3e2723)",
                   transform: `rotate(${rotation}deg) translateX(${offset}px)`,
                   zIndex: books.length - index,
                   boxShadow: "0 14px 30px rgba(0,0,0,0.22)",
                   border: isGift ? "1px solid #b8860b" : "1px solid rgba(212,175,55,.4)",
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center p-1">
-                  <BookOpen
-                    size={14}
-                    className={isGift ? "text-[#3e2723]" : "text-white/70"}
-                  />
-                </div>
+                <BookCover
+                  title={book.title}
+                  src={book.coverUrl}
+                  className="h-full w-full object-cover"
+                />
                 {isGift && (
                   <span
                     className="absolute -top-1 -right-1 text-[6px] font-bold uppercase"

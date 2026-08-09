@@ -19,25 +19,24 @@ export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
             className="border border-[#3A2E22] rounded-xl p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
           >
             <div className="mb-3 flex justify-center">
-              <div className="h-40 w-28 overflow-hidden rounded-lg shadow-md">
-                <BookCover
-                  title={benefit.title}
-                  src={benefit.coverUrl}
-                  className="h-full w-full object-cover"
-                />
+              <div className="relative">
+                <div className="h-40 w-28 overflow-hidden rounded-lg shadow-md">
+                  <BookCover
+                    title={benefit.title}
+                    src={benefit.coverUrl}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                {benefit.gift && (
+                  <span
+                    className="absolute -top-2 left-1/2 -translate-x-1/2 rounded px-1.5 py-0.5 text-[10px] font-black whitespace-nowrap"
+                    style={{ background: "#d4af37", color: "#3e2723" }}
+                  >
+                    هدية
+                  </span>
+                )}
               </div>
             </div>
-            <h3 className="text-center font-bold text-sm text-[#e8e0d4] mb-1">
-              {benefit.title}
-              {benefit.gift && (
-                <span
-                  className="mr-2 rounded px-1.5 py-0.5 text-[10px] font-black"
-                  style={{ background: "#d4af37", color: "#3e2723" }}
-                >
-                  هدية
-                </span>
-              )}
-            </h3>
             <p
               className="text-xs text-[#cdbba9]/80 leading-relaxed text-right"
               style={{ textAlign: "right" }}

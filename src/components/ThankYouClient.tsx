@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { STORE } from "@/data/offers";
 
 /**
@@ -23,6 +23,61 @@ interface PixelWindow extends Window {
   gtag?: (event: string, name: string, params?: Record<string, unknown>) => void;
 }
 
+interface WaOrder {
+  name?: string;
+  city?: string;
+  offer?: string;
+}
+
+const WA_NUMBER = "212602800548";
+
+/**
+ * LocalStorage-backed external store for the order saved by the checkout
+ * form (localStorage "orderData"). Read via useSyncExternalStore so the
+ * value hydrates safely (null during SSR) without setState-in-effect.
+ */
+let cachedSnapshot: { raw: string | null; order: WaOrder | null } | null = null;
+
+function subscribeToStorage(cb: () => void) {
+  window.addEventListener("storage", cb);
+  return () => window.removeEventListener("storage", cb);
+}
+
+function readOrderData(): WaOrder | null {
+  let raw: string | null = null;
+  try {
+    raw = window.localStorage.getItem("orderData");
+  } catch {
+    return null;
+  }
+  if (!cachedSnapshot || cachedSnapshot.raw !== raw) {
+    let order: WaOrder | null = null;
+    try {
+      order = raw ? (JSON.parse(raw) as WaOrder) : null;
+    } catch {
+      order = null;
+    }
+    cachedSnapshot = { raw, order };
+  }
+  return cachedSnapshot.order;
+}
+
+/**
+ * Pre-fills the WhatsApp confirmation message with the order saved by the
+ * checkout form (localStorage "orderData"), so the customer confirms the
+ * exact pack, name and city with zero typing.
+ */
+function buildWaMessage(order: WaOrder | null): string {
+  const base = "مرحباً دار الوراقة، أؤكد طلبي.";
+  if (!order) return base;
+  return [
+    base,
+    `الباقة: ${order.offer ?? "-"}`,
+    `الاسم: ${order.name ?? "-"}`,
+    `المدينة/العنوان: ${order.city ?? "-"}`,
+  ].join("\n");
+}
+
 function fireConversion() {
   try {
     const w = window as PixelWindow;
@@ -42,10 +97,20 @@ function fireConversion() {
 }
 
 export function ThankYouClient() {
+  const order = useSyncExternalStore(
+    subscribeToStorage,
+    readOrderData,
+    () => null
+  );
+
   useEffect(() => {
     const t = setTimeout(fireConversion, 700);
     return () => clearTimeout(t);
   }, []);
+
+  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    buildWaMessage(order)
+  )}`;
 
   return (
     <main
@@ -100,7 +165,7 @@ export function ThankYouClient() {
         </p>
 
         <a
-          href="https://wa.me/212602800548?text=مرحباً، أريد تأكيد طلبي من متجر دار الوراقة."
+          href={waHref}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block w-full rounded-xl bg-[#25D366] py-4 text-base font-extrabold text-white transition-transform hover:scale-[1.02]"
