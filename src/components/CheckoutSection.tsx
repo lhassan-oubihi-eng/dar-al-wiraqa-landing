@@ -37,7 +37,6 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
     setIsSubmitting(true);
 
-    // Prepare payload from central config
     const books = pack.books
       .map(
         (b, i) =>
@@ -59,19 +58,15 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
     };
 
     try {
-      // Placeholder async — swap the URL for your real backend/API endpoint
       await new Promise((resolve) => setTimeout(resolve, 800));
       await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       }).catch(() => {
-        // Gracefully handle when /api/order is not present (e.g. static export)
         console.log("Order payload:", payload);
       });
 
-      // Redirect to the confirmation page so ad-tracking pixels
-      // (FB / TikTok / GA) fire on a fresh page load, not an alert/modal.
       window.location.href = "/thank-you";
     } catch {
       setError("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
@@ -83,17 +78,17 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   return (
     <section
       id="orderForm"
-      className="mx-4 my-8 rounded-2xl bg-white shadow-2xl p-6"
+      className="mx-4 my-8 rounded-2xl bg-[#241D17] shadow-2xl p-6"
     >
-      <h2 className="font-bold text-center text-lg text-[#3e2723] mb-1">
+      <h2 className="font-bold text-center text-lg text-[#e8e0d4] mb-1">
         {pack.checkout.title}
       </h2>
-      <p className="text-center text-xs text-[#5d4538]/70 mb-5">
+      <p className="text-center text-xs text-[#cdbba9]/70 mb-5">
         {pack.checkout.subtitle}
       </p>
 
       {error && (
-        <div className="mb-3 text-center text-[11px] text-red-700 bg-red-50 border border-red-200 rounded-lg py-1.5">
+        <div className="mb-3 text-center text-[11px] text-red-200 bg-[#7f1d1d]/20 border border-[#7f1d1d]/30 rounded-lg py-1.5">
           {error}
         </div>
       )}
@@ -101,7 +96,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       <form onSubmit={handleOrderSubmit} className="space-y-3.5">
         <div>
           <label
-            className="block text-[11px] font-bold text-[#3e2723] mb-1"
+            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
             htmlFor="name"
           >
             الاسم الكامل
@@ -112,8 +107,8 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             type="text"
             value={form.name}
             onChange={handleChange}
-            className="w-full px-3.5 py-3 rounded-lg border border-[#eaeaea] text-sm text-[#3e2723] focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
-            placeholder="الاسم الكامل"
+            className="w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
+            placeholder="محمد علي"
             required
             autoComplete="name"
           />
@@ -121,7 +116,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
         <div>
           <label
-            className="block text-[11px] font-bold text-[#3e2723] mb-1"
+            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
             htmlFor="phone"
           >
             رقم الهاتف
@@ -132,20 +127,20 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             type="tel"
             value={form.phone}
             onChange={handleChange}
-            className="w-full px-3.5 py-3 rounded-lg border border-[#eaeaea] text-sm text-[#3e2723] focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
+            className="w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
             placeholder="06XXXXXXXX"
             inputMode="numeric"
             required
-             autoComplete="tel"
-           />
-           <p className="text-sm text-gray-500 text-right mt-1">
-             سنتصل بك في غضون 24 ساعة لتأكيد طلبك.
-           </p>
-         </div>
+            autoComplete="tel"
+          />
+          <p className="text-sm text-[#cdbba9] text-right mt-1">
+            سنتصل بك في غضون 24 ساعة لتأكيد طلبك.
+          </p>
+        </div>
 
         <div>
           <label
-            className="block text-[11px] font-bold text-[#3e2723] mb-1"
+            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
             htmlFor="address"
           >
             المدينة والعنوان الكامل
@@ -156,7 +151,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             type="text"
             value={form.address}
             onChange={handleChange}
-            className="w-full px-3.5 py-3 rounded-lg border border-[#eaeaea] text-sm text-[#3e2723] focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
+            className="w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
             placeholder="مثال: الدار البيضاء، شارع الحسن الثاني رقم 12"
             required
             autoComplete="street-address"
@@ -166,7 +161,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 bg-[#d4af37] text-[#3e2723] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-[#3e2723] bg-[#d4af37] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           style={{ opacity: isSubmitting ? 0.7 : 1 }}
         >
           {isSubmitting ? (

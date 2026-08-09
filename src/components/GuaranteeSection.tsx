@@ -10,13 +10,13 @@ export function GuaranteeSection({ guarantee }: GuaranteeSectionProps) {
   return (
     <section
       className="mx-4 my-8 rounded-2xl border-2 border-[#d4af37] text-center py-8 px-6"
-      style={{ background: "#FFF8E1" }}
+      style={{ background: "#241D17" }}
     >
-      <div className="flex justify-center mb-3 text-[#3e2723]">
+      <div className="flex justify-center mb-3 text-[#e8e0d4]">
         <Shield size={44} />
       </div>
-      <h2 className="font-bold text-xl text-[#3e2723] mb-2">{guarantee.title}</h2>
-      <p className="text-sm text-[#5d4538]/85 leading-relaxed max-w-md mx-auto">
+      <h2 className="font-bold text-xl text-[#e8e0d4] mb-2">{guarantee.title}</h2>
+      <p className="text-sm text-[#cdbba9]/85 leading-relaxed max-w-md mx-auto">
         {guarantee.copy}
       </p>
     </section>

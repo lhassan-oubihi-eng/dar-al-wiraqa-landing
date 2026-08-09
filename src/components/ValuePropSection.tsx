@@ -18,21 +18,21 @@ interface ValuePropSectionProps {
 
 export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
   return (
-    <section className="px-4 py-8 bg-white rounded-2xl shadow-md mx-4 mb-8" dir="rtl">
-      <h2 className="text-center font-bold text-lg text-[#3e2723] mb-6">{title}</h2>
+    <section className="px-4 py-8 bg-[#241D17] rounded-2xl shadow-md mx-4 mb-8" dir="rtl">
+      <h2 className="text-center font-bold text-lg text-[#e8e0d4] mb-6">{title}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
         {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              className="border border-[#eaeaea] rounded-xl p-4 text-center transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-            >
-              <div className="flex justify-center mb-2 text-[#3e2723]">
-                <span className="text-[#3e2723]">
-                  {ICON_MAP[benefit.icon] || <Brain size={20} />}
-                </span>
-              </div>
-            <h3 className="font-bold text-sm text-[#3e2723] mb-1">{benefit.title}</h3>
-            <p className="text-xs text-[#5d4538]/80 leading-relaxed text-right">
+          <div
+            key={index}
+            className="border border-[#3A2E22] rounded-xl p-4 text-center transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+          >
+            <div className="flex justify-center mb-2 text-[#e8e0d4]">
+              <span className="text-[#e8e0d4]">
+                {ICON_MAP[benefit.icon] || <Brain size={20} />}
+              </span>
+            </div>
+            <h3 className="font-bold text-sm text-[#e8e0d4] mb-1">{benefit.title}</h3>
+            <p className="text-xs text-[#cdbba9]/80 leading-relaxed text-right">
               {benefit.description}
             </p>
           </div>

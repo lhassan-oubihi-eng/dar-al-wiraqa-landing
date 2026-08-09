@@ -26,12 +26,12 @@ export function HeroSection({
   return (
     <section className="px-4 pt-4 pb-8" id="hero">
       {/* Headline */}
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#3e2723] leading-tight mb-1 text-center">
+      <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-tight mb-1 text-center">
         {headline}
       </h1>
 
       {/* Subheadline */}
-      <p className="text-sm text-[#5d4538]/80 mb-6 text-center">{subheadline}</p>
+      <p className="text-sm text-[#cdbba9]/80 mb-6 text-center">{subheadline}</p>
 
       {/* Product Image (3D stacked book mockup) */}
       <div className="relative mx-auto w-52 h-60 mb-6 flex items-end justify-center">
@@ -53,13 +53,13 @@ export function HeroSection({
                   transform: `rotate(${rotation}deg) translateX(${offset}px)`,
                   zIndex: books.length - index,
                   boxShadow: "0 14px 30px rgba(0,0,0,0.22)",
-                  border: isGift ? "1px solid #b8860b" : "1px solid rgba(0,0,0,0.08)",
+                  border: isGift ? "1px solid #b8860b" : "1px solid rgba(212,175,55,.4)",
                 }}
               >
                 <div className="w-full h-full flex items-center justify-center p-1">
                   <BookOpen
                     size={14}
-                    className={isGift ? "text-[#3e2723]" : "text-white/80"}
+                    className={isGift ? "text-[#3e2723]" : "text-white/70"}
                   />
                 </div>
                 {isGift && (
@@ -78,10 +78,10 @@ export function HeroSection({
 
       {/* Price Anchor Module */}
       <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
-        <del className="text-sm text-[#5d4538]/50 line-through">
+        <del className="text-sm text-[#cdbba9]/50 line-through">
           {originalPrice} درهم
         </del>
-        <span className="text-3xl font-extrabold text-[#3e2723] leading-none">
+        <span className="text-3xl font-extrabold text-[#e8e0d4] leading-none">
           {price} درهم
         </span>
       </div>

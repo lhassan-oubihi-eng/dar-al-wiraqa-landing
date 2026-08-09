@@ -67,7 +67,7 @@ export default function Home() {
       />
 
       {/* Site footer */}
-      <footer className="text-center py-4 text-[11px] text-[#5d4538]/70 border-t border-[#eaeaea] mt-6">
+      <footer className="text-center py-4 text-[11px] text-[#cdbba9]/70 border-t border-[#3A2E22] mt-6">
         {psychologyPack.footer.copyright}
       </footer>
     </>
