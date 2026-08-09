@@ -11,12 +11,12 @@ export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
   return (
     <section className="px-4 py-10 bg-[#241D17] rounded-2xl shadow-md mx-4 mb-10" dir="rtl">
       <h2 className="text-center font-bold text-lg text-[#e8e0d4] mb-8">{title}</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+      <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
         {benefits.map((benefit, index) => (
           <div
             key={index}
             dir="rtl"
-            className="border border-[#3A2E22] rounded-xl p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+            className="rounded-xl p-3 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
           >
             <div className="mb-3 flex justify-center">
               <div className="relative">
@@ -37,12 +37,9 @@ export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
                 )}
               </div>
             </div>
-            <p
-              className="text-xs text-[#cdbba9]/80 leading-relaxed text-right"
-              style={{ textAlign: "right" }}
-            >
-              {benefit.description}
-            </p>
+            <h3 className="text-center font-bold text-sm text-[#e8e0d4] leading-snug">
+              {benefit.title}
+            </h3>
           </div>
         ))}
       </div>

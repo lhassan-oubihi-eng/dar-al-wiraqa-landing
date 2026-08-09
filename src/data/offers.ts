@@ -16,7 +16,6 @@ export interface Book {
 
 export interface Benefit {
   title: string;
-  description: string;
   coverUrl: string | null;
   gift?: boolean;
 }
@@ -79,7 +78,7 @@ const checkout = {
 };
 
 const footerCopyright = "دار الوِراقة © 2026 — كتب مختارة بعناية، توصيل لباب دارك";
-const valuePropTitle = "لماذا هذه الكتب تغيّر حياتك؟";
+const valuePropTitle = "الكتب المشمولة في الباقة";
 
 interface RawBook {
   title: string;
@@ -131,7 +130,6 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     valuePropTitle,
     benefits: allBooks.map((b) => ({
       title: b.title,
-      description: b.gift ? `${pack.gift.desc}` : pack.books.find((p) => p.title === b.title)?.desc ?? "",
       coverUrl: b.coverUrl,
       gift: b.gift,
     })),
