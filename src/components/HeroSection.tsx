@@ -5,6 +5,7 @@ import { BookCover } from "@/components/BookCover";
 
 interface HeroSectionProps {
   headline: string;
+  subheadline: string;
   books: Book[];
   giftBookIndex: number;
   originalPrice: number;
@@ -14,6 +15,7 @@ interface HeroSectionProps {
 
 export function HeroSection({
   headline,
+  subheadline,
   books,
   giftBookIndex,
   originalPrice,
@@ -24,12 +26,12 @@ export function HeroSection({
 
   return (
     <section className="px-4 pt-8 pb-10" id="hero">
-      {/* Headline */}
+      {/* 1. Headline */}
       <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-[1.8] mb-6 text-center">
         {headline}
       </h1>
 
-      {/* Product Image (3D stacked book mockup) */}
+      {/* 2. Product Image (3D stacked book mockup) */}
       <div className="relative mx-auto w-52 h-60 mb-6 flex items-end justify-center">
         <div className="relative w-full h-full">
           {books.map((book, index) => {
@@ -68,25 +70,30 @@ export function HeroSection({
         </div>
       </div>
 
-      {/* Price Anchor Module */}
-      <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
-        <del className="text-sm text-[#cdbba9]/50 line-through">
-          {originalPrice} درهم
-        </del>
-        <span className="text-3xl font-extrabold text-[#e8e0d4] leading-none">
-          {price} درهم
-        </span>
+      {/* 3. Offer Summary Line */}
+      <p className="text-sm text-[#cdbba9]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
+        {subheadline}
+      </p>
+
+      {/* 4. Price Section (old price, current price, savings badge) */}
+      <div className="mb-6">
+        <div className="flex items-center justify-center gap-3 flex-wrap mb-2">
+          <del className="text-sm text-[#cdbba9]/50 line-through">
+            {originalPrice} درهم
+          </del>
+          <span className="text-3xl font-extrabold text-[#e8e0d4] leading-none">
+            {price} درهم
+          </span>
+        </div>
+        <div
+          className="inline-block px-4 py-1.5 rounded-full text-xs font-bold"
+          style={{ background: "#d4af37", color: "#3e2723" }}
+        >
+          وفر {savings} درهم!
+        </div>
       </div>
 
-      {/* Savings Badge */}
-      <div
-        className="inline-block px-4 py-1.5 rounded-full text-xs font-bold mb-6"
-        style={{ background: "#d4af37", color: "#3e2723" }}
-      >
-        وفر {savings} درهم!
-      </div>
-
-      {/* CTA Button */}
+      {/* 5. CTA Button */}
       <button
         onClick={onCtaClick}
         className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg bg-[#d4af37] text-[#3e2723] transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"

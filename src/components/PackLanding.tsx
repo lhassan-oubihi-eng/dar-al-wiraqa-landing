@@ -63,6 +63,7 @@ export function PackLanding({ pack }: PackLandingProps) {
         {/* 2. HERO SECTION (Attention) */}
         <HeroSection
           headline={pack.headline}
+          subheadline={pack.subheadline}
           books={pack.books}
           giftBookIndex={pack.giftBookIndex}
           originalPrice={pack.originalPrice}
