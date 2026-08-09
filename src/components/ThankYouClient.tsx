@@ -32,6 +32,12 @@ interface WaOrder {
 const WA_NUMBER = "212602800548";
 
 /**
+ * Discounted price for adding a second pack on the thank-you page. Kept as a
+ * named constant so the upsell copy, WhatsApp message and math always agree.
+ */
+const UPSELL_PRICE = 120;
+
+/**
  * LocalStorage-backed external store for the order saved by the checkout
  * form (localStorage "orderData"). Read via useSyncExternalStore so the
  * value hydrates safely (null during SSR) without setState-in-effect.
@@ -65,16 +71,45 @@ function readOrderData(): WaOrder | null {
 /**
  * Pre-fills the WhatsApp confirmation message with the order saved by the
  * checkout form (localStorage "orderData"), so the customer confirms the
- * exact pack, name and city with zero typing.
+ * exact pack, price, name and city with zero typing.
  */
 function buildWaMessage(order: WaOrder | null): string {
-  const base = "مرحباً دار الوراقة، أؤكد طلبي.";
-  if (!order) return base;
+  if (!order) return "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦";
   return [
-    base,
-    `الباقة: ${order.offer ?? "-"}`,
-    `الاسم: ${order.name ?? "-"}`,
-    `المدينة/العنوان: ${order.city ?? "-"}`,
+    "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦",
+    "",
+    "📌 تفاصيل الطلب:",
+    `- الباقة: ${order.offer ?? "-"}`,
+    `- السعر: ${orderValue} درهم`,
+    "",
+    "👤 معلومات العميل:",
+    `- الاسم: ${order.name ?? "-"}`,
+    `- المدينة/العنوان: ${order.city ?? "-"}`,
+    "",
+    "أرجو تأكيد الطلب وشحنه. شكراً لكم!",
+  ].join("\n");
+}
+
+/**
+ * Pre-fills the WhatsApp upgrade message for the post-purchase upsell. It
+ * carries the original order context (pack, name, city) plus the second-pack
+ * request at the discounted rate, so the operations team can append it to the
+ * same shipment without asking the customer anything.
+ */
+function buildUpsellMessage(order: WaOrder | null): string {
+  return [
+    "مرحباً دار الوراقة، أريد إضافة باك ثاني لطلبي. 🎁",
+    "",
+    "📌 طلبي الحالي:",
+    `- الباقة: ${order?.offer ?? "-"}`,
+    `- الاسم: ${order?.name ?? "-"}`,
+    `- المدينة/العنوان: ${order?.city ?? "-"}`,
+    "",
+    "✨ أطلب إضافة باك ثاني:",
+    `- بـ ${UPSELL_PRICE} درهم فقط`,
+    "- بدون مصاريف شحن إضافية",
+    "",
+    "أرجو إضافة الباك الثاني لنفس الطلب وتأكيده. شكراً لكم!",
   ].join("\n");
 }
 
@@ -110,6 +145,10 @@ export function ThankYouClient() {
 
   const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
     buildWaMessage(order)
+  )}`;
+
+  const upsellHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    buildUpsellMessage(order)
   )}`;
 
   return (
@@ -172,6 +211,47 @@ export function ThankYouClient() {
         >
           تأكيد الطلب عبر الواتساب (تسريع الشحن) 💬
         </a>
+
+        {/* Post-purchase upsell — second pack at a discounted rate */}
+        <div
+          className="mt-6 rounded-2xl p-5 text-center"
+          style={{
+            background: "linear-gradient(180deg,#2E251C 0%,#241D17 100%)",
+            border: "1px solid rgba(212,175,55,.6)",
+            boxShadow: "0 0 20px rgba(212,175,55,.15)",
+          }}
+        >
+          <span
+            className="mb-3 inline-block rounded-full px-3 py-1 text-[10px] font-black text-[#3e2723]"
+            style={{ background: "#d4af37" }}
+          >
+            عرض خاص لطلبك 🎁
+          </span>
+          <p className="mb-1 text-sm font-extrabold text-[#e8e0d4]">
+            أضف باك ثاني بـ{" "}
+            <span className="text-[#d4af37]">{UPSELL_PRICE} درهم</span> فقط
+          </p>
+          <p className="mb-3 text-xs text-[#cdbba9]">
+            بدون مصاريف شحن إضافية — كتب مختارة بعناية تصلك مع نفس الطلب
+          </p>
+          <p className="mb-4 text-xs text-[#cdbba9]/70">
+            <del className="text-[#cdbba9]/50">قيمة الباك {STORE.price} درهم</del>
+            <span className="mr-2 font-bold text-[#d4af37]">
+              وفّر {STORE.price - UPSELL_PRICE} درهم
+            </span>
+          </p>
+          <a
+            href={upsellHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block w-full rounded-xl bg-[#d4af37] py-4 text-base font-extrabold text-[#3e2723] transition-transform hover:scale-[1.02]"
+          >
+            نعم، أريد الباك الثاني بخصم 💬
+          </a>
+          <p className="mt-3 text-[11px] text-[#cdbba9]/70">
+            سيُضاف لنفس طلبك عند اتصال فريقنا بك لتأكيد الطلب.
+          </p>
+        </div>
 
         <footer className="mt-6 text-[11px] text-[#cdbba9]/60">
           {STORE.copyright}
