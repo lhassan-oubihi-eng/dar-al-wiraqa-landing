@@ -86,7 +86,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   return (
     <section
       id="orderForm"
-      className="mx-4 my-8 rounded-2xl bg-[#241D17] shadow-2xl p-6"
+      className="mx-4 my-10 rounded-2xl bg-[#241D17] shadow-2xl p-6"
     >
       <h2 className="font-bold text-center text-lg text-[#e8e0d4] mb-1">
         {pack.checkout.title}

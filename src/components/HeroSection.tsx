@@ -24,9 +24,9 @@ export function HeroSection({
   const savings = originalPrice - price;
 
   return (
-    <section className="px-4 pt-4 pb-8" id="hero">
+    <section className="px-4 pt-8 pb-10" id="hero">
       {/* Headline */}
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-tight mb-1 text-center">
+      <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-[1.8] mb-4 text-center">
         {headline}
       </h1>
 

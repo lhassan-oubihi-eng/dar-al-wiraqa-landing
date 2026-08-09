@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import Link from "next/link";
-import { PackConfig, offers } from "@/data/offers";
+import { PackConfig } from "@/data/offers";
 import { StickyBanner } from "@/components/StickyBanner";
 import { HeroSection } from "@/components/HeroSection";
 import { UrgencyBanner } from "@/components/UrgencyBanner";
@@ -21,8 +20,6 @@ export function PackLanding({ pack }: PackLandingProps) {
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  const otherPacks = offers.filter((o) => o.slug !== pack.slug);
 
   return (
     <>
@@ -70,24 +67,6 @@ export function PackLanding({ pack }: PackLandingProps) {
           <CheckoutSection pack={pack} />
         </div>
       </main>
-
-      {/* Other packs — clean cross-links */}
-      <section className="mx-4 mb-6 rounded-2xl p-5" style={{ background: "var(--color-card)" }}>
-        <h3 className="mb-3 text-center text-sm font-bold text-[#e8e0d4]">
-          باقات أخرى قد تناسبك
-        </h3>
-        <div className="flex flex-wrap justify-center gap-2">
-          {otherPacks.map((o) => (
-            <Link
-              key={o.slug}
-              href={`/${o.slug}`}
-              className="rounded-full border border-[#3A2E22] px-3.5 py-1.5 text-[11px] font-bold text-[#cdbba9] transition-colors hover:border-[#d4af37] hover:text-[#d4af37]"
-            >
-              {o.emoji} {o.packName}
-            </Link>
-          ))}
-        </div>
-      </section>
 
       {/* 7. Mobile Sticky Footer */}
       <MobileStickyFooter

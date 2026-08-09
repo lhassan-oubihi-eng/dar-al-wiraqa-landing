@@ -9,7 +9,7 @@ interface GuaranteeSectionProps {
 export function GuaranteeSection({ guarantee }: GuaranteeSectionProps) {
   return (
     <section
-      className="mx-4 my-8 rounded-2xl border-2 border-[#d4af37] text-center py-8 px-6"
+      className="mx-4 my-10 rounded-2xl border-2 border-[#d4af37] text-center py-10 px-6"
       style={{ background: "#241D17" }}
     >
       <div className="flex justify-center mb-3 text-[#d4af37]">

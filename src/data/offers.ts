@@ -74,7 +74,7 @@ const guarantees = {
 
 const checkout = {
   title: "أدخل معلوماتك لتأكيد الطلب",
-  subtitle: "أنت تحصل على 5 كتب بـ 199 درهم. الدفع يتم عند الاستلام.",
+  subtitle: "أنت تحصل على 6 كتب (5 أساسية + هدية) بـ 199 درهم. الدفع يتم عند الاستلام.",
   submitText: "تأكيد الطلب والدفع عند الاستلام",
 };
 
@@ -92,8 +92,8 @@ interface RawPack {
   packName: string;
   emoji: string;
   desc: string;
-  price: number;
-  oldPrice: number;
+  price: number | string;
+  oldPrice: number | string;
   heroH1: string;
   heroH2: string;
   urgency: string;
@@ -124,8 +124,8 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     subheadline: pack.heroH2,
     books: allBooks,
     giftBookIndex: allBooks.length - 1,
-    originalPrice: pack.oldPrice,
-    price: pack.price,
+    originalPrice: Number(pack.oldPrice),
+    price: Number(pack.price),
     tagline,
     urgency: pack.urgency,
     valuePropTitle,

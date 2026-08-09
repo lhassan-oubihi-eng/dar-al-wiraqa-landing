@@ -37,7 +37,7 @@ export function MobileStickyFooter({ price, onCtaClick }: MobileStickyFooterProp
           className="flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm text-[#3e2723] bg-[#d4af37] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           type="button"
         >
-          احصل على 5 كتب
+          احصل على 6 كتب بـ {price} درهم
         </button>
       </div>
     </div>
