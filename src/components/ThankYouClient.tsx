@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { STORE } from "@/data/offers";
 
 /**
@@ -14,16 +13,12 @@ const orderValue = STORE.price;
 /**
  * Fires the post-purchase conversion event for ad pixels.
  *
- * The pixel BASE snippets (FB Pixel init PageView, TikTok, GA4 config) belong
- * in the document <head> (global layout/_document or the placeholder comment
- * below). Because the checkout hard-redirects here, this is a fresh page load
- * — the conversion is attributed correctly.
- *
- * We call these with a short delay so any globally-loaded pixel base has
- * registered its `fbq`/`ttq`/`gtag` globals by the time we fire.
+ * The Meta Pixel Purchase event is fired in the document <head> by the
+ * thank-you page's Script (fb-pixel). The TikTok and GA4 base snippets belong
+ * in the document <head> as well; their conversions are fired here with a
+ * short delay so the globals have registered before we call them.
  */
 interface PixelWindow extends Window {
-  fbq?: (event: string, name: string, params?: Record<string, unknown>) => void;
   ttq?: { track: (event: string, params?: Record<string, unknown>) => void };
   gtag?: (event: string, name: string, params?: Record<string, unknown>) => void;
 }
@@ -31,9 +26,6 @@ interface PixelWindow extends Window {
 function fireConversion() {
   try {
     const w = window as PixelWindow;
-    if (typeof w.fbq === "function") {
-      w.fbq("track", "Purchase", { currency: "MAD", value: orderValue });
-    }
     if (w.ttq && typeof w.ttq.track === "function") {
       w.ttq.track("CompletePayment", { currency: "MAD", value: orderValue });
     }
@@ -107,12 +99,14 @@ export function ThankYouClient() {
           الطلب.
         </p>
 
-        <Link
-          href="/"
-          className="inline-block w-full rounded-xl bg-[#d4af37] py-3 font-extrabold text-[#3e2723] transition-transform hover:scale-[1.02]"
+        <a
+          href="https://wa.me/212XXXXXXXXX?text=مرحباً، أريد تأكيد طلبي من متجر دار الوراقة."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block w-full rounded-xl bg-[#25D366] py-4 text-base font-extrabold text-white transition-transform hover:scale-[1.02]"
         >
-          العودة إلى المتجر
-        </Link>
+          تأكيد الطلب عبر الواتساب (تسريع الشحن) 💬
+        </a>
 
         <footer className="mt-6 text-[11px] text-[#cdbba9]/60">
           {STORE.copyright}

@@ -19,6 +19,9 @@ export function PackLanding({ pack }: PackLandingProps) {
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      document.getElementById("name")?.focus();
+    }, 600);
   };
 
   return (
