@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
-import { STORE } from "@/data/offers";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { STORE, offers, PackConfig } from "@/data/offers";
+import { BookCover } from "@/components/BookCover";
 
 /**
  * The order value used for ad conversion events (MAD). All packs share the
@@ -35,7 +36,7 @@ const WA_NUMBER = "212602800548";
  * Discounted price for adding a second pack on the thank-you page. Kept as a
  * named constant so the upsell copy, WhatsApp message and math always agree.
  */
-const UPSELL_PRICE = 120;
+const UPSELL_PRICE = 149;
 
 /**
  * LocalStorage-backed external store for the order saved by the checkout
@@ -70,46 +71,47 @@ function readOrderData(): WaOrder | null {
 
 /**
  * Pre-fills the WhatsApp confirmation message with the order saved by the
- * checkout form (localStorage "orderData"), so the customer confirms the
- * exact pack, price, name and city with zero typing.
+ * checkout form (localStorage "orderData"). If the customer added a second
+ * pack via the visual upsell selector, it compiles one unified invoice with
+ * both orders so operations can ship them together in a single package.
  */
-function buildWaMessage(order: WaOrder | null): string {
-  if (!order) return "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦";
+function buildWaMessage(
+  order: WaOrder | null,
+  addedPack: PackConfig | null
+): string {
+  if (!order && !addedPack) return "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦";
+
+  if (addedPack) {
+    return [
+      "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦",
+      "",
+      "📌 الطلب الأساسي:",
+      `- الباقة الأولى: ${order?.offer ?? "-"} (${orderValue} درهم)`,
+      "",
+      "🔥 الباقة الإضافية المختارة:",
+      `- الباقة الثانية: ${addedPack.packName} (${UPSELL_PRICE} درهم)`,
+      `- الإجمالي الكلي: ${orderValue + UPSELL_PRICE} درهم (+ توصيل مجاني)`,
+      "",
+      "👤 معلومات العميل:",
+      `- الاسم: ${order?.name ?? "-"}`,
+      `- المدينة/العنوان: ${order?.city ?? "-"}`,
+      "",
+      "أرجو تأكيد الطلب وشحنه معاً. شكراً لكم!",
+    ].join("\n");
+  }
+
   return [
     "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦",
     "",
     "📌 تفاصيل الطلب:",
-    `- الباقة: ${order.offer ?? "-"}`,
+    `- الباقة: ${order?.offer ?? "-"}`,
     `- السعر: ${orderValue} درهم`,
     "",
     "👤 معلومات العميل:",
-    `- الاسم: ${order.name ?? "-"}`,
-    `- المدينة/العنوان: ${order.city ?? "-"}`,
-    "",
-    "أرجو تأكيد الطلب وشحنه. شكراً لكم!",
-  ].join("\n");
-}
-
-/**
- * Pre-fills the WhatsApp upgrade message for the post-purchase upsell. It
- * carries the original order context (pack, name, city) plus the second-pack
- * request at the discounted rate, so the operations team can append it to the
- * same shipment without asking the customer anything.
- */
-function buildUpsellMessage(order: WaOrder | null): string {
-  return [
-    "مرحباً دار الوراقة، أريد إضافة باك ثاني لطلبي. 🎁",
-    "",
-    "📌 طلبي الحالي:",
-    `- الباقة: ${order?.offer ?? "-"}`,
     `- الاسم: ${order?.name ?? "-"}`,
     `- المدينة/العنوان: ${order?.city ?? "-"}`,
     "",
-    "✨ أطلب إضافة باك ثاني:",
-    `- بـ ${UPSELL_PRICE} درهم فقط`,
-    "- بدون مصاريف شحن إضافية",
-    "",
-    "أرجو إضافة الباك الثاني لنفس الطلب وتأكيده. شكراً لكم!",
+    "أرجو تأكيد الطلب وشحنه. شكراً لكم!",
   ].join("\n");
 }
 
@@ -138,17 +140,26 @@ export function ThankYouClient() {
     () => null
   );
 
+  const [selectedPack, setSelectedPack] = useState<PackConfig | null>(null);
+  const [addedPack, setAddedPack] = useState<PackConfig | null>(null);
+
   useEffect(() => {
     const t = setTimeout(fireConversion, 700);
     return () => clearTimeout(t);
   }, []);
 
-  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
-    buildWaMessage(order)
-  )}`;
+  /**
+   * Alternative packs for the upsell selector, excluding the one the customer
+   * just purchased (matched by pack name from the saved order). Falls back to
+   * showing every pack when no order data is available.
+   */
+  const alternatives = useMemo(() => {
+    const purchased = order?.offer ?? null;
+    return offers.filter((p) => (purchased ? p.packName !== purchased : true));
+  }, [order]);
 
-  const upsellHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
-    buildUpsellMessage(order)
+  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    buildWaMessage(order, addedPack)
   )}`;
 
   return (
@@ -197,6 +208,15 @@ export function ThankYouClient() {
         <p className="text-sm text-[#cdbba9] mb-4">
           إجمالي الطلب:{" "}
           <span className="text-[#d4af37] font-bold">{orderValue} درهم</span>
+          {addedPack && (
+            <>
+              {" "}
+              + {UPSELL_PRICE} درهم ={" "}
+              <span className="text-[#d4af37] font-bold">
+                {orderValue + UPSELL_PRICE} درهم
+              </span>
+            </>
+          )}
         </p>
         <p className="text-xs text-[#cdbba9]/70 mb-6">
           📞 برجاء إبقاء هاتفك مفتوحاً؛ سيتصل بك فريقنا خلال 24 ساعة لتأكيد
@@ -209,10 +229,12 @@ export function ThankYouClient() {
           rel="noopener noreferrer"
           className="inline-block w-full rounded-xl bg-[#25D366] py-4 text-base font-extrabold text-white transition-transform hover:scale-[1.02]"
         >
-          تأكيد الطلب عبر الواتساب (تسريع الشحن) 💬
+          {addedPack
+            ? "تأكيد الطلبين عبر الواتساب 💬"
+            : "تأكيد الطلب عبر الواتساب (تسريع الشحن) 💬"}
         </a>
 
-        {/* Post-purchase upsell — second pack at a discounted rate */}
+        {/* Post-purchase upsell — interactive visual pack preview */}
         <div
           className="mt-6 rounded-2xl p-5 text-center"
           style={{
@@ -221,36 +243,105 @@ export function ThankYouClient() {
             boxShadow: "0 0 20px rgba(212,175,55,.15)",
           }}
         >
-          <span
-            className="mb-3 inline-block rounded-full px-3 py-1 text-[10px] font-black text-[#3e2723]"
-            style={{ background: "#d4af37" }}
-          >
-            عرض خاص لطلبك 🎁
-          </span>
-          <p className="mb-1 text-sm font-extrabold text-[#e8e0d4]">
-            أضف باك ثاني بـ{" "}
-            <span className="text-[#d4af37]">{UPSELL_PRICE} درهم</span> فقط
+          <h2 className="mb-1 text-sm font-extrabold text-[#e8e0d4]">
+            🎁 أضف باك ثاني لطلبيتك بخصم خاص
+          </h2>
+          <p className="mb-4 text-xs text-[#cdbba9]">
+            <span className="font-bold text-[#d4af37]">
+              {UPSELL_PRICE} درهم فقط
+            </span>{" "}
+            بدلاً من{" "}
+            <del className="text-[#cdbba9]/50">{STORE.price} درهم</del> — بدون
+            مصاريف شحن إضافية
           </p>
-          <p className="mb-3 text-xs text-[#cdbba9]">
-            بدون مصاريف شحن إضافية — كتب مختارة بعناية تصلك مع نفس الطلب
+
+          <p className="mb-2 text-right text-[11px] font-bold text-[#cdbba9]/80">
+            اختر الباقة التي تريد إضافتها:
           </p>
-          <p className="mb-4 text-xs text-[#cdbba9]/70">
-            <del className="text-[#cdbba9]/50">قيمة الباك {STORE.price} درهم</del>
-            <span className="mr-2 font-bold text-[#d4af37]">
-              وفّر {STORE.price - UPSELL_PRICE} درهم
-            </span>
-          </p>
-          <a
-            href={upsellHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block w-full rounded-xl bg-[#d4af37] py-4 text-base font-extrabold text-[#3e2723] transition-transform hover:scale-[1.02]"
-          >
-            نعم، أريد الباك الثاني بخصم 💬
-          </a>
-          <p className="mt-3 text-[11px] text-[#cdbba9]/70">
-            سيُضاف لنفس طلبك عند اتصال فريقنا بك لتأكيد الطلب.
-          </p>
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            {alternatives.map((p) => {
+              const isSelected = selectedPack?.slug === p.slug;
+              const isAdded = addedPack?.slug === p.slug;
+              return (
+                <button
+                  key={p.slug}
+                  type="button"
+                  onClick={() => setSelectedPack(p)}
+                  className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition-all duration-200 ${
+                    isSelected
+                      ? "border-[#d4af37] bg-[#3a2e1f]"
+                      : "border-[#3A2E22] bg-[#2B241C] hover:border-[#d4af37]/60"
+                  }`}
+                >
+                  <span className="text-lg">{p.emoji}</span>
+                  <span className="flex-1">
+                    <span className="block text-xs font-bold text-[#e8e0d4] leading-snug">
+                      {p.packName}
+                    </span>
+                    <span className="block text-[10px] text-[#cdbba9]/70">
+                      {isAdded
+                        ? "✓ تمت الإضافة"
+                        : `${UPSELL_PRICE} درهم`}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* X-Ray preview: 6 book covers + titles of the selected pack */}
+          {selectedPack && (
+            <div className="mb-4 rounded-xl border border-[#3A2E22] bg-[#1d1712] p-3 text-right">
+              <p className="mb-2 text-[11px] font-bold text-[#d4af37]">
+                📚 محتوى باقة {selectedPack.packName}:
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {selectedPack.books.map((b) => (
+                  <div key={b.id} className="flex flex-col items-center">
+                    <div className="relative h-20 w-14 overflow-hidden rounded shadow-md">
+                      <BookCover
+                        title={b.title}
+                        src={b.coverUrl}
+                        className="h-full w-full object-cover"
+                      />
+                      {b.gift && (
+                        <span
+                          className="absolute top-0 right-0 rounded px-1 text-[7px] font-black"
+                          style={{ background: "#d4af37", color: "#3e2723" }}
+                        >
+                          هدية
+                        </span>
+                      )}
+                    </div>
+                    <span className="mt-1 text-center text-[9px] leading-tight text-[#cdbba9]/85">
+                      {b.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add button — revealed once a pack is selected */}
+          {selectedPack && (
+            <button
+              type="button"
+              onClick={() => setAddedPack(selectedPack)}
+              className="w-full rounded-xl bg-[#d4af37] py-3.5 px-4 text-sm font-extrabold text-[#3e2723] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              أضف هذه الباقة لطلبيتي بـ {UPSELL_PRICE} درهم 🚀
+            </button>
+          )}
+
+          {addedPack && (
+            <p className="mt-3 text-[11px] text-[#cdbba9]/80">
+              ✅ تمت إضافة{" "}
+              <span className="font-bold text-[#e8e0d4]">
+                {addedPack.packName}
+              </span>{" "}
+              — اضغط زر الواتساب الأخضر أعلاه لإرسال الفاتورة الموحدة.
+            </p>
+          )}
         </div>
 
         <footer className="mt-6 text-[11px] text-[#cdbba9]/60">
