@@ -8,15 +8,40 @@ interface CheckoutSectionProps {
 interface FormData {
   name: string;
   phone: string;
+  city: string;
   address: string;
 }
 
+const CITY_OPTIONS = [
+  "الدار البيضاء",
+  "الرباط",
+  "مراكش",
+  "طنجة",
+  "أكادير",
+  "فاس",
+  "مكناس",
+  "وجدة",
+  "سلا",
+  "القنيطرة",
+  "أخرى",
+];
+
+const INPUT_CLASSES =
+  "w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]";
+
 export function CheckoutSection({ pack }: CheckoutSectionProps) {
-  const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
+  const [form, setForm] = useState<FormData>({
+    name: "",
+    phone: "",
+    city: "",
+    address: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -25,7 +50,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
     e.preventDefault();
     setError(null);
 
-    if (!form.name || !form.phone || !form.address) {
+    if (!form.name || !form.phone || !form.address || !form.city) {
       setError("رجاءً املأ جميع الحقول.");
       return;
     }
@@ -49,8 +74,9 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
       name: form.name,
       phone: form.phone,
+      city: form.city,
       address: form.address,
-      message: `${pack.packName}\n${books}`,
+      message: `${pack.packName} — ${form.city}\n${books}`,
       books: books,
       price: `${pack.price} درهم`,
       payment: "نقداً عند الاستلام",
@@ -107,7 +133,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             type="text"
             value={form.name}
             onChange={handleChange}
-            className="w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
+            className={INPUT_CLASSES}
             placeholder="محمد علي"
             required
             autoComplete="name"
@@ -127,7 +153,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             type="tel"
             value={form.phone}
             onChange={handleChange}
-            className="w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
+            className={INPUT_CLASSES}
             placeholder="06XXXXXXXX"
             inputMode="numeric"
             required
@@ -141,9 +167,36 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <div>
           <label
             className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
+            htmlFor="city"
+          >
+            المدينة
+          </label>
+          <select
+            id="city"
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            className={INPUT_CLASSES}
+            defaultValue=""
+            required
+          >
+            <option value="" disabled hidden>
+              اختر المدينة
+            </option>
+            {CITY_OPTIONS.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label
+            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
             htmlFor="address"
           >
-            المدينة والعنوان الكامل
+            العنوان الكامل
           </label>
           <input
             id="address"
@@ -151,8 +204,8 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             type="text"
             value={form.address}
             onChange={handleChange}
-            className="w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
-            placeholder="مثال: الدار البيضاء، شارع الحسن الثاني رقم 12"
+            className={INPUT_CLASSES}
+            placeholder="مثال: شارع الحسن الثاني رقم 12"
             required
             autoComplete="street-address"
           />
