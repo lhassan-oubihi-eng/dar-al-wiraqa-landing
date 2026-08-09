@@ -6,30 +6,27 @@ export const metadata = {
   description: "شكراً لطلبك من دار الوراقة. سيتصل بك فريقنا لتأكيد الطلب.",
 };
 
-/** Your Meta Pixel ID (hardcoded per project). */
-const FB_PIXEL_ID = "1566994631594360";
-
 /**
- * Meta Pixel base code — loaded in the document <head> via next/script.
- * It bootstraps `window.fbq`, inits the pixel, fires a PageView, and then
- * fires the Purchase event for the completed COD order (fixed 199 MAD).
+ * Meta Pixel Purchase event — fired in the document <head> after the global
+ * pixel base (root layout) has initialised `window.fbq` and fired PageView.
+ * Because the checkout hard-redirects here, this is a fresh page load, so the
+ * COD conversion is attributed to this page.
  */
-const FB_PIXEL_BASE =
-  `!function(f,b,e,v,n,t,s){if(f.pixel&&f.pixel._loaded){return;n=f.pixel.n;};n=f.pixel;if(!n){n=f.pixel=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};n.queue=n.queue||[];};n._loaded=!0;n.version="2.0";n.getAndCreateEvent=function(id){return!1};var t=b.createElement(e);t.async=!0;t.src=v;t.referrerPolicy="no-referrer-when-downgrade";var s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","${FB_PIXEL_ID}");fbq("track","PageView");fbq("track","Purchase",{currency:"MAD",value:199.00});`;
+const FB_PURCHASE = `fbq("track","Purchase",{currency:"MAD",value:199.00});`;
 
 /**
  * Server Component shell for the post-checkout confirmation page.
  * `metadata` must live here (server-side) per Next.js rules; the Purchase
- * event firing + interactive UI live in the client child component.
+ * event + interactive UI live in the head Script and client child component.
  */
 export default function ThankYouPage() {
   return (
     <>
-      {/* Meta Pixel base — injected into <head>; establishes window.fbq */}
+      {/* Purchase event — injected into <head>; base + PageView come from the root layout */}
       <Script
-        id="fb-pixel"
+        id="fb-pixel-purchase"
         strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: FB_PIXEL_BASE }}
+        dangerouslySetInnerHTML={{ __html: FB_PURCHASE }}
       />
       <ThankYouClient />
     </>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { PackConfig } from "@/data/offers";
 import { StickyBanner } from "@/components/StickyBanner";
 import { HeroSection } from "@/components/HeroSection";
@@ -14,10 +14,39 @@ interface PackLandingProps {
   pack: PackConfig;
 }
 
+function firePixel(name: string, params: Record<string, unknown>) {
+  try {
+    const w = window as unknown as {
+      fbq?: (type: string, eventName: string, p?: Record<string, unknown>) => void;
+    };
+    w.fbq?.("track", name, params);
+  } catch {
+    /* ad tracking is non-blocking */
+  }
+}
+
 export function PackLanding({ pack }: PackLandingProps) {
   const formRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    firePixel("ViewContent", {
+      content_name: pack.packName,
+      content_ids: pack.books.map((b) => String(b.id).padStart(3, "0")),
+      content_type: "product_group",
+      currency: "MAD",
+      value: pack.price,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const scrollToForm = () => {
+    firePixel("AddToCart", {
+      content_name: pack.packName,
+      content_ids: pack.books.map((b) => String(b.id).padStart(3, "0")),
+      content_type: "product_group",
+      currency: "MAD",
+      value: pack.price,
+    });
     formRef.current?.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
       document.getElementById("name")?.focus();

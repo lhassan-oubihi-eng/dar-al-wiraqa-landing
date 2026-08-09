@@ -100,7 +100,7 @@ export function ThankYouClient() {
         </p>
 
         <a
-          href="https://wa.me/212XXXXXXXXX?text=مرحباً، أريد تأكيد طلبي من متجر دار الوراقة."
+          href="https://wa.me/212602800548?text=مرحباً، أريد تأكيد طلبي من متجر دار الوراقة."
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block w-full rounded-xl bg-[#25D366] py-4 text-base font-extrabold text-white transition-transform hover:scale-[1.02]"
