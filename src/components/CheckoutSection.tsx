@@ -3,7 +3,6 @@ import { PackConfig } from "@/config/psychologyPack";
 
 interface CheckoutSectionProps {
   pack: PackConfig;
-  onSuccess: () => void;
 }
 
 interface FormData {
@@ -12,7 +11,7 @@ interface FormData {
   address: string;
 }
 
-export function CheckoutSection({ pack, onSuccess }: CheckoutSectionProps) {
+export function CheckoutSection({ pack }: CheckoutSectionProps) {
   const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,7 +70,9 @@ export function CheckoutSection({ pack, onSuccess }: CheckoutSectionProps) {
         console.log("Order payload:", payload);
       });
 
-      onSuccess();
+      // Redirect to the confirmation page so ad-tracking pixels
+      // (FB / TikTok / GA) fire on a fresh page load, not an alert/modal.
+      window.location.href = "/thank-you";
     } catch {
       setError("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
     } finally {
@@ -135,9 +136,12 @@ export function CheckoutSection({ pack, onSuccess }: CheckoutSectionProps) {
             placeholder="06XXXXXXXX"
             inputMode="numeric"
             required
-            autoComplete="tel"
-          />
-        </div>
+             autoComplete="tel"
+           />
+           <p className="text-sm text-gray-500 text-right mt-1">
+             سنتصل بك في غضون 24 ساعة لتأكيد طلبك.
+           </p>
+         </div>
 
         <div>
           <label
@@ -162,21 +166,13 @@ export function CheckoutSection({ pack, onSuccess }: CheckoutSectionProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98"
-          style={{
-            background: "#d4af37",
-            color: "#3e2723",
-            opacity: isSubmitting ? 0.7 : 1,
-          }}
+          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 bg-[#d4af37] text-[#3e2723] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          style={{ opacity: isSubmitting ? 0.7 : 1 }}
         >
           {isSubmitting ? (
-            <>
-              <span>جارٍ إرسال الطلب...</span>
-            </>
+            <span>جارٍ إرسال الطلب...</span>
           ) : (
-            <>
-              <span>{pack.checkout.submitText}</span>
-            </>
+            <span>{pack.checkout.submitText}</span>
           )}
         </button>
       </form>

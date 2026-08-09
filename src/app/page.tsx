@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { psychologyPack } from "@/config/psychologyPack";
 import { StickyBanner } from "@/components/StickyBanner";
 import { HeroSection } from "@/components/HeroSection";
@@ -9,71 +9,24 @@ import { ValuePropSection } from "@/components/ValuePropSection";
 import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { CheckoutSection } from "@/components/CheckoutSection";
 import { MobileStickyFooter } from "@/components/MobileStickyFooter";
-import { CheckCircle } from "lucide-react";
 
 export default function Home() {
-  const [orderComplete, setOrderComplete] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Auto-focus the name input after scroll to trigger the mobile virtual keyboard
+    setTimeout(() => {
+      const nameInput = document.getElementById("name");
+      if (nameInput) {
+        nameInput.focus();
+      }
+    }, 800);
   };
-
-  useEffect(() => {
-    if (orderComplete) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [orderComplete]);
-
-  const handleSuccess = () => {
-    setOrderComplete(true);
-  };
-
-  const handleCloseSuccess = () => {
-    setOrderComplete(false);
-  };
-
-  if (orderComplete) {
-    return (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center px-4"
-        style={{ background: "rgba(62, 39, 35, 0.7)" }}
-        onClick={handleCloseSuccess}
-      >
-        <div
-          className="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-center mb-3 text-[#d4af37]">
-            <CheckCircle size={48} />
-          </div>
-          <h3 className="font-bold text-lg text-[#3e2723] mb-3">
-            تم تأكيد طلبك بنجاح!
-          </h3>
-          <p className="text-sm text-[#5d4538]/80 mb-4">
-            شكراً لثقتك في دار الوِراقة. طلبيتك في الطريق إليك وستصلك في
-            أقرب وقت ممكن.
-          </p>
-          <p className="text-xs text-[#5d4538]/70 mb-4">
-            برجاء إبقاء هاتفك مفتوحاً، سيتصل بك موزع التوصيل قريباً.
-          </p>
-          <button
-            onClick={handleCloseSuccess}
-            className="w-full py-2.5 rounded-xl font-bold text-sm"
-            style={{ background: "#d4af37", color: "#3e2723" }}
-          >
-            إغلاق
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
-      {/* 1. Ad-cession Sticky Banner */}
+      {/* 1. Sticky top banner */}
       <StickyBanner text={psychologyPack.tagline} />
 
       {/* Main content */}
@@ -101,30 +54,10 @@ export default function Home() {
         {/* 5. GOLDEN GUARANTEE (Trust — eliminates risk hesitation) */}
         <GuaranteeSection guarantee={psychologyPack.guarantee} />
 
-        {/* 6. CHECKOUT FORM (Action) */}
+        {/* 6. CHECKOUT FORM (Action) — on success the form redirects to /thank-you */}
         <div ref={formRef}>
-          <CheckoutSection pack={psychologyPack} onSuccess={handleSuccess} />
+          <CheckoutSection pack={psychologyPack} />
         </div>
-
-        {/* Other packs footer (keep users browsing inside the store) */}
-        <section className="mt-10 mx-4">
-          <h2 className="font-display text-center text-[#d4af37] text-sm mb-3">
-            باقي الباكات الخاصة بنا
-          </h2>
-          <div className="grid grid-cols-2 gap-2.5">
-            {psychologyPack.otherPacks.map((p) => (
-              <a
-                key={p.href}
-                href={p.href}
-                className="block p-2.5 rounded-xl border border-[#eaeaea] bg-white text-center hover:border-[#d4af37] hover:shadow-sm transition"
-              >
-                <p className="text-xs font-semibold text-[#3e2723]">
-                  {p.label}
-                </p>
-              </a>
-            ))}
-          </div>
-        </section>
       </main>
 
       {/* 7. Mobile Sticky Footer (only on mobile, value-driven copy) */}

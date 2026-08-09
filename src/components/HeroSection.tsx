@@ -1,5 +1,5 @@
 import React from "react";
-import { BookOpen } from "lucide-react";
+import { BookOpen, ShoppingCart } from "lucide-react";
 import { Book } from "@/config/psychologyPack";
 
 interface HeroSectionProps {
@@ -24,13 +24,16 @@ export function HeroSection({
   const savings = originalPrice - price;
 
   return (
-    <section className="text-center px-4 pt-4 pb-8" id="hero">
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#3e2723] leading-tight mb-1">
+    <section className="px-4 pt-4 pb-8" id="hero">
+      {/* Headline */}
+      <h1 className="text-2xl md:text-3xl font-extrabold text-[#3e2723] leading-tight mb-1 text-center">
         {headline}
       </h1>
-      <p className="text-sm text-[#5d4538]/80 mb-6">{subheadline}</p>
 
-      {/* 3D stacked book mockup */}
+      {/* Subheadline */}
+      <p className="text-sm text-[#5d4538]/80 mb-6 text-center">{subheadline}</p>
+
+      {/* Product Image (3D stacked book mockup) */}
       <div className="relative mx-auto w-52 h-60 mb-6 flex items-end justify-center">
         <div className="relative w-full h-full">
           {books.map((book, index) => {
@@ -94,26 +97,11 @@ export function HeroSection({
       {/* CTA Button */}
       <button
         onClick={onCtaClick}
-        className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
-        style={{ background: "#d4af37", color: "#3e2723" }}
+        className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg bg-[#d4af37] text-[#3e2723] transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
         type="button"
       >
         <span>اطلب الباقة الآن</span>
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <circle cx="9" cy="21" r="1.6" />
-          <circle cx="19" cy="21" r="1.6" />
-          <path d="M2 3h2.2l2.1 12.2a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L20.8 7H5.4" />
-        </svg>
+        <ShoppingCart size={18} className="text-[#3e2723]" />
       </button>
     </section>
   );
