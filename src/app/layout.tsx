@@ -15,7 +15,7 @@ export const viewport = {
 };
 
 /** Your Meta Pixel ID (DarAlWaraqa-Pixel). */
-const FB_PIXEL_ID = "1566994631594360";
+const FB_PIXEL_ID = "27763336586642575";
 
 /**
  * Official Meta Pixel base code — rendered as a literal <script> in the
@@ -52,6 +52,16 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: FB_PIXEL_BASE }}
         />
+        {/* Meta Pixel noscript fallback for no-JS visitors */}
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element -- 1x1 pixel fallback, no-JS only */}
+          <img
+            height="1"
+            width="1"
+            src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
         {children}
       </body>
     </html>
