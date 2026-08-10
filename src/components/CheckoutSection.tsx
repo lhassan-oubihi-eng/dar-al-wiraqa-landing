@@ -14,7 +14,7 @@ interface FormData {
 }
 
 const INPUT_CLASSES =
-  "w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]";
+  "w-full px-3.5 py-3 rounded-lg border border-[#E5E7EB] bg-white text-sm text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]";
 
 export function CheckoutSection({
   pack,
@@ -112,17 +112,17 @@ export function CheckoutSection({
   return (
     <section
       id="orderForm"
-      className="mx-4 my-10 rounded-2xl bg-[#241D17] shadow-2xl p-6"
+      className="mx-4 my-10 rounded-2xl bg-white shadow-xl p-6 border border-[#E5E7EB]"
     >
-      <h2 className="font-bold text-center text-lg text-[#e8e0d4] mb-1">
+      <h2 className="font-bold text-center text-lg text-[#1F2937] mb-1">
         {pack.checkout.title}
       </h2>
-      <p className="text-center text-xs text-[#cdbba9]/70 mb-5">
+      <p className="text-center text-xs text-[#6B7280]/80 mb-5">
         {pack.checkout.subtitle}
       </p>
 
       {error && (
-        <div className="mb-3 text-center text-[11px] text-red-200 bg-[#7f1d1d]/20 border border-[#7f1d1d]/30 rounded-lg py-1.5">
+        <div className="mb-3 text-center text-[11px] text-red-700 bg-red-50 border border-red-200 rounded-lg py-1.5">
           {error}
         </div>
       )}
@@ -130,7 +130,7 @@ export function CheckoutSection({
       <form onSubmit={handleOrderSubmit} className="space-y-3.5">
         <div>
           <label
-            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
+            className="block text-[11px] font-bold text-[#1F2937] mb-1"
             htmlFor="nameInput"
           >
             الاسم الكامل
@@ -150,7 +150,7 @@ export function CheckoutSection({
 
         <div>
           <label
-            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
+            className="block text-[11px] font-bold text-[#1F2937] mb-1"
             htmlFor="phone"
           >
             رقم الهاتف
@@ -167,7 +167,7 @@ export function CheckoutSection({
             required
             autoComplete="tel"
           />
-          <p className="text-[11px] text-[#cdbba9] text-right mt-1">
+          <p className="text-[11px] text-[#6B7280] text-right mt-1">
             {pack.feminine
               ? "سنتصل بكِ في غضون 24 ساعة لتأكيد طلبكِ."
               : "سنتصل بك في غضون 24 ساعة لتأكيد طلبك."}
@@ -176,7 +176,7 @@ export function CheckoutSection({
 
         <div>
           <label
-            className="block text-[11px] font-bold text-[#e8e0d4] mb-1"
+            className="block text-[11px] font-bold text-[#1F2937] mb-1"
             htmlFor="address"
           >
             المدينة والعنوان الكامل
@@ -197,7 +197,7 @@ export function CheckoutSection({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-[#3e2723] bg-[#d4af37] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-[#16a34a] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           style={{ opacity: isSubmitting ? 0.7 : 1 }}
         >
           {isSubmitting ? (

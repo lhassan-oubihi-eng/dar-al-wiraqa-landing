@@ -7,7 +7,7 @@ interface UrgencyBannerProps {
 export function UrgencyBanner({ text }: UrgencyBannerProps) {
   return (
     <div
-      className="my-4 mx-4 rounded-md border border-yellow-700/40 bg-yellow-900/20 p-3 text-center text-xs font-semibold text-[#e8e0d4]"
+      className="my-4 mx-4 rounded-md border border-red-300 bg-red-50 p-3 text-center text-xs font-semibold text-[#DC2626]"
       role="status"
     >
       {text}

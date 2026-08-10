@@ -3,19 +3,19 @@
 
 @theme inline {
   --font-sans: "Tajawal", ui-serif, system-ui, sans-serif;
-  --color-paper: #14100D;
-  --color-card: #241D17;
-  --color-ink: #E8E0D4;
-  --color-ink-light: #CDBB9C;
-  --color-gold: #D4AF37;
-  --color-gold-light: #F3E6C4;
-  --color-gold-soft: #241D17;
-  --color-border: #3A2E22;
-  --color-urgent: #D4AF37;
-  --color-urgent-text: #3E2723;
+  --color-paper: #F5F6F8;
+  --color-card: #FFFFFF;
+  --color-ink: #1F2937;
+  --color-ink-light: #6B7280;
+  --color-gold: #16A34A;
+  --color-gold-light: #15803D;
+  --color-gold-soft: #F0FDF4;
+  --color-border: #E5E7EB;
+  --color-urgent: #DC2626;
+  --color-urgent-text: #FFFFFF;
   --color-success: #15803d;
-  --color-accent: #D4AF37;
-  --color-input: #352922;
+  --color-accent: #16A34A;
+  --color-input: #FFFFFF;
 }
 
 body {

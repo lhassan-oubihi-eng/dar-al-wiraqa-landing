@@ -77,11 +77,11 @@ export function PackLanding({ pack }: PackLandingProps) {
 
         {/* Social proof strip */}
         <div
-          className="mx-4 my-3 rounded-xl border border-[#3A2E22] px-4 py-3 text-center"
+          className="mx-4 my-3 rounded-xl border border-[#E5E7EB] px-4 py-3 text-center"
           style={{ background: "var(--color-card)" }}
         >
-          <div className="mb-1 text-base tracking-widest text-[#d4af37]">★★★★★</div>
-          <p className="text-xs font-bold text-[#e8e0d4]">
+          <div className="mb-1 text-base tracking-widest text-[#f59e0b]">★★★★★</div>
+          <p className="text-xs font-bold text-[#1F2937]">
             الباقة الأكثر طلباً في دار الوراقة
           </p>
         </div>
@@ -109,7 +109,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       />
 
       {/* Site footer */}
-      <footer className="mt-6 border-t border-[#3A2E22] py-4 text-center text-[11px] text-[#cdbba9]/70">
+      <footer className="mt-6 border-t border-[#E5E7EB] py-4 text-center text-[11px] text-[#6B7280]/70">
         {pack.footer.copyright}
       </footer>
     </>

@@ -9,8 +9,8 @@ interface ValuePropSectionProps {
 
 export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
   return (
-    <section className="px-4 py-10 bg-[#241D17] rounded-2xl shadow-md mx-4 mb-10" dir="rtl">
-      <h2 className="text-center font-bold text-lg text-[#e8e0d4] mb-8">{title}</h2>
+    <section className="px-4 py-10 bg-white rounded-2xl shadow-md mx-4 mb-10 border border-[#E5E7EB]" dir="rtl">
+      <h2 className="text-center font-bold text-lg text-[#1F2937] mb-8">{title}</h2>
       <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
         {benefits.map((benefit, index) => (
           <div
@@ -30,14 +30,14 @@ export function ValuePropSection({ title, benefits }: ValuePropSectionProps) {
                 {benefit.gift && (
                   <span
                     className="absolute -top-2 left-1/2 -translate-x-1/2 rounded px-1.5 py-0.5 text-[10px] font-black whitespace-nowrap"
-                    style={{ background: "#d4af37", color: "#3e2723" }}
+                    style={{ background: "#16a34a", color: "#fff" }}
                   >
                     هدية
                   </span>
                 )}
               </div>
             </div>
-            <h3 className="text-center font-bold text-sm text-[#e8e0d4] leading-snug">
+            <h3 className="text-center font-bold text-sm text-[#1F2937] leading-snug">
               {benefit.title}
             </h3>
           </div>

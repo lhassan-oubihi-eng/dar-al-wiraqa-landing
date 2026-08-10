@@ -29,11 +29,11 @@ export function BookCover({ title, src, className = "" }: BookCoverProps) {
       dir="rtl"
       className={`flex items-center justify-center p-2 ${className}`}
       style={{
-        background: "linear-gradient(135deg,#4a2920,#241D17)",
-        border: "1px solid rgba(212,175,55,.45)",
+        background: "linear-gradient(135deg,#F3F4F6,#E5E7EB)",
+        border: "1px solid var(--color-border)",
       }}
     >
-      <div className="text-center text-[11px] font-bold leading-relaxed text-[#e8e0d4]">
+      <div className="text-center text-[11px] font-bold leading-relaxed text-[#6B7280]">
         {title}
       </div>
     </div>

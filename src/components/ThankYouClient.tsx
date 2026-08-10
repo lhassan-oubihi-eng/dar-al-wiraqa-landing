@@ -234,7 +234,7 @@ export function ThankYouClient() {
           border: "1px solid var(--color-border)",
         }}
       >
-        <div className="mb-4 flex justify-center text-[#d4af37]">
+        <div className="mb-4 flex justify-center text-[#16a34a]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="48"
@@ -253,50 +253,49 @@ export function ThankYouClient() {
         <h1 className="font-extrabold text-xl mb-2">
           {STORE.name} — تم استلام طلبك!
         </h1>
-        <p className="text-[#cdbba9]/85 text-sm mb-1">
+        <p className="text-[#6B7280] text-sm mb-1">
           شكراً لثقتك في دار الوِراقة.
         </p>
-        <p className="text-[#cdbba9]/85 text-sm mb-1">
+        <p className="text-[#6B7280] text-sm mb-1">
           طلبيتك تم تسجيلها وستصلك في أقرب وقت.
         </p>
-        <hr className="border-[#3A2E22] my-4" />
-        <p className="text-sm text-[#cdbba9] mb-4">
+        <hr className="border-[#E5E7EB] my-4" />
+        <p className="text-sm text-[#6B7280] mb-4">
           إجمالي الطلب:{" "}
-          <span className="text-[#d4af37] font-bold">{finalTotal} درهم</span>
+          <span className="text-[#16a34a] font-bold">{finalTotal} درهم</span>
           {upsellCount > 0 && (
-            <span className="text-xs text-[#cdbba9]/70">
+            <span className="text-xs text-[#6B7280]/70">
               {" "}
               (شامل {upsellCount} باقة إضافية)
             </span>
           )}
         </p>
-        <p className="text-xs text-[#cdbba9]/70 mb-6">
+        <p className="text-xs text-[#6B7280] mb-6">
           📞 برجاء إبقاء هاتفك مفتوحاً؛ سيتصل بك فريقنا خلال 24 ساعة لتأكيد
           الطلب.
         </p>
 
         {/* Post-purchase upsell — interactive multi-select visual pack preview */}
         <div
-          className="rounded-2xl p-5 text-center"
+          className="rounded-2xl p-5 text-center border border-[#16a34a]/40"
           style={{
-            background: "linear-gradient(180deg,#2E251C 0%,#241D17 100%)",
-            border: "1px solid rgba(212,175,55,.6)",
-            boxShadow: "0 0 20px rgba(212,175,55,.15)",
+            background: "linear-gradient(180deg,#FFFFFF 0%,#F0FDF4 100%)",
+            boxShadow: "0 0 20px rgba(22,163,74,.12)",
           }}
         >
-          <h2 className="mb-1 text-sm font-extrabold text-[#e8e0d4]">
+          <h2 className="mb-1 text-sm font-extrabold text-[#1F2937]">
             🎁 أضف باقات إضافية لطلبيتك بخصم خاص
           </h2>
-          <p className="mb-4 text-xs text-[#cdbba9]">
-            <span className="font-bold text-[#d4af37]">
+          <p className="mb-4 text-xs text-[#6B7280]">
+            <span className="font-bold text-[#16a34a]">
               {UPSELL_PRICE} درهم للباقة
             </span>{" "}
             بدلاً من{" "}
-            <del className="text-[#cdbba9]/50">{STORE.price} درهم</del> — بدون
+            <del className="text-[#9CA3AF]">{STORE.price} درهم</del> — بدون
             مصاريف شحن إضافية
           </p>
 
-          <p className="mb-2 text-right text-[11px] font-bold text-[#cdbba9]/80">
+          <p className="mb-2 text-right text-[11px] font-bold text-[#6B7280]/80">
             اضغط على الباقات لإضافتها أو إزالتها (يمكنك اختيار عدة باقات):
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
@@ -312,20 +311,20 @@ export function ThankYouClient() {
                   aria-pressed={isSelected}
                   className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition-all duration-200 ${
                     isSelected
-                      ? "border-[#d4af37] bg-[#3a2e1f] shadow-[0_0_12px_rgba(212,175,55,.25)]"
-                      : "border-[#3A2E22] bg-[#2B241C] hover:border-[#d4af37]/60"
+                      ? "border-[#16a34a] bg-[#F0FDF4] shadow-[0_0_12px_rgba(22,163,74,.25)]"
+                      : "border-[#E5E7EB] bg-white hover:border-[#16a34a]/60"
                   }`}
                 >
                   <span className="text-lg">{p.emoji}</span>
                   <span className="flex-1">
-                    <span className="block text-xs font-bold text-[#e8e0d4] leading-snug">
+                    <span className="block text-xs font-bold text-[#1F2937] leading-snug">
                       {p.packName}
                     </span>
                     <span
                       className={`block text-[10px] ${
                         isSelected
-                          ? "font-bold text-[#d4af37]"
-                          : "text-[#cdbba9]/70"
+                          ? "font-bold text-[#16a34a]"
+                          : "text-[#6B7280]/70"
                       }`}
                     >
                       {isSelected
@@ -334,7 +333,7 @@ export function ThankYouClient() {
                     </span>
                   </span>
                   {isSelected && (
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#d4af37] text-[10px] font-black text-[#3e2723]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#16a34a] text-[10px] font-black text-white">
                       ✓
                     </span>
                   )}
@@ -347,9 +346,9 @@ export function ThankYouClient() {
           {selectedUpsells.map((p) => (
             <div
               key={p.slug}
-              className="mb-4 rounded-xl border border-[#3A2E22] bg-[#1d1712] p-3 text-right last:mb-0"
+              className="mb-4 rounded-xl border border-[#E5E7EB] bg-white p-3 text-right last:mb-0"
             >
-              <p className="mb-2 text-[11px] font-bold text-[#d4af37]">
+              <p className="mb-2 text-[11px] font-bold text-[#16a34a]">
                 📚 محتوى باقة {p.packName}:
               </p>
               <div className="grid grid-cols-3 gap-2">
@@ -364,13 +363,13 @@ export function ThankYouClient() {
                       {b.gift && (
                         <span
                           className="absolute top-0 right-0 rounded px-1 text-[7px] font-black"
-                          style={{ background: "#d4af37", color: "#3e2723" }}
+                          style={{ background: "#16a34a", color: "#fff" }}
                         >
                           هدية
                         </span>
                       )}
                     </div>
-                    <span className="mt-1 text-center text-[9px] leading-tight text-[#cdbba9]/85">
+                    <span className="mt-1 text-center text-[9px] leading-tight text-[#6B7280]">
                       {b.title}
                     </span>
                   </div>
@@ -380,9 +379,9 @@ export function ThankYouClient() {
           ))}
 
           {upsellCount > 0 && (
-            <p className="mt-3 text-[11px] text-[#cdbba9]/80">
+            <p className="mt-3 text-[11px] text-[#6B7280]/80">
               ✅ تمت إضافة{" "}
-              <span className="font-bold text-[#d4af37]">
+              <span className="font-bold text-[#16a34a]">
                 {upsellCount} باقة
               </span>{" "}
               — زر الواتساب أسفل الصفحة سيرسل فاتورة موحدة بكل الباقات.
@@ -391,23 +390,23 @@ export function ThankYouClient() {
         </div>
 
         {/* Live price summary — always above the final WhatsApp button */}
-        <div className="mt-5 rounded-xl border border-[#d4af37]/40 bg-[#241D17] px-4 py-3 text-sm text-[#cdbba9]">
+        <div className="mt-5 rounded-xl border border-[#16a34a]/40 bg-white px-4 py-3 text-sm text-[#6B7280]">
           <p>
             إجمالي الطلب:{" "}
-            <span className="font-bold text-[#e8e0d4]">{orderValue} درهم</span>
+            <span className="font-bold text-[#1F2937]">{orderValue} درهم</span>
             {upsellCount > 0 && (
               <>
                 {" "}
                 +{" "}
-                <span className="font-bold text-[#e8e0d4]">
+                <span className="font-bold text-[#1F2937]">
                   {upsellTotal} درهم
                 </span>
               </>
             )}
-            <span className="mx-1 text-[#cdbba9]">=</span>
-            <span className="font-black text-[#d4af37]">{finalTotal} درهم</span>
+            <span className="mx-1 text-[#6B7280]">=</span>
+            <span className="font-black text-[#16a34a]">{finalTotal} درهم</span>
           </p>
-          <p className="mt-1 text-[11px] text-[#cdbba9]/70">
+          <p className="mt-1 text-[11px] text-[#6B7280]/70">
             (+ توصيل مجاني — الدفع عند الاستلام)
           </p>
         </div>
@@ -422,7 +421,7 @@ export function ThankYouClient() {
           {confirmLabel}
         </a>
 
-        <footer className="mt-5 text-[11px] text-[#cdbba9]/60">
+        <footer className="mt-5 text-[11px] text-[#6B7280]/60">
           {STORE.copyright}
         </footer>
       </div>

@@ -14,7 +14,7 @@ export default function Home() {
         }}
       >
         <div className="relative z-10 mx-auto max-w-6xl px-4 pt-4 pb-3">
-          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: "var(--color-gold-light)" }}>
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: "var(--color-ink)" }}>
             دار الوِراقة
           </h1>
           <p className="mt-1 text-sm md:text-base" style={{ color: "var(--color-ink-light)" }}>
@@ -28,21 +28,21 @@ export default function Home() {
         <div
           className="shadow-lg"
           style={{
-            background: "linear-gradient(90deg,#3E2723,#241D17)",
-            borderBottom: "1px solid rgba(212,175,55,.25)",
+            background: "linear-gradient(90deg,#16A34A,#15803D)",
+            borderBottom: "1px solid rgba(255,255,255,.25)",
           }}
         >
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-2 px-4 py-2 text-center md:flex-row md:gap-6">
             <div className="flex items-center gap-2">
               <span
                 className="rounded-full px-2.5 py-1 text-[11px] font-black uppercase tracking-wide"
-                style={{ background: "rgba(212,175,55,.18)", color: "var(--color-gold-light)" }}
+                style={{ background: "rgba(255,255,255,.2)", color: "#fff" }}
               >
                 عرض محدود
               </span>
-              <p className="text-sm font-bold text-[#e8e0d4] md:text-base">
+              <p className="text-sm font-bold text-white md:text-base">
                 باك 5 كتب بـ{" "}
-                <span className="text-lg font-bold" style={{ color: "#ffe3b3" }}>
+                <span className="text-lg font-bold" style={{ color: "#fff" }}>
                   199 درهم
                 </span>{" "}
                 شامل التوصيل
@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* Packs grid */}
       <main className="mx-auto max-w-6xl px-4 py-5">
-        <h2 className="mb-3 text-lg font-bold md:text-xl" style={{ color: "var(--color-gold-light)" }}>
+        <h2 className="mb-3 text-lg font-bold md:text-xl" style={{ color: "var(--color-ink)" }}>
           عروض خاصة
         </h2>
         <div className="grid grid-cols-2 gap-3 pb-2 md:gap-5 lg:grid-cols-3">

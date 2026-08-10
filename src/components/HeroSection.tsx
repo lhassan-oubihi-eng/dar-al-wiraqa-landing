@@ -33,7 +33,7 @@ export function HeroSection({
   return (
     <section className="px-4 pt-8 pb-10" id="hero">
       {/* 1. Headline */}
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#e8e0d4] leading-[1.8] mb-6 text-center">
+      <h1 className="text-2xl md:text-3xl font-extrabold text-[#1F2937] leading-[1.8] mb-6 text-center">
         {headline}
       </h1>
 
@@ -46,10 +46,10 @@ export function HeroSection({
               <div
                 className="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-lg"
                 style={{
-                  background: "linear-gradient(160deg,#3a2e22,#241d17)",
+                  background: "linear-gradient(160deg,#FFFFFF,#F3F4F6)",
                   border: isGift
-                    ? "1px solid #b8860b"
-                    : "1px solid rgba(212,175,55,.35)",
+                    ? "1px solid #16a34a"
+                    : "1px solid var(--color-border)",
                 }}
               >
                 <BookCover
@@ -60,13 +60,13 @@ export function HeroSection({
                 {isGift && (
                   <span
                     className="absolute top-1 right-1 z-10 rounded-full px-1.5 py-0.5 text-[8px] font-black"
-                    style={{ background: "#d4af37", color: "#3e2723" }}
+                    style={{ background: "#16a34a", color: "#fff" }}
                   >
                     هدية
                   </span>
                 )}
               </div>
-              <span className="mt-1.5 text-center text-[10px] font-bold leading-tight text-[#cdbba9]">
+              <span className="mt-1.5 text-center text-[10px] font-bold leading-tight text-[#6B7280]">
                 {book.title}
               </span>
             </div>
@@ -75,23 +75,23 @@ export function HeroSection({
       </div>
 
       {/* 3. Offer Summary Line */}
-      <p className="text-sm text-[#cdbba9]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
+      <p className="text-sm text-[#6B7280]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
         {subheadline}
       </p>
 
       {/* 4. Price Section (old price, current price, savings badge) */}
       <div className="mb-6">
         <div className="flex items-center justify-center gap-3 flex-wrap mb-2">
-          <del className="text-sm text-[#cdbba9]/50 line-through">
+          <del className="text-sm text-[#9CA3AF] line-through">
             {originalPrice} درهم
           </del>
-          <span className="text-3xl font-extrabold text-[#e8e0d4] leading-none">
+          <span className="text-3xl font-extrabold text-[#1F2937] leading-none">
             {price} درهم
           </span>
         </div>
         <div
           className="inline-block px-4 py-1.5 rounded-full text-xs font-bold"
-          style={{ background: "#d4af37", color: "#3e2723" }}
+          style={{ background: "#16a34a", color: "#fff" }}
         >
           {savingsText}
         </div>
@@ -100,11 +100,11 @@ export function HeroSection({
       {/* 5. CTA Button */}
       <button
         onClick={onCtaClick}
-        className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg bg-[#d4af37] text-[#3e2723] transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
+        className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg bg-[#16a34a] text-white transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
         type="button"
       >
         <span>{ctaText}</span>
-        <ShoppingCart size={18} className="text-[#3e2723]" />
+        <ShoppingCart size={18} className="text-white" />
       </button>
     </section>
   );
