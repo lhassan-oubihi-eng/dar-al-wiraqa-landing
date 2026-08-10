@@ -68,6 +68,7 @@ export function PackLanding({ pack }: PackLandingProps) {
           giftBookIndex={pack.giftBookIndex}
           originalPrice={pack.originalPrice}
           price={pack.price}
+          feminine={pack.feminine}
           onCtaClick={scrollToForm}
         />
 
@@ -103,6 +104,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       {/* 7. Mobile Sticky Footer */}
       <MobileStickyFooter
         price={pack.price}
+        feminine={pack.feminine}
         onCtaClick={scrollToForm}
       />
 

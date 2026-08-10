@@ -168,7 +168,9 @@ export function CheckoutSection({
             autoComplete="tel"
           />
           <p className="text-[11px] text-[#cdbba9] text-right mt-1">
-            سنتصل بك في غضون 24 ساعة لتأكيد طلبك.
+            {pack.feminine
+              ? "سنتصل بكِ في غضون 24 ساعة لتأكيد طلبكِ."
+              : "سنتصل بك في غضون 24 ساعة لتأكيد طلبك."}
           </p>
         </div>
 
@@ -208,7 +210,9 @@ export function CheckoutSection({
         <div className="flex justify-center items-center gap-1 mt-3">
           <Lock size={14} className="text-gray-500" />
           <span className="text-xs text-gray-500">
-            معلوماتك مشفرة ومحمية بالكامل 100%
+            {pack.feminine
+              ? "معلوماتكِ مشفرة ومحمية بالكامل 100%"
+              : "معلوماتك مشفرة ومحمية بالكامل 100%"}
           </span>
         </div>
       </form>

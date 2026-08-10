@@ -24,6 +24,7 @@ export interface PackConfig {
   slug: string;
   packName: string;
   emoji: string;
+  feminine: boolean;
   namePlaceholder: string;
   desc: string;
   headline: string;
@@ -66,15 +67,27 @@ export function coverUrlFor(id: number): string {
 }
 
 const tagline = "مرحباً بك! التوصيل مجاني لجميع مدن المغرب والدفع عند الاستلام.";
+const taglineFeminine = "مرحباً بكِ! التوصيل مجاني لجميع مدن المغرب والدفع عند الاستلام.";
 
 const guarantees = {
   title: "ضمان 100%",
   copy: "افتح الكولي، تأكد من الكتوب ديالك، عاد خلص! تسوق بأمان تام ولا تدفع شيئاً حتى تستلم طلبك.",
 };
 
+const guaranteesFeminine = {
+  title: "ضمان 100%",
+  copy: "افتحي الكولي، تأكدي من كتبكِ، عاد خلصي! تسوقي بأمان تام ولا تدفعي شيئاً حتى تستلمي طلبكِ.",
+};
+
 const checkout = {
   title: "أدخل معلوماتك لتأكيد الطلب",
   subtitle: "أنت تحصل على 6 كتب (5 أساسية + هدية) بـ 199 درهم. الدفع يتم عند الاستلام.",
+  submitText: "تأكيد الطلب والدفع عند الاستلام",
+};
+
+const checkoutFeminine = {
+  title: "أدخلي معلوماتك لتأكيد الطلب",
+  subtitle: "أنتِ تحصلين على 6 كتب (5 أساسية + هدية) بـ 199 درهم. الدفع يتم عند الاستلام.",
   submitText: "تأكيد الطلب والدفع عند الاستلام",
 };
 
@@ -91,6 +104,7 @@ interface RawPack {
   slug: string;
   packName: string;
   emoji: string;
+  feminine?: boolean;
   namePlaceholder?: string;
   desc: string;
   price: number | string;
@@ -115,11 +129,13 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
   const books = pack.books.map((b, i) => toBook(b, -(i + 1)));
   const gift = toBook(pack.gift, -100, true);
   const allBooks = [...books, gift];
+  const feminine = pack.feminine === true;
 
   return {
     slug: pack.slug,
     packName: pack.packName,
     emoji: pack.emoji,
+    feminine,
     namePlaceholder: pack.namePlaceholder ?? "محمد علي",
     desc: pack.desc,
     headline: pack.heroH1,
@@ -128,7 +144,7 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     giftBookIndex: allBooks.length - 1,
     originalPrice: Number(pack.oldPrice),
     price: Number(pack.price),
-    tagline,
+    tagline: feminine ? taglineFeminine : tagline,
     urgency: pack.urgency,
     valuePropTitle,
     benefits: allBooks.map((b) => ({
@@ -136,8 +152,8 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
       coverUrl: b.coverUrl,
       gift: b.gift,
     })),
-    guarantee: guarantees,
-    checkout,
+    guarantee: feminine ? guaranteesFeminine : guarantees,
+    checkout: feminine ? checkoutFeminine : checkout,
     footer: { packName: pack.packName, copyright: footerCopyright },
   };
 });
