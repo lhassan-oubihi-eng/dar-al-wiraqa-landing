@@ -33,7 +33,7 @@ export function CheckoutSection({
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleOrderSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOrderSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
@@ -57,18 +57,37 @@ export function CheckoutSection({
       )
       .join("\n");
 
-    const payload = {
+    // Silent lead capture — POST directly to FormSubmit's AJAX endpoint from
+    // the browser. This is the reliable path: the browser automatically sends
+    // the Origin header FormSubmit requires (server-to-server relays get
+    // blocked as spam). The AJAX endpoint returns JSON and never shows a
+    // "Thank You" page or captcha. keepalive:true lets the request finish
+    // even though we redirect immediately below.
+    const formData = {
       _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
-      packName: pack.packName,
-      offer: pack.packName,
+      _captcha: "false",
+      _template: "table",
       name: form.name,
       phone: form.phone,
-      address: form.address,
+      city: form.address,
+      offer: pack.packName,
       books: books,
       price: `${pack.price} درهم`,
       payment: "نقداً عند الاستلام",
       count: pack.books.length,
     };
+
+    fetch("https://formsubmit.co/ajax/lhossainoubihi1@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      keepalive: true,
+    }).catch((err) => {
+      console.error("FormSubmit direct send failed:", err);
+    });
 
     // 1. Persist order locally so /thank-you knows which pack was purchased
     // (used to exclude it from the upsell selector and prefill the invoice).
@@ -85,28 +104,7 @@ export function CheckoutSection({
       /* non-blocking */
     }
 
-    // 2. Silent lead capture — fire-and-forget POST to /api/order which
-    // relays to FormSubmit. sendBeacon survives the page navigation below,
-    // so the lead is captured even if the customer bounces on /thank-you.
-    const beaconBody = new Blob([JSON.stringify(payload)], {
-      type: "application/json",
-    });
-    let sent = false;
-    if (typeof navigator !== "undefined" && "sendBeacon" in navigator) {
-      sent = navigator.sendBeacon("/api/order", beaconBody);
-    }
-    if (!sent) {
-      fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        keepalive: true,
-      }).catch(() => {
-        console.log("Order payload:", payload);
-      });
-    }
-
-    // 3. Seamless redirect — the user never sees a FormSubmit page or captcha.
+    // 2. Seamless redirect — the user never sees a FormSubmit page or captcha.
     window.location.href = "/thank-you";
   };
 

@@ -13,25 +13,15 @@ interface Order {
 
 const PHONE_RE = /^(06|07)\d{8}$/;
 
-/** FormSubmit AJAX endpoint — returns JSON, never redirects, never shows a captcha. */
-const FORMSUBMIT_EMAIL = process.env.FORMSUBMIT_EMAIL;
-const FORMSUBMIT_AJAX = "https://formsubmit.co/ajax";
-
 /**
- * POST /api/order  ->  receives the checkout payload and silently forwards it.
+ * POST /api/order  ->  secondary order sink (optional webhook / logs).
  *
- * The checkout page sends this via navigator.sendBeacon() so the request is
- * flushed even as the browser navigates to /thank-you. This endpoint:
- *   1. Validates the payload.
- *   2. Forwards the lead to FormSubmit (FORMSUBMIT_EMAIL env) so the order
- *      lands in the team's inbox the second the form is submitted — even if
- *      the customer bounces before clicking the WhatsApp button.
- *   3. Optionally forwards to ORDERS_WEBHOOK_URL (Google Sheets / Zapier /
- *      Make) when that env var is set.
- *
- * Always returns 200: the user must be redirected instantly and must never
- * see a FormSubmit "Thank You" page or captcha. Captcha is disabled via
- * `_captcha: "false"` and the AJAX endpoint is used so no redirect happens.
+ * NOTE: The checkout form now sends leads DIRECTLY to FormSubmit's AJAX
+ * endpoint from the browser (see CheckoutSection.tsx) — FormSubmit blocks
+ * server-to-server relays as spam. This endpoint no longer touches
+ * FormSubmit; it only forwards to an optional ORDERS_WEBHOOK_URL (Google
+ * Sheets / Zapier / Make) and always logs the order to the Vercel console.
+ * It still always returns 200 so nothing can block the funnel.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -67,50 +57,7 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     };
 
-    // 1. Silent lead capture via FormSubmit (email inbox).
-    if (FORMSUBMIT_EMAIL) {
-      // FormSubmit rejects requests that don't look like they come from a
-      // real web page ("open this page through a web server"). Forward the
-      // browser's Origin/Referer/User-Agent from the incoming beacon so the
-      // relay is accepted; fall back to the production origin if absent.
-      const origin =
-        req.headers.get("origin") ||
-        req.headers.get("referer") ||
-        "https://www.daralwaraqa.store";
-      const fsRes = await fetch(`${FORMSUBMIT_AJAX}/${FORMSUBMIT_EMAIL}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Origin: origin,
-          Referer: origin + "/",
-          "User-Agent":
-            req.headers.get("user-agent") ||
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36",
-        },
-        body: JSON.stringify({
-          _captcha: "false",
-          _template: "table",
-          ...normalized,
-        }),
-      }).catch(() => null);
-
-      if (!fsRes || !fsRes.ok) {
-        // Non-fatal: never block the funnel; order is still logged below.
-        console.error(
-          "FormSubmit relay failed:",
-          fsRes?.status,
-          await fsRes?.text().catch(() => "")
-        );
-      } else {
-        console.log(
-          "FormSubmit relay OK:",
-          await fsRes.text().catch(() => "")
-        );
-      }
-    }
-
-    // 2. Optional secondary webhook (Google Sheet / Zapier / Make).
+    // Optional secondary webhook (Google Sheet / Zapier / Make).
     const webhookUrl = process.env.ORDERS_WEBHOOK_URL;
     if (webhookUrl) {
       const res = await fetch(webhookUrl, {
@@ -129,7 +76,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Visible in Vercel logs even when no email/webhook is configured.
+    // Visible in Vercel logs even when no webhook is configured.
     console.log("Order received:", JSON.stringify(normalized));
 
     return NextResponse.json({
