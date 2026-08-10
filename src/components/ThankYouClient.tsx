@@ -76,9 +76,13 @@ function readOrderData(): WaOrder | null {
  * Pack data (books + gift + price) comes from `offers` — the single source
  * of truth — so the invoice can never drift from what the site displays.
  *
+ * The message is emoji-free on purpose: some mobile browsers render certain
+ * emoji as broken question-mark symbols once the URL is encoded, so the
+ * invoice uses plain text, dashes and bullet points instead.
+ *
  * The message is returned UNENCODED; the caller wraps it in
- * encodeURIComponent() exactly once so emojis and Arabic text survive the
- * wa.me link intact.
+ * encodeURIComponent() exactly once so the Arabic text survives the wa.me
+ * link intact.
  */
 function buildWaMessage(
   order: WaOrder | null,
@@ -97,9 +101,9 @@ function buildWaMessage(
   const giftTitle = (pack: PackConfig) =>
     pack.books[pack.giftBookIndex].title.replace(" (هدية مجانية)", "");
 
-  // 2. Base pack book list (• bullets) + gift.
+  // 2. Base pack book list + gift, plain-text formatting.
   const baseBooksFormatted = bookTitles(basePack)
-    .map((b) => `   • ${b}`)
+    .map((b) => `   - ${b}`)
     .join("\n");
 
   // 3. Upsell pack details with their own book lists, when selected.
@@ -107,15 +111,15 @@ function buildWaMessage(
     .map((upsell) => {
       const packInfo = packsByName.get(upsell.packName);
       if (!packInfo) {
-        return `📦 ${upsell.packName} (${UPSELL_PRICE} درهم)`;
+        return `[باقة إضافية]: ${upsell.packName} (${UPSELL_PRICE} درهم)`;
       }
       const uBooks = bookTitles(packInfo)
-        .map((b) => `     - ${b}`)
+        .map((b) => `     * ${b}`)
         .join("\n");
       return (
-        `📦 *باقة إضافية: ${packInfo.packName} (${UPSELL_PRICE} درهم)*\n` +
+        `[باقة إضافية]: ${packInfo.packName} (${UPSELL_PRICE} درهم)\n` +
         `${uBooks}\n` +
-        `     🎁 هدية: ${giftTitle(packInfo)}`
+        `     [هدية]: ${giftTitle(packInfo)}`
       );
     })
     .join("\n\n");
@@ -129,23 +133,24 @@ function buildWaMessage(
   const customerPhone = order?.phone || "غير محدد";
   const customerCity = order?.city ?? "المغرب";
 
-  // 6. Final message — emojis kept literal, encoded once by the caller.
+  // 6. Final message — clean text only (no emojis, no glitch-prone icons),
+  //    encoded exactly once by the caller.
   return (
-    "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦\n\n" +
-    `📌 *تفاصيل الباقة الأساسية:* \n` +
+    `مرحباً دار الوراقة، أؤكد طلبي رسمياً.\n\n` +
+    `[تفاصيل الباقة الأساسية]:\n` +
     `- ${basePack.packName} (${basePack.price} درهم)\n` +
-    `  📚 الكتب المشمولة:\n` +
+    `  الكتب المشمولة:\n` +
     `${baseBooksFormatted}\n` +
-    `   🎁 هدية مجانية: ${giftTitle(basePack)}\n\n` +
+    `   [هدية مجانية]: ${giftTitle(basePack)}\n\n` +
     (selectedUpsells.length > 0
-      ? `➕ *الباقات الإضافية المختارة:*\n${upsellsFormattedText}\n\n`
+      ? `[الباقات الإضافية المختارة]:\n${upsellsFormattedText}\n\n`
       : "") +
-    `💰 *الثمن الإجمالي النهائي:* ${finalTotalPrice} درهم (+ توصيل مجاني ودفع عند الاستلام)\n\n` +
-    `👤 *معلومات العميل:*\n` +
+    `[الثمن الإجمالي النهائي]: ${finalTotalPrice} درهم (+ توصيل مجاني ودفع عند الاستلام)\n\n` +
+    `[معلومات العميل]:\n` +
     `- الاسم: ${customerName}\n` +
     `- الهاتف: ${customerPhone}\n` +
     `- المدينة/العنوان: ${customerCity}\n\n` +
-    `أرجو تأكيد الطلب وشحن جميع الباقات معاً. شكراً لكم! ✨`
+    `أرجو تأكيد الطلب وشحن جميع الباقات معاً. شكراً لكم!`
   );
 }
 
