@@ -31,55 +31,41 @@ export function HeroSection({
         {headline}
       </h1>
 
-      {/* 2. Product Image (3D fanned book stack) */}
-      <div className="relative mx-auto w-full max-w-md h-64 mb-6">
-        <div className="relative w-full h-full origin-bottom md:scale-125">
-          {/* soft ground glow anchoring the fan */}
-          <div
-            className="absolute bottom-0 left-1/2 h-5 w-72 -translate-x-1/2 rounded-full"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(0,0,0,0.5), transparent 70%)",
-            }}
-          />
-          {books.map((book, index) => {
-            const isGift = index === giftBookIndex;
-            const count = books.length;
-            const fromCenter = index - (count - 1) / 2;
-            const offsetX = fromCenter * 46;
-            const rotation = fromCenter * 7;
-            return (
+      {/* 2. Product Image (6-book bundle — clear grid, no overlap) */}
+      <div className="mx-auto mb-6 grid w-full max-w-md grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+        {books.map((book, index) => {
+          const isGift = index === giftBookIndex;
+          return (
+            <div key={book.id} className="flex flex-col items-center">
               <div
-                key={book.id}
-                className="absolute bottom-5 left-1/2 -ml-[45px] rounded-lg overflow-hidden"
+                className="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-lg"
                 style={{
-                  width: "90px",
-                  height: "135px",
-                  transform: `translateX(${offsetX}px) rotate(${rotation}deg)`,
-                  zIndex: count - Math.round(Math.abs(fromCenter)),
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.35)",
+                  background: "linear-gradient(160deg,#3a2e22,#241d17)",
                   border: isGift
                     ? "1px solid #b8860b"
-                    : "1px solid rgba(212,175,55,.45)",
+                    : "1px solid rgba(212,175,55,.35)",
                 }}
               >
                 <BookCover
                   title={book.title}
                   src={book.coverUrl}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
                 {isGift && (
                   <span
-                    className="absolute -top-2 -right-2 z-10 rounded-full px-1.5 py-0.5 text-[8px] font-black"
+                    className="absolute top-1 right-1 z-10 rounded-full px-1.5 py-0.5 text-[8px] font-black"
                     style={{ background: "#d4af37", color: "#3e2723" }}
                   >
                     هدية
                   </span>
                 )}
               </div>
-            );
-          })}
-        </div>
+              <span className="mt-1.5 text-center text-[10px] font-bold leading-tight text-[#cdbba9]">
+                {book.title}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* 3. Offer Summary Line */}
