@@ -69,11 +69,24 @@ export async function POST(req: NextRequest) {
 
     // 1. Silent lead capture via FormSubmit (email inbox).
     if (FORMSUBMIT_EMAIL) {
+      // FormSubmit rejects requests that don't look like they come from a
+      // real web page ("open this page through a web server"). Forward the
+      // browser's Origin/Referer/User-Agent from the incoming beacon so the
+      // relay is accepted; fall back to the production origin if absent.
+      const origin =
+        req.headers.get("origin") ||
+        req.headers.get("referer") ||
+        "https://www.daralwaraqa.store";
       const fsRes = await fetch(`${FORMSUBMIT_AJAX}/${FORMSUBMIT_EMAIL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Origin: origin,
+          Referer: origin + "/",
+          "User-Agent":
+            req.headers.get("user-agent") ||
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36",
         },
         body: JSON.stringify({
           _captcha: "false",
