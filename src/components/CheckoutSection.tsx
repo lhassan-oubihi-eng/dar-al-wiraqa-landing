@@ -55,26 +55,20 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
     const payload = {
       _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
+      packName: pack.packName,
+      offer: pack.packName,
       name: form.name,
       phone: form.phone,
       address: form.address,
-      message: `${pack.packName} — ${form.address}\n${books}`,
       books: books,
       price: `${pack.price} درهم`,
       payment: "نقداً عند الاستلام",
       count: pack.books.length,
     };
 
+    // 1. Persist order locally so /thank-you knows which pack was purchased
+    // (used to exclude it from the upsell selector and prefill the invoice).
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }).catch(() => {
-        console.log("Order payload:", payload);
-      });
-
       localStorage.setItem(
         "orderData",
         JSON.stringify({
@@ -83,13 +77,33 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           offer: pack.packName,
         })
       );
-
-      window.location.href = "/thank-you";
     } catch {
-      setError("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
-    } finally {
-      setIsSubmitting(false);
+      /* non-blocking */
     }
+
+    // 2. Silent lead capture — fire-and-forget POST to /api/order which
+    // relays to FormSubmit. sendBeacon survives the page navigation below,
+    // so the lead is captured even if the customer bounces on /thank-you.
+    const beaconBody = new Blob([JSON.stringify(payload)], {
+      type: "application/json",
+    });
+    let sent = false;
+    if (typeof navigator !== "undefined" && "sendBeacon" in navigator) {
+      sent = navigator.sendBeacon("/api/order", beaconBody);
+    }
+    if (!sent) {
+      fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(() => {
+        console.log("Order payload:", payload);
+      });
+    }
+
+    // 3. Seamless redirect — the user never sees a FormSubmit page or captcha.
+    window.location.href = "/thank-you";
   };
 
   return (

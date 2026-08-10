@@ -13,17 +13,25 @@ interface Order {
 
 const PHONE_RE = /^(06|07)\d{8}$/;
 
+/** FormSubmit AJAX endpoint — returns JSON, never redirects, never shows a captcha. */
+const FORMSUBMIT_EMAIL = process.env.FORMSUBMIT_EMAIL;
+const FORMSUBMIT_AJAX = "https://formsubmit.co/ajax";
+
 /**
- * POST /api/order  ->  receives the checkout payload and persists/forwards it.
+ * POST /api/order  ->  receives the checkout payload and silently forwards it.
  *
- * Persistence strategy (configure via env):
- *   - ORDERS_WEBHOOK_URL : a Google Apps Script / Zapier / Make webhook that
- *     writes to your Google Sheet / CRM. If set, orders are forwarded there.
- *   - If unset: orders are console.log()'d so they still appear in Vercel logs.
+ * The checkout page sends this via navigator.sendBeacon() so the request is
+ * flushed even as the browser navigates to /thank-you. This endpoint:
+ *   1. Validates the payload.
+ *   2. Forwards the lead to FormSubmit (FORMSUBMIT_EMAIL env) so the order
+ *      lands in the team's inbox the second the form is submitted — even if
+ *      the customer bounces before clicking the WhatsApp button.
+ *   3. Optionally forwards to ORDERS_WEBHOOK_URL (Google Sheets / Zapier /
+ *      Make) when that env var is set.
  *
- * Always returns 200 (the checkout page redirects to /thank-you regardless),
- * so the Meta Pixel `Purchase` event on /thank-you never gets blocked by a
- * backend hiccup and conversions are always attributed.
+ * Always returns 200: the user must be redirected instantly and must never
+ * see a FormSubmit "Thank You" page or captcha. Captcha is disabled via
+ * `_captcha: "false"` and the AJAX endpoint is used so no redirect happens.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -44,12 +52,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const offer = packName || "طلب";
     const normalized = {
-      _subject: `طلب جديد من دار الوِراقة — ${packName || "طلب"}`,
+      _subject: `طلب جديد من دار الوِراقة — ${offer}`,
       name: String(name).trim(),
       phone,
-      address: String(address).trim(),
-      message: `${packName || ""}\n${books || ""}`,
+      city: String(address).trim(),
+      offer,
       books: books || "",
       price: price ? `${price} درهم` : "199 درهم",
       payment: payment || "نقداً عند الاستلام",
@@ -58,8 +67,38 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     };
 
-    const webhookUrl = process.env.ORDERS_WEBHOOK_URL;
+    // 1. Silent lead capture via FormSubmit (email inbox).
+    if (FORMSUBMIT_EMAIL) {
+      const fsRes = await fetch(`${FORMSUBMIT_AJAX}/${FORMSUBMIT_EMAIL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _captcha: "false",
+          _template: "table",
+          ...normalized,
+        }),
+      }).catch(() => null);
 
+      if (!fsRes || !fsRes.ok) {
+        // Non-fatal: never block the funnel; order is still logged below.
+        console.error(
+          "FormSubmit relay failed:",
+          fsRes?.status,
+          await fsRes?.text().catch(() => "")
+        );
+      } else {
+        console.log(
+          "FormSubmit relay OK:",
+          await fsRes.text().catch(() => "")
+        );
+      }
+    }
+
+    // 2. Optional secondary webhook (Google Sheet / Zapier / Make).
+    const webhookUrl = process.env.ORDERS_WEBHOOK_URL;
     if (webhookUrl) {
       const res = await fetch(webhookUrl, {
         method: "POST",
@@ -77,7 +116,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Visible in Vercel logs even when no webhook is configured.
+    // Visible in Vercel logs even when no email/webhook is configured.
     console.log("Order received:", JSON.stringify(normalized));
 
     return NextResponse.json({
