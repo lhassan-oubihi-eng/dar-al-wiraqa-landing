@@ -31,7 +31,7 @@ interface WaOrder {
   offer?: string;
 }
 
-const WA_NUMBER = "212781511007";
+const WA_NUMBER = "212602800548";
 
 /**
  * Discounted price for each additional pack on the thank-you page. Kept as a
