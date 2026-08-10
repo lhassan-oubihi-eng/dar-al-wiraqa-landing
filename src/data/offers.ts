@@ -24,6 +24,7 @@ export interface PackConfig {
   slug: string;
   packName: string;
   emoji: string;
+  namePlaceholder: string;
   desc: string;
   headline: string;
   subheadline: string;
@@ -90,6 +91,7 @@ interface RawPack {
   slug: string;
   packName: string;
   emoji: string;
+  namePlaceholder?: string;
   desc: string;
   price: number | string;
   oldPrice: number | string;
@@ -118,6 +120,7 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     slug: pack.slug,
     packName: pack.packName,
     emoji: pack.emoji,
+    namePlaceholder: pack.namePlaceholder ?? "محمد علي",
     desc: pack.desc,
     headline: pack.heroH1,
     subheadline: pack.heroH2,

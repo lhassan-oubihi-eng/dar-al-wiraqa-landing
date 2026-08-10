@@ -4,6 +4,7 @@ import { PackConfig } from "@/data/offers";
 
 interface CheckoutSectionProps {
   pack: PackConfig;
+  namePlaceholder?: string;
 }
 
 interface FormData {
@@ -15,7 +16,10 @@ interface FormData {
 const INPUT_CLASSES =
   "w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#352922] text-sm text-[#e8e0d4] placeholder-[#cdbba9]/45 focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]";
 
-export function CheckoutSection({ pack }: CheckoutSectionProps) {
+export function CheckoutSection({
+  pack,
+  namePlaceholder = "محمد علي",
+}: CheckoutSectionProps) {
   const [form, setForm] = useState<FormData>({
     name: "",
     phone: "",
@@ -139,7 +143,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             value={form.name}
             onChange={handleChange}
             className={INPUT_CLASSES}
-            placeholder="محمد علي"
+            placeholder={namePlaceholder}
             required
             autoComplete="name"
           />

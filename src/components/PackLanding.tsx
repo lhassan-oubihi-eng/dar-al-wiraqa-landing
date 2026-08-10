@@ -96,7 +96,7 @@ export function PackLanding({ pack }: PackLandingProps) {
 
         {/* 6. CHECKOUT FORM */}
         <div ref={formRef}>
-          <CheckoutSection pack={pack} />
+          <CheckoutSection pack={pack} namePlaceholder={pack.namePlaceholder} />
         </div>
       </main>
 
