@@ -97,6 +97,7 @@ export function CheckoutSection({
         JSON.stringify({
           name: form.name,
           city: form.address,
+          phone: form.phone,
           offer: pack.packName,
         })
       );

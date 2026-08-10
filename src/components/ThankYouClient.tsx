@@ -27,10 +27,11 @@ interface PixelWindow extends Window {
 interface WaOrder {
   name?: string;
   city?: string;
+  phone?: string;
   offer?: string;
 }
 
-const WA_NUMBER = "212602800548";
+const WA_NUMBER = "212781511007";
 
 /**
  * Discounted price for each additional pack on the thank-you page. Kept as a
@@ -70,42 +71,82 @@ function readOrderData(): WaOrder | null {
 }
 
 /**
- * Pre-fills the WhatsApp confirmation message with the order saved by the
- * checkout form (localStorage "orderData"). Every pack toggled on via the
- * multi-select upsell selector is appended as its own line so operations
- * receive one itemized invoice covering the full order.
+ * Builds the fully dynamic, itemized WhatsApp invoice. Works for any base
+ * pack (from the saved order) and any combination of selected upsell packs.
+ * Pack data (books + gift + price) comes from `offers` — the single source
+ * of truth — so the invoice can never drift from what the site displays.
+ *
+ * The message is returned UNENCODED; the caller wraps it in
+ * encodeURIComponent() exactly once so emojis and Arabic text survive the
+ * wa.me link intact.
  */
 function buildWaMessage(
   order: WaOrder | null,
   selectedUpsells: PackConfig[]
 ): string {
-  if (!order && selectedUpsells.length === 0) {
-    return "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦";
-  }
+  const packsByName = new Map(offers.map((p) => [p.packName, p]));
+  const fallbackPack = packsByName.get("باك التمكين والأنوثة") ?? offers[0];
 
-  const lines = [
-    "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦",
-    "",
-    "📌 تفاصيل الطلب:",
-    `- الباقة الأساسية: ${order?.offer ?? "-"} (${orderValue} درهم)`,
-  ];
+  // 1. Resolve the base pack from the saved order (fallback = empowerment).
+  const basePack = packsByName.get(order?.offer ?? "") ?? fallbackPack;
 
-  for (const upsell of selectedUpsells) {
-    lines.push(`- باقة إضافية: ${upsell.packName} (${UPSELL_PRICE} درهم)`);
-  }
+  const bookTitles = (pack: PackConfig) =>
+    pack.books
+      .filter((_, i) => i !== pack.giftBookIndex)
+      .map((b) => b.title);
+  const giftTitle = (pack: PackConfig) =>
+    pack.books[pack.giftBookIndex].title.replace(" (هدية مجانية)", "");
 
-  const finalTotal = orderValue + selectedUpsells.length * UPSELL_PRICE;
-  lines.push(
-    `💰 السعر الإجمالي النهائي: ${finalTotal} درهم (+ توصيل مجاني)`,
-    "",
-    "👤 معلومات العميل:",
-    `- الاسم: ${order?.name ?? "-"}`,
-    `- المدينة/العنوان: ${order?.city ?? "-"}`,
-    "",
-    "أرجو تأكيد الطلب وشحن جميع الباقات معاً. شكراً لكم!"
+  // 2. Base pack book list (• bullets) + gift.
+  const baseBooksFormatted = bookTitles(basePack)
+    .map((b) => `   • ${b}`)
+    .join("\n");
+
+  // 3. Upsell pack details with their own book lists, when selected.
+  const upsellsFormattedText = selectedUpsells
+    .map((upsell) => {
+      const packInfo = packsByName.get(upsell.packName);
+      if (!packInfo) {
+        return `📦 ${upsell.packName} (${UPSELL_PRICE} درهم)`;
+      }
+      const uBooks = bookTitles(packInfo)
+        .map((b) => `     - ${b}`)
+        .join("\n");
+      return (
+        `📦 *باقة إضافية: ${packInfo.packName} (${UPSELL_PRICE} درهم)*\n` +
+        `${uBooks}\n` +
+        `     🎁 هدية: ${giftTitle(packInfo)}`
+      );
+    })
+    .join("\n\n");
+
+  // 4. Total price = base pack + each upsell.
+  const upsellsTotal = selectedUpsells.length * UPSELL_PRICE;
+  const finalTotalPrice = basePack.price + upsellsTotal;
+
+  // 5. Customer details (fallbacks so the invoice is never blank).
+  const customerName = order?.name ?? "زباين دار الوراقة";
+  const customerPhone = order?.phone || "غير محدد";
+  const customerCity = order?.city ?? "المغرب";
+
+  // 6. Final message — emojis kept literal, encoded once by the caller.
+  return (
+    "مرحباً دار الوراقة، أؤكد طلبي رسمياً. 📦\n\n" +
+    `📌 *تفاصيل الباقة الأساسية:* \n` +
+    `- ${basePack.packName} (${basePack.price} درهم)\n` +
+    `  📚 الكتب المشمولة:\n` +
+    `${baseBooksFormatted}\n` +
+    `   🎁 هدية مجانية: ${giftTitle(basePack)}\n\n` +
+    (selectedUpsells.length > 0
+      ? `➕ *الباقات الإضافية المختارة:*\n${upsellsFormattedText}\n\n`
+      : "") +
+    `💰 *الثمن الإجمالي النهائي:* ${finalTotalPrice} درهم (+ توصيل مجاني ودفع عند الاستلام)\n\n` +
+    `👤 *معلومات العميل:*\n` +
+    `- الاسم: ${customerName}\n` +
+    `- الهاتف: ${customerPhone}\n` +
+    `- المدينة/العنوان: ${customerCity}\n\n` +
+    `أرجو تأكيد الطلب وشحن جميع الباقات معاً. شكراً لكم! ✨`
   );
-
-  return lines.join("\n");
 }
 
 function fireConversion() {
