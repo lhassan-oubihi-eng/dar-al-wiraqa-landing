@@ -5,7 +5,6 @@ import { PackConfig } from "@/data/offers";
 import { StickyBanner } from "@/components/StickyBanner";
 import { HeroSection } from "@/components/HeroSection";
 import { UrgencyBanner } from "@/components/UrgencyBanner";
-import { ValuePropSection } from "@/components/ValuePropSection";
 import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { CheckoutSection } from "@/components/CheckoutSection";
 import { MobileStickyFooter } from "@/components/MobileStickyFooter";
@@ -86,13 +85,7 @@ export function PackLanding({ pack }: PackLandingProps) {
           </p>
         </div>
 
-        {/* 4. VALUE & DESIRE SECTION */}
-        <ValuePropSection
-          title={pack.valuePropTitle}
-          benefits={pack.benefits}
-        />
-
-        {/* 5. GOLDEN GUARANTEE */}
+        {/* 4. GOLDEN GUARANTEE */}
         <GuaranteeSection guarantee={pack.guarantee} />
 
         {/* 6. CHECKOUT FORM */}
