@@ -12,27 +12,27 @@ import { PackConfig } from "@/data/offers";
 export interface CartItem {
   pack: PackConfig;
   quantity: number;
-  bump: boolean;
+  // bump removed — cart now tracks only quantity, no hidden upsell state
 }
 
 export interface CartContextValue {
   items: CartItem[];
-  addPack: (pack: PackConfig, quantity?: number, bump?: boolean) => void;
+  addPack: (pack: PackConfig, quantity?: number) => void;
   removePack: (slug: string) => void;
   updateQuantity: (slug: string, quantity: number) => void;
-  toggleBump: (slug: string) => void;
+  // toggleBump removed — no hidden upsell state
   clearCart: () => void;
   itemCount: number;
   packCount: number;
   baseTotal: number;
-  bumpTotal: number;
+  // bumpTotal removed — grandTotal is just baseTotal
   grandTotal: number;
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "dar-al-wiraqa-cart";
-export const ADDED_BUMP_PRICE = 149; // mirrors CheckoutSection order-bump
+export const ADDED_BUMP_PRICE = 149; // kept for reference only — no longer used in totals
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -58,7 +58,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items]);
 
-  const addPack = (pack: PackConfig, quantity = 1, bump = false) => {
+  const addPack = (pack: PackConfig, quantity = 1) => {
     setItems((prev) => {
       const idx = prev.findIndex((it) => it.pack.slug === pack.slug);
       if (idx >= 0) {
@@ -66,11 +66,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         copy[idx] = {
           pack,
           quantity: copy[idx].quantity + quantity,
-          bump: copy[idx].bump || bump,
+          // bump removed — just update quantity
         };
         return copy;
       }
-      return [...prev, { pack, quantity, bump }];
+      return [...prev, { pack, quantity }];
     });
   };
 
@@ -86,10 +86,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       )
     );
 
-  const toggleBump = (slug: string) =>
-    setItems((prev) =>
-      prev.map((it) => (it.pack.slug === slug ? { ...it, bump: !it.bump } : it))
-    );
+  // toggleBump removed — no hidden upsell state
 
   const clearCart = () => setItems([]);
 
@@ -98,10 +95,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     (n, it) => n + it.pack.price * it.quantity,
     0
   );
-  const bumpTotal = items.reduce(
-    (n, it) => n + (it.bump ? ADDED_BUMP_PRICE * it.quantity : 0),
-    0
-  );
+  // grandTotal is strictly the base total — no hidden upsell addition
+  const grandTotal = baseTotal;
 
   return (
     <CartContext.Provider
@@ -110,13 +105,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
         addPack,
         removePack,
         updateQuantity,
-        toggleBump,
+        // toggleBump removed
         clearCart,
         itemCount: items.length,
         packCount,
         baseTotal,
-        bumpTotal,
-        grandTotal: baseTotal + bumpTotal,
+        grandTotal,
       }}
     >
       {children}

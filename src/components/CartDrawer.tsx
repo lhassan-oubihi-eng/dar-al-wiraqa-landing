@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  useCart,
-  CartItem,
-  ADDED_BUMP_PRICE,
-} from "@/components/CartContext";
+import { useCart } from "@/components/CartContext";
 import { CartDrawerPanel } from "@/components/CartDrawerPanel";
 
 export interface CartDrawerProps {
@@ -25,10 +21,8 @@ export function CartDrawer({ open: controlled, onOpenChange }: CartDrawerProps) 
     items,
     removePack,
     updateQuantity,
-    toggleBump,
     clearCart,
     baseTotal,
-    bumpTotal,
     grandTotal,
     packCount,
   } = useCart();
@@ -82,8 +76,7 @@ export function CartDrawer({ open: controlled, onOpenChange }: CartDrawerProps) 
         .join("\n");
       lines.push(
         `• ${it.pack.packName} ×${it.quantity} → ${it.pack.price * it.quantity} درهم` +
-          (it.bump ? ` + ${ADDED_BUMP_PRICE * it.quantity} درهم (باقة إضافية)` : "") +
-          ` | منشأ:\n${books}`
+        ` | منشأ:\n${books}`
       );
     }
     return lines.join("\n\n");
@@ -114,8 +107,7 @@ export function CartDrawer({ open: controlled, onOpenChange }: CartDrawerProps) 
       books: buildLines(),
       price: `${grandTotal} درهم`,
       count: items.reduce(
-        (n, it) =>
-          n + it.pack.books.length * it.quantity + (it.bump ? it.quantity : 0),
+        (n, it) => n + it.pack.books.length * it.quantity,
         0
       ),
       fbclid:
@@ -163,7 +155,6 @@ export function CartDrawer({ open: controlled, onOpenChange }: CartDrawerProps) 
       items={items}
       packCount={packCount}
       baseTotal={baseTotal}
-      bumpTotal={bumpTotal}
       grandTotal={grandTotal}
       step={step}
       form={form}
@@ -171,15 +162,13 @@ export function CartDrawer({ open: controlled, onOpenChange }: CartDrawerProps) 
       submitting={submitting}
       error={error}
       done={done}
-      packItems={items as CartItem[]}
+      packItems={items}
       onOpen={handleOpen}
       onQty={handleQty}
       onRemove={removePack}
-      onToggleBump={toggleBump}
       onNext={() => setStep("checkout")}
       onSubmit={handleConfirm}
       onWhatsApp={handleWhatsApp}
     />
   );
 }
-

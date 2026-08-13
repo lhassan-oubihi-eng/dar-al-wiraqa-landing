@@ -9,7 +9,6 @@ export interface CartDrawerPanelProps {
   items: CartItem[];
   packCount: number;
   baseTotal: number;
-  bumpTotal: number;
   grandTotal: number;
   step: "cart" | "checkout";
   form: { name: string; phone: string; city: string };
@@ -21,7 +20,6 @@ export interface CartDrawerPanelProps {
   onOpen: (o: boolean) => void;
   onQty: (slug: string, q: number) => void;
   onRemove: (slug: string) => void;
-  onToggleBump: (slug: string) => void;
   onNext: () => void;
   onSubmit: (e: React.FormEvent) => void;
   onWhatsApp: () => void;
@@ -33,7 +31,6 @@ export function CartDrawerPanel(p: CartDrawerPanelProps) {
     items,
     packCount,
     baseTotal,
-    bumpTotal,
     grandTotal,
     step,
     form,
@@ -45,7 +42,6 @@ export function CartDrawerPanel(p: CartDrawerPanelProps) {
     onOpen,
     onQty,
     onRemove,
-    onToggleBump,
     onNext,
     onSubmit,
     onWhatsApp,
@@ -94,11 +90,9 @@ export function CartDrawerPanel(p: CartDrawerPanelProps) {
           <CartStep
             items={packItems}
             baseTotal={baseTotal}
-            bumpTotal={bumpTotal}
             grandTotal={grandTotal}
             onQty={onQty}
             onRemove={onRemove}
-            onToggleBump={onToggleBump}
             onNext={onNext}
             empty={items.length === 0}
           />

@@ -7,12 +7,10 @@ import { CartItemRow } from "@/components/CartItemRow";
 interface CartStepProps {
   items: CartItem[];
   baseTotal: number;
-  bumpTotal: number;
   grandTotal: number;
   empty: boolean;
   onQty: (slug: string, q: number) => void;
   onRemove: (slug: string) => void;
-  onToggleBump: (slug: string) => void;
   onNext: () => void;
 }
 
@@ -20,12 +18,10 @@ interface CartStepProps {
 export function CartStep({
   items,
   baseTotal,
-  bumpTotal,
   grandTotal,
   empty,
   onQty,
   onRemove,
-  onToggleBump,
   onNext,
 }: CartStepProps) {
   return (
@@ -43,7 +39,6 @@ export function CartStep({
               item={it}
               onQty={onQty}
               onRemove={onRemove}
-              onToggleBump={onToggleBump}
             />
           ))}
         </div>
@@ -54,10 +49,6 @@ export function CartStep({
           <div className="flex justify-between">
             <span className="text-[#6B7280]">الإجمالي (الباقات)</span>
             <span className="text-[#1F2937]">{baseTotal} درهم</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#6B7280]">باقة إضافية (اختياري)</span>
-            <span className="text-[#15803D]">+{bumpTotal} درهم</span>
           </div>
           <div className="flex justify-between font-bold">
             <span className="text-[#1F2937]">الإجمالي الكلي</span>

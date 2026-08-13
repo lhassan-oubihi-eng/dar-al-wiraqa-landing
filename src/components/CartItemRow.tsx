@@ -1,25 +1,22 @@
 "use client";
 
 import { X } from "lucide-react";
-import { CartItem, ADDED_BUMP_PRICE } from "@/components/CartContext";
+import { CartItem } from "@/components/CartContext";
 
 interface CartItemRowProps {
   item: CartItem;
   onQty: (slug: string, q: number) => void;
   onRemove: (slug: string) => void;
-  onToggleBump: (slug: string) => void;
 }
 
-/** Single pack row inside the cart drawer: qty picker, bump toggle, line total. */
+/** Single pack row inside the cart drawer: qty picker, line total. */
 export function CartItemRow({
   item,
   onQty,
   onRemove,
-  onToggleBump,
 }: CartItemRowProps) {
-  const { pack, quantity, bump } = item;
-  const lineTotal =
-    pack.price * quantity + (bump ? ADDED_BUMP_PRICE * quantity : 0);
+  const { pack, quantity } = item;
+  const lineTotal = pack.price * quantity;
 
   return (
     <div className="rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] p-3">
@@ -58,18 +55,6 @@ export function CartItemRow({
               </button>
             </div>
           </div>
-
-          <label className="flex items-center gap-1 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={bump}
-              onChange={() => onToggleBump(pack.slug)}
-              className="h-3 w-3 rounded border-[#D1D5DB] text-[#15803D] focus:ring-[#15803D]"
-            />
-            <span className="text-[10px] text-[#6B7280]">
-              أضف باقة ثانية بخصم (١٤٩ درهم)
-            </span>
-          </label>
 
           <div className="text-end text-xs font-bold text-[#D4AF37]">
             {lineTotal} درهم
