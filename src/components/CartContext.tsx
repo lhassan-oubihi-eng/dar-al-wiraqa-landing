@@ -58,12 +58,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items]);
 
-  const findIndex = (slug: string) =>
-    items.findIndex((it) => it.pack.slug === slug);
-
   const addPack = (pack: PackConfig, quantity = 1, bump = false) => {
     setItems((prev) => {
-      const idx = findIndex(pack.slug);
+      const idx = prev.findIndex((it) => it.pack.slug === pack.slug);
       if (idx >= 0) {
         const copy = [...prev];
         copy[idx] = {

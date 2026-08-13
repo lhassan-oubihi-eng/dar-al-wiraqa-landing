@@ -253,24 +253,24 @@ export function ThankYouClient() {
         <h1 className="font-extrabold text-xl mb-2">
           {STORE.name} — تم استلام طلبك!
         </h1>
-        <p className="text-[#CDBB9C] text-sm mb-1">
+        <p className="text-['#F3E6C4'] text-sm mb-1">
           شكراً لثقتك في دار الوِراقة.
         </p>
-        <p className="text-[#CDBB9C] text-sm mb-1">
+        <p className="text-['#F3E6C4'] text-sm mb-1">
           طلبيتك تم تسجيلها وستصلك في أقرب وقت.
         </p>
         <hr className="border-[#3A2E22] my-4" />
-        <p className="text-sm text-[#CDBB9C] mb-4">
+        <p className="text-sm text-['#F3E6C4'] mb-4">
           إجمالي الطلب:{" "}
           <span className="text-[#16a34a] font-bold">{finalTotal} درهم</span>
           {upsellCount > 0 && (
-            <span className="text-xs text-[#CDBB9C]/70">
+            <span className="text-xs text-['#F3E6C4']/70">
               {" "}
               (شامل {upsellCount} باقة إضافية)
             </span>
           )}
         </p>
-        <p className="text-xs text-[#CDBB9C] mb-6">
+        <p className="text-xs text-['#F3E6C4'] mb-6">
           📞 برجاء إبقاء هاتفك مفتوحاً؛ سيتصل بك فريقنا خلال 24 ساعة لتأكيد
           الطلب.
         </p>
@@ -286,7 +286,7 @@ export function ThankYouClient() {
           <h2 className="mb-1 text-sm font-extrabold text-[#F3E6C4]">
             🎁 أضف باقات إضافية لطلبيتك بخصم خاص
           </h2>
-          <p className="mb-4 text-xs text-[#CDBB9C]">
+          <p className="mb-4 text-xs text-['#F3E6C4']">
             <span className="font-bold text-[#16a34a]">
               {UPSELL_PRICE} درهم للباقة
             </span>{" "}
@@ -295,7 +295,7 @@ export function ThankYouClient() {
             مصاريف شحن إضافية
           </p>
 
-          <p className="mb-2 text-right text-[11px] font-bold text-[#CDBB9C]/80">
+          <p className="mb-2 text-right text-[11px] font-bold text-['#F3E6C4']/80">
             اضغط على الباقات لإضافتها أو إزالتها (يمكنك اختيار عدة باقات):
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
@@ -324,7 +324,7 @@ export function ThankYouClient() {
                       className={`block text-[10px] ${
                         isSelected
                           ? "font-bold text-[#16a34a]"
-                          : "text-[#CDBB9C]/70"
+                          : "text-['#F3E6C4']/70"
                       }`}
                     >
                       {isSelected
@@ -369,7 +369,7 @@ export function ThankYouClient() {
                         </span>
                       )}
                     </div>
-                    <span className="mt-1 text-center text-[9px] leading-tight text-[#CDBB9C]">
+                    <span className="mt-1 text-center text-[9px] leading-tight text-['#F3E6C4']">
                       {b.title}
                     </span>
                   </div>
@@ -379,7 +379,7 @@ export function ThankYouClient() {
           ))}
 
           {upsellCount > 0 && (
-            <p className="mt-3 text-[11px] text-[#CDBB9C]/80">
+            <p className="mt-3 text-[11px] text-['#F3E6C4']/80">
               ✅ تمت إضافة{" "}
               <span className="font-bold text-[#16a34a]">
                 {upsellCount} باقة
@@ -390,7 +390,7 @@ export function ThankYouClient() {
         </div>
 
         {/* Live price summary — always above the final WhatsApp button */}
-              <div className="mt-5 rounded-xl border border-[#16a34a]/40 bg-[#241D17] px-4 py-3 text-sm text-[#CDBB9C]">
+              <div className="mt-5 rounded-xl border border-[#16a34a]/40 bg-[#241D17] px-4 py-3 text-sm text-['#F3E6C4']">
           <p>
             إجمالي الطلب:{" "}
             <span className="font-bold text-[#F3E6C4]">{orderValue} درهم</span>
@@ -403,10 +403,10 @@ export function ThankYouClient() {
                 </span>
               </>
             )}
-            <span className="mx-1 text-[#CDBB9C]">=</span>
+            <span className="mx-1 text-['#F3E6C4']">=</span>
             <span className="font-black text-[#16a34a]">{finalTotal} درهم</span>
           </p>
-          <p className="mt-1 text-[11px] text-[#CDBB9C]/70">
+          <p className="mt-1 text-[11px] text-['#F3E6C4']/70">
             (+ توصيل مجاني — الدفع عند الاستلام)
           </p>
         </div>
@@ -421,7 +421,7 @@ export function ThankYouClient() {
           {confirmLabel}
         </a>
 
-        <footer className="mt-5 text-[11px] text-[#CDBB9C]/60">
+        <footer className="mt-5 text-[11px] text-['#F3E6C4']/60">
           {STORE.copyright}
         </footer>
       </div>
