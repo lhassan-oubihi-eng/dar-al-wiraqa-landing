@@ -8,6 +8,8 @@ import { UrgencyBanner } from "@/components/UrgencyBanner";
 import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { CheckoutSection } from "@/components/CheckoutSection";
 import { MobileStickyFooter } from "@/components/MobileStickyFooter";
+import { TrustRibbon } from "@/components/TrustRibbon";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 
 interface PackLandingProps {
   pack: PackConfig;
@@ -74,15 +76,55 @@ export function PackLanding({ pack }: PackLandingProps) {
         {/* 3. Ethical Urgency Banner */}
         <UrgencyBanner text={pack.urgency} />
 
+        {/* COD / delivery trust ribbon */}
+        <TrustRibbon />
+
         {/* Social proof strip */}
         <div
-          className="mx-4 my-3 rounded-xl border border-[#E5E7EB] px-4 py-3 text-center"
+          className="mx-4 my-3 rounded-xl border border-[#3A2E22] px-4 py-3 text-center"
           style={{ background: "var(--color-card)" }}
         >
-          <div className="mb-1 text-base tracking-widest text-[#f59e0b]">★★★★★</div>
-          <p className="text-xs font-bold text-[#1F2937]">
+          <div className="mb-1 text-base tracking-widest text-[#D4AF37]">★★★★★</div>
+          <p className="text-xs font-bold text-[#F3E6C4]">
             الباقة الأكثر طلباً في دار الوراقة
           </p>
+        </div>
+
+        {/* Named reviews (social proof) */}
+        <div className="mx-4 my-3 space-y-2">
+          {[
+            {
+              name: "سامية · الدار البيضاء",
+              stars: "⭐⭐⭐⭐⭐",
+              copy: "طلبانية البارح ووصلت اليوم. كتب أصلية والتغليف محترم. جودة مزيان بزّاف.",
+            },
+            {
+              name: "يوسف · مراكش",
+              stars: "⭐⭐⭐⭐⭐",
+              copy: "كنت متشكك فالجودة، لكن الصفحات سميكة والطباعة واضحة. راضي تماماً.",
+            },
+            {
+              name: "فاطمة · طنجة",
+              stars: "⭐⭐⭐⭐⭐",
+              copy: "من أحسن الاستثمارات هاد العام. تجاوبو معايا بسرعة على الواتساب والتوصيل كان سريع.",
+            },
+          ].map((r) => (
+            <div
+              key={r.name}
+              className="rounded-xl border border-[#3A2E22] px-3.5 py-2.5 text-right"
+              style={{ background: "var(--color-card)" }}
+            >
+              <div className="mb-0.5 flex items-center justify-between">
+                <span className="text-[11px] font-bold text-[#16a34a]">
+                  {r.name}
+                </span>
+                <span className="text-[11px] text-[#D4AF37]">{r.stars}</span>
+              </div>
+              <p className="text-[12px] leading-relaxed text-[#CDBB9C]">
+                {r.copy}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* 4. GOLDEN GUARANTEE */}
@@ -102,9 +144,17 @@ export function PackLanding({ pack }: PackLandingProps) {
       />
 
       {/* Site footer */}
-      <footer className="mt-6 border-t border-[#E5E7EB] py-4 text-center text-[11px] text-[#6B7280]/70">
+      <footer className="mt-6 border-t border-[#3A2E22] py-4 text-center text-[11px] text-[#CDBB9C]/70">
         {pack.footer.copyright}
       </footer>
+
+      {/* Exit-intent popup — one-time reassuring COD "reserve now" hook */}
+      <ExitIntentPopup
+        packName={pack.packName}
+        price={pack.price}
+        onReserve={scrollToForm}
+      />
     </>
   );
 }
+

@@ -33,7 +33,7 @@ export function HeroSection({
   return (
     <section className="px-4 pt-8 pb-10" id="hero">
       {/* 1. Headline */}
-      <h1 className="text-2xl md:text-3xl font-extrabold text-[#1F2937] leading-[1.8] mb-6 text-center">
+            <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#F3E6C4] leading-[1.8] mb-6 text-center">
         {headline}
       </h1>
 
@@ -66,7 +66,7 @@ export function HeroSection({
                   </span>
                 )}
               </div>
-              <span className="mt-1.5 text-center text-[10px] font-bold leading-tight text-[#6B7280]">
+              <span className="mt-1.5 text-center text-[10px] font-bold leading-tight text-[#CDBB9C]">
                 {book.title}
               </span>
             </div>
@@ -75,17 +75,17 @@ export function HeroSection({
       </div>
 
       {/* 3. Offer Summary Line */}
-      <p className="text-sm text-[#6B7280]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
+      <p className="text-sm text-[#CDBB9C]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
         {subheadline}
       </p>
 
       {/* 4. Price Section (old price, current price, savings badge) */}
       <div className="mb-6">
         <div className="flex items-center justify-center gap-3 flex-wrap mb-2">
-          <del className="text-sm text-[#9CA3AF] line-through">
+          <del className="text-sm text-[#A68B69] line-through">
             {originalPrice} درهم
           </del>
-          <span className="text-3xl font-extrabold text-[#1F2937] leading-none">
+          <span className="text-3xl font-extrabold text-[#F3E6C4] leading-none">
             {price} درهم
           </span>
         </div>

@@ -23,7 +23,7 @@ export function PackCard({ pack }: PackCardProps) {
           const isGift = i === pack.books.length - 1;
           return (
             <div key={book.id} className="flex flex-col">
-              <div className="relative aspect-[5/7] overflow-hidden rounded-md border border-[#E5E7EB]">
+              <div className="relative aspect-[5/7] overflow-hidden rounded-md border border-[#3A2E22]">
                 <BookCover
                   title={book.title}
                   src={book.coverUrl}
@@ -41,7 +41,7 @@ export function PackCard({ pack }: PackCardProps) {
                   </span>
                 )}
               </div>
-              <span className="mt-1 line-clamp-2 text-center text-[8px] font-bold leading-tight text-[#6B7280]/90">
+              <span className="mt-1 line-clamp-2 text-center text-[8px] font-bold leading-tight text-[#CDBB9C]/90">
                 {book.title}
               </span>
             </div>

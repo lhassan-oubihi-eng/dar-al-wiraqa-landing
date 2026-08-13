@@ -30,7 +30,7 @@ export function MobileStickyFooter({
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden">
-      <div className="flex items-center justify-between gap-3 bg-white border-t border-[#16a34a] px-4 py-3 shadow-lg">
+      <div       className="flex items-center justify-between gap-3 bg-[#241D17] border-t border-[#16a34a] px-4 py-3 shadow-lg">
         <div className="flex items-center gap-1">
           <ShoppingCart size={18} className="text-[#16a34a]" />
           <span className="font-bold text-base text-[#16a34a]">

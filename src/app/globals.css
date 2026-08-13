@@ -1,22 +1,46 @@
-@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap");
+/* ===== Fonts ===== */
+/* Tajawal = body (clean, readable Arabic). Reem Kufi = display/brand.
+   Amiri = serif for pull-quotes / reviews (literary premium feel). */
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400..700&family=Tajawal:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 @theme inline {
+  /* Premium dark-espresso Moroccan-library palette.
+     Cream/parchment text on deep espresso reads like a curated
+     physical bookstore. Gold accents = "offer". Green reserved
+     for the Buy action only. */
   --font-sans: "Tajawal", ui-serif, system-ui, sans-serif;
-  --color-paper: #F5F6F8;
-  --color-card: #FFFFFF;
-  --color-ink: #1F2937;
-  --color-ink-light: #6B7280;
-  --color-gold: #16A34A;
-  --color-gold-light: #15803D;
-  --color-gold-soft: #F0FDF4;
-  --color-border: #E5E7EB;
+  --font-display: "Reem Kufi", "Tajawal", sans-serif;
+  --font-serif: "Amiri", ui-serif, system-ui, serif;
+
+  --color-paper: #131010;        /* page background — deep espresso */
+  --color-paper-warm: #1F1813;   /* subtle banded sections */
+  --color-card: #241D17;         /* cards — dark brown */
+  --color-ink: #F3E6C4;          /* primary text — warm parchment */
+  --color-ink-light: #CDBB9C;    /* secondary text — muted parchment */
+  --color-gold: #D4AF37;         /* accents / offer markers — gold */
+  --color-gold-light: #F3E6C4;
+  --color-gold-soft: #271F17;    /* soft gold backgrounds */
+  --color-green: #16A34A;        /* BUY action only (CTA) */
+  --color-border: #3A2E22;       /* warm dark borders */
   --color-urgent: #DC2626;
   --color-urgent-text: #FFFFFF;
   --color-success: #15803d;
-  --color-accent: #16A34A;
-  --color-input: #FFFFFF;
+  --color-accent: #D4AF37;       /* rebrand accent = gold */
+  --color-input: #3E2723;
 }
+
+/* ===== Subtle zellige border texture (divider only — not a wash) ===== */
+.zellige-divide {
+  border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%23D4AF37' stroke-opacity='0.14' stroke-width='1'%3E%3Cpath d='M42 0 L84 42 L42 84 L0 42 Z'/%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  border-image-slice: 1;
+  border-image-repeat: repeat;
+}
+
+/* ===== Typography roles ===== */
+.font-display { font-family: var(--font-display), sans-serif; }
+.font-serif { font-family: var(--font-serif), serif; }
+.text-premium { color: var(--color-ink); }
 
 body {
   background: var(--color-paper);
@@ -24,3 +48,11 @@ body {
   font-family: var(--font-sans);
   margin: 0;
 }
+
+/* ===== Global card preset (reused via Tailwind classes too) ===== */
+.premium-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+

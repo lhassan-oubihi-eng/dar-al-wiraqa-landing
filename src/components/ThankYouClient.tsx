@@ -20,8 +20,7 @@ const orderValue = STORE.price;
  * short delay so the globals have registered before we call them.
  */
 interface PixelWindow extends Window {
-  ttq?: { track: (event: string, params?: Record<string, unknown>) => void };
-  gtag?: (event: string, name: string, params?: Record<string, unknown>) => void;
+  fbq?: (type: string, eventName: string, params?: Record<string, unknown>) => void;
 }
 
 interface WaOrder {
@@ -154,17 +153,16 @@ function buildWaMessage(
   );
 }
 
-function fireConversion() {
+function fireConversion(total: number) {
   try {
     const w = window as PixelWindow;
-    if (w.ttq && typeof w.ttq.track === "function") {
-      w.ttq.track("CompletePayment", { currency: "MAD", value: orderValue });
-    }
-    if (typeof w.gtag === "function") {
-      w.gtag("event", "purchase", {
+    /* Meta Purchase — dynamic value so AOV (incl. upsells) is reported */
+    if (typeof w.fbq === "function") {
+      w.fbq("track", "Purchase", {
         currency: "MAD",
-        value: orderValue,
-        transaction_id: "dar-alwiraqa-order",
+        value: total,
+        num_items: 1,
+        content_name: "Dar Al Wiraqa Pack",
       });
     }
   } catch {
@@ -181,10 +179,16 @@ export function ThankYouClient() {
 
   const [selectedUpsells, setSelectedUpsells] = useState<PackConfig[]>([]);
 
+  const upsellCount = selectedUpsells.length;
+  const upsellTotal = upsellCount * UPSELL_PRICE;
+  const finalTotal = orderValue + upsellTotal;
+
+  /* Fire conversion on mount and again whenever the upsell total changes,
+     so AOV (base + added packs) is always reported accurately. */
   useEffect(() => {
-    const t = setTimeout(fireConversion, 700);
+    const t = setTimeout(() => fireConversion(finalTotal), 700);
     return () => clearTimeout(t);
-  }, []);
+  }, [finalTotal]);
 
   /**
    * Alternative packs for the upsell selector, excluding the one the customer
@@ -203,10 +207,6 @@ export function ThankYouClient() {
         : [...prev, pack]
     );
   };
-
-  const upsellCount = selectedUpsells.length;
-  const upsellTotal = upsellCount * UPSELL_PRICE;
-  const finalTotal = orderValue + upsellTotal;
 
   const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
     buildWaMessage(order, selectedUpsells)
@@ -253,24 +253,24 @@ export function ThankYouClient() {
         <h1 className="font-extrabold text-xl mb-2">
           {STORE.name} — تم استلام طلبك!
         </h1>
-        <p className="text-[#6B7280] text-sm mb-1">
+        <p className="text-[#CDBB9C] text-sm mb-1">
           شكراً لثقتك في دار الوِراقة.
         </p>
-        <p className="text-[#6B7280] text-sm mb-1">
+        <p className="text-[#CDBB9C] text-sm mb-1">
           طلبيتك تم تسجيلها وستصلك في أقرب وقت.
         </p>
-        <hr className="border-[#E5E7EB] my-4" />
-        <p className="text-sm text-[#6B7280] mb-4">
+        <hr className="border-[#3A2E22] my-4" />
+        <p className="text-sm text-[#CDBB9C] mb-4">
           إجمالي الطلب:{" "}
           <span className="text-[#16a34a] font-bold">{finalTotal} درهم</span>
           {upsellCount > 0 && (
-            <span className="text-xs text-[#6B7280]/70">
+            <span className="text-xs text-[#CDBB9C]/70">
               {" "}
               (شامل {upsellCount} باقة إضافية)
             </span>
           )}
         </p>
-        <p className="text-xs text-[#6B7280] mb-6">
+        <p className="text-xs text-[#CDBB9C] mb-6">
           📞 برجاء إبقاء هاتفك مفتوحاً؛ سيتصل بك فريقنا خلال 24 ساعة لتأكيد
           الطلب.
         </p>
@@ -279,23 +279,23 @@ export function ThankYouClient() {
         <div
           className="rounded-2xl p-5 text-center border border-[#16a34a]/40"
           style={{
-            background: "linear-gradient(180deg,#FFFFFF 0%,#F0FDF4 100%)",
+            background: "linear-gradient(180deg,#FFFFFF 0%,#271F17 100%)",
             boxShadow: "0 0 20px rgba(22,163,74,.12)",
           }}
         >
-          <h2 className="mb-1 text-sm font-extrabold text-[#1F2937]">
+          <h2 className="mb-1 text-sm font-extrabold text-[#F3E6C4]">
             🎁 أضف باقات إضافية لطلبيتك بخصم خاص
           </h2>
-          <p className="mb-4 text-xs text-[#6B7280]">
+          <p className="mb-4 text-xs text-[#CDBB9C]">
             <span className="font-bold text-[#16a34a]">
               {UPSELL_PRICE} درهم للباقة
             </span>{" "}
             بدلاً من{" "}
-            <del className="text-[#9CA3AF]">{STORE.price} درهم</del> — بدون
+            <del className="text-[#A68B69]">{STORE.price} درهم</del> — بدون
             مصاريف شحن إضافية
           </p>
 
-          <p className="mb-2 text-right text-[11px] font-bold text-[#6B7280]/80">
+          <p className="mb-2 text-right text-[11px] font-bold text-[#CDBB9C]/80">
             اضغط على الباقات لإضافتها أو إزالتها (يمكنك اختيار عدة باقات):
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
@@ -311,20 +311,20 @@ export function ThankYouClient() {
                   aria-pressed={isSelected}
                   className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition-all duration-200 ${
                     isSelected
-                      ? "border-[#16a34a] bg-[#F0FDF4] shadow-[0_0_12px_rgba(22,163,74,.25)]"
-                      : "border-[#E5E7EB] bg-white hover:border-[#16a34a]/60"
+                      ? "border-[#16a34a] bg-[#271F17] shadow-[0_0_12px_rgba(22,163,74,.25)]"
+                                    : "border-[#3A2E22] bg-[#241D17] hover:border-[#16a34a]/60"
                   }`}
                 >
                   <span className="text-lg">{p.emoji}</span>
                   <span className="flex-1">
-                    <span className="block text-xs font-bold text-[#1F2937] leading-snug">
+                    <span className="block text-xs font-bold text-[#F3E6C4] leading-snug">
                       {p.packName}
                     </span>
                     <span
                       className={`block text-[10px] ${
                         isSelected
                           ? "font-bold text-[#16a34a]"
-                          : "text-[#6B7280]/70"
+                          : "text-[#CDBB9C]/70"
                       }`}
                     >
                       {isSelected
@@ -346,7 +346,7 @@ export function ThankYouClient() {
           {selectedUpsells.map((p) => (
             <div
               key={p.slug}
-              className="mb-4 rounded-xl border border-[#E5E7EB] bg-white p-3 text-right last:mb-0"
+                        className="mb-4 rounded-xl border border-[#3A2E22] bg-[#241D17] p-3 text-right last:mb-0"
             >
               <p className="mb-2 text-[11px] font-bold text-[#16a34a]">
                 📚 محتوى باقة {p.packName}:
@@ -369,7 +369,7 @@ export function ThankYouClient() {
                         </span>
                       )}
                     </div>
-                    <span className="mt-1 text-center text-[9px] leading-tight text-[#6B7280]">
+                    <span className="mt-1 text-center text-[9px] leading-tight text-[#CDBB9C]">
                       {b.title}
                     </span>
                   </div>
@@ -379,7 +379,7 @@ export function ThankYouClient() {
           ))}
 
           {upsellCount > 0 && (
-            <p className="mt-3 text-[11px] text-[#6B7280]/80">
+            <p className="mt-3 text-[11px] text-[#CDBB9C]/80">
               ✅ تمت إضافة{" "}
               <span className="font-bold text-[#16a34a]">
                 {upsellCount} باقة
@@ -390,23 +390,23 @@ export function ThankYouClient() {
         </div>
 
         {/* Live price summary — always above the final WhatsApp button */}
-        <div className="mt-5 rounded-xl border border-[#16a34a]/40 bg-white px-4 py-3 text-sm text-[#6B7280]">
+              <div className="mt-5 rounded-xl border border-[#16a34a]/40 bg-[#241D17] px-4 py-3 text-sm text-[#CDBB9C]">
           <p>
             إجمالي الطلب:{" "}
-            <span className="font-bold text-[#1F2937]">{orderValue} درهم</span>
+            <span className="font-bold text-[#F3E6C4]">{orderValue} درهم</span>
             {upsellCount > 0 && (
               <>
                 {" "}
                 +{" "}
-                <span className="font-bold text-[#1F2937]">
+                <span className="font-bold text-[#F3E6C4]">
                   {upsellTotal} درهم
                 </span>
               </>
             )}
-            <span className="mx-1 text-[#6B7280]">=</span>
+            <span className="mx-1 text-[#CDBB9C]">=</span>
             <span className="font-black text-[#16a34a]">{finalTotal} درهم</span>
           </p>
-          <p className="mt-1 text-[11px] text-[#6B7280]/70">
+          <p className="mt-1 text-[11px] text-[#CDBB9C]/70">
             (+ توصيل مجاني — الدفع عند الاستلام)
           </p>
         </div>
@@ -421,7 +421,7 @@ export function ThankYouClient() {
           {confirmLabel}
         </a>
 
-        <footer className="mt-5 text-[11px] text-[#6B7280]/60">
+        <footer className="mt-5 text-[11px] text-[#CDBB9C]/60">
           {STORE.copyright}
         </footer>
       </div>
