@@ -1,9 +1,14 @@
-import { offers, STORE } from "@/data/offers";
+"use client";
+
+import { offers, STORE, PackConfig } from "@/data/offers";
 import { HeroBanner } from "@/components/HeroBanner";
 import { CategorySection } from "@/components/CategorySection";
 import { TrustRibbon } from "@/components/TrustRibbon";
+import { useCart } from "@/components/CartContext";
 
 export default function Home() {
+  const { addPack } = useCart();
+
   // Group packs into categories for the organized grid layout.
   const bestSellers = offers.filter((p) =>
     ["psychology", "self-development", "religious", "finance"].includes(p.slug)
@@ -14,6 +19,8 @@ export default function Home() {
   const finance = offers.filter((p) => p.slug === "finance");
   const entertainment = offers.filter((p) => p.slug === "horror-thriller");
   const empowerment = offers.filter((p) => p.slug === "empowerment");
+
+  const onAdd = (pack: PackConfig) => addPack(pack);
 
   return (
     <>
@@ -31,6 +38,49 @@ export default function Home() {
         subtitle="أفضل الباقات التي يختارها آلاف العملاء في دار الوِراقة"
         packs={bestSellers}
         featured
+        onAdd={onAdd}
+      />
+
+      <CategorySection
+        title="باقات علم النفس"
+        subtitle="5 كتب نفسية أساسية + هدية مجانية"
+        packs={psychological}
+        onAdd={onAdd}
+      />
+
+      <CategorySection
+        title="باقات دينية مميزة"
+        subtitle="إرشادات روحانية لتقويم إيمانك يومياً"
+        packs={religious}
+        onAdd={onAdd}
+      />
+
+      <CategorySection
+        title="باقات تطوير ذاتي"
+        subtitle="استراتيجيات عملية لتطوير نفسك ومهاراتك"
+        packs={selfDev}
+        onAdd={onAdd}
+      />
+
+      <CategorySection
+        title="باقات المال والاستثمار"
+        subtitle="ادعِ الثروة بعقلية صحيحة وعادات ذكية"
+        packs={finance}
+        onAdd={onAdd}
+      />
+
+      <CategorySection
+        title="باقات الرعب والإثارة"
+        subtitle="لوحة متكاملة من أفضل روايات الرعب العربيّة"
+        packs={entertainment}
+        onAdd={onAdd}
+      />
+
+      <CategorySection
+        title="باقات التمكين والأنوثة"
+        subtitle="اكتشري قوتك وحافظي على تقديرك الذاتي"
+        packs={empowerment}
+        onAdd={onAdd}
       />
 
       {/* 4. Categories — organized by theme */}

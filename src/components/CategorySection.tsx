@@ -1,11 +1,12 @@
 import { PackConfig } from "@/data/offers";
-import { PackCard } from "@/components/PackCard";
+import { BundleCard } from "@/components/BundleCard";
 
 interface CategorySectionProps {
   title: string;
   subtitle?: string;
   packs: PackConfig[];
   featured?: boolean;
+  onAdd?: (pack: PackConfig) => void;
 }
 
 /**
@@ -18,6 +19,7 @@ export function CategorySection({
   subtitle,
   packs,
   featured = false,
+  onAdd,
 }: CategorySectionProps) {
   return (
     <section className="mx-auto max-w-6xl px-4 py-6">
@@ -38,7 +40,7 @@ export function CategorySection({
                 #1 الأكثر مبيعاً
               </span>
             )}
-            <PackCard pack={pack} />
+            <BundleCard pack={pack} onAdd={onAdd} />
           </div>
         ))}
       </div>
