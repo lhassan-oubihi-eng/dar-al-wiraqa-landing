@@ -1,13 +1,26 @@
+"use client";
+
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
+import { useCart } from "@/components/CartContext";
+import { useState } from "react";
 
 interface PackCardProps {
   pack: PackConfig;
 }
 
 export function PackCard({ pack }: PackCardProps) {
+  const { addPack } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const handleAdd = () => {
+    addPack(pack);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1400);
+  };
+
   return (
     <div
       className="flex flex-col rounded-2xl p-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:border-[#16a34a]"
@@ -70,13 +83,27 @@ export function PackCard({ pack }: PackCardProps) {
       </div>
 
       {/* Buy CTA */}
-      <Link
-        href={`/${pack.slug}`}
-        className="mt-auto inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#16a34a] py-2.5 text-sm font-bold text-white transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      >
-        <span>اشترِ الآن</span>
-        <ShoppingCart size={16} />
-      </Link>
+            <div className="mt-auto space-y-2 pt-1">
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="relative inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#16a34a] py-2.5 text-sm font-bold text-white transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
+        >
+          <span>أضف إلى السلة</span>
+          <ShoppingCart size={16} />
+          {justAdded && (
+            <span className="absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-[#D4AF37] px-2.5 py-0.5 text-[10px] font-extrabold text-[#131010] animate-bounce">
+              +أُضيفت!
+            </span>
+          )}
+        </button>
+        <Link
+          href={`/${pack.slug}`}
+          className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#3A2E22] py-2 text-xs font-bold text-[#CDBB9C] transition-colors hover:text-[#F3E6C4]"
+        >
+          <span>عرض التفاصيل</span>
+        </Link>
+      </div>
     </div>
   );
 }

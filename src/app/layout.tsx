@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { CartProvider } from "@/components/CartContext";
+import { CartButton } from "@/components/CartButton";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -52,7 +54,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: FB_PIXEL_BASE }}
         />
-        {/* Meta Pixel noscript fallback for no-JS visitors */}
+                {/* Meta Pixel noscript fallback for no-JS visitors */}
         <noscript>
           {/* eslint-disable-next-line @next/next/no-img-element -- 1x1 pixel fallback, no-JS only */}
           <img
@@ -62,7 +64,11 @@ export default function RootLayout({
             alt=""
           />
         </noscript>
-        {children}
+        <CartProvider>
+          {children}
+          {/* Floating mini-cart trigger — sits above every route */}
+          <CartButton />
+        </CartProvider>
       </body>
     </html>
   );
