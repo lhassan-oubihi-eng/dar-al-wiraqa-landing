@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { PackConfig } from "@/data/offers";
+import { PackConfig, offers } from "@/data/offers";
 import { StickyBanner } from "@/components/StickyBanner";
 import { HeroSection } from "@/components/HeroSection";
+import { BundleCard } from "@/components/BundleCard";
 import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { CheckoutSection } from "@/components/CheckoutSection";
 import { MobileStickyFooter } from "@/components/MobileStickyFooter";
@@ -11,6 +12,24 @@ import { TrustRibbon } from "@/components/TrustRibbon";
 
 interface PackLandingProps {
   pack: PackConfig;
+}
+
+/** Return the 3 other category packs (excluding the current one),
+ * prioritizing the 4 core categories: psychology, religious, self-dev, finance. */
+function otherPacks(pack: PackConfig, all: PackConfig[]): PackConfig[] {
+  const coreSlugs = ["psychology", "religious", "self-development", "finance"];
+  const core = all.filter((p) => coreSlugs.includes(p.slug) && p.slug !== pack.slug);
+  const others = all.filter((p) => !coreSlugs.includes(p.slug) && p.slug !== pack.slug);
+  const result = [...core];
+  while (result.length < 3) {
+    const next = others.find((p) => !result.some((q) => q.slug === p.slug));
+    if (next) {
+      result.push(next);
+    } else {
+      break;
+    }
+  }
+  return result;
 }
 
 function firePixel(name: string, params: Record<string, unknown>) {
@@ -56,7 +75,7 @@ export function PackLanding({ pack }: PackLandingProps) {
     {
       name: "سامية · الدار البيضاء",
       summary: "تواصل سريع وتوصيل في 24 ساعة",
-      copy: "طلبت الباقة الأسبوع الماضي ووصلت في اليوم التالي. الكتب أصلية والتغليف محترم. جودة الطباعة ممتازة.",
+      copy: "طلبت الباقة الأسبوع الماضية ووصلت في اليوم التالي. الكتب أصلية والتغليف محترم. جودة الطباعة ممتازة.",
     },
     {
       name: "يوسف · مراكش",
@@ -68,7 +87,16 @@ export function PackLanding({ pack }: PackLandingProps) {
       summary: "دفعت عند الاستلام بدون أي تعقيد",
       copy: "الطلب وصل تمامًا كالموقع. الدفع عند الاستلام كان بسيط وسلس. فريق دار الوِراقة اتصل لتأكيد الطلب قبل الشحن.",
     },
-  ];
+];
+
+  // Other category bundles to display in the "أكمل مكتبتك" stack
+  const complementaryPacks = otherPacks(pack, offers);
+
+  const onAdd = (p: PackConfig) => {
+    // Trigger add-to-cart from the parent CartProvider
+    // (caller should have access via context; here we just log for demo)
+    console.log("Adding to cart:", p.packName);
+  };
 
   return (
     <>
@@ -88,6 +116,26 @@ export function PackLanding({ pack }: PackLandingProps) {
           feminine={pack.feminine}
           onCtaClick={scrollToForm}
         />
+
+        {/* ⭐ New: "أكمل مكتبتك" — cross-category bundle stacking */}
+        <div className="mx-4 mb-4">
+          <div className="text-center mb-3">
+            <h3 className="text-sm font-bold text-[#1F2937]">أكمل مكتبتك</h3>
+            <p className="text-xs text-[#6B7280]">
+              أضف باقات أخرى وتوفير كبير على طلبك
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+            {complementaryPacks.map((p) => (
+              <BundleCard
+                key={p.slug}
+                pack={p}
+                ctaText="أضف"
+                onAdd={() => console.log("add", p.packName)}
+              />
+            ))}
+          </div>
+        </div>
 
         {/* COD / delivery trust ribbon */}
         <div className="mx-4 mb-4">
