@@ -97,33 +97,13 @@ export function PackLanding({ pack }: PackLandingProps) {
           onCtaClick={scrollToForm}
         />
 
-        {/* ⭐ "أكمل مكتبتك" — cross-category bundle stacking */}
-        <div className="mx-4 mb-4">
-          <div className="text-center mb-3">
-            <h3 className="text-sm font-bold text-[#1F2937]">أكمل مكتبتك</h3>
-            <p className="text-xs text-[#6B7280]">
-              أضف باقات أخرى وتوفير كبير على طلبك
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-            {complementaryPacks.map((p) => (
-              <BundleCard
-                key={p.slug}
-                pack={p}
-                ctaText="أضف"
-                onAdd={() => console.log("add", p.packName)}
-              />
-            ))}
-          </div>
-        </div>
-
         {/* COD / delivery trust ribbon */}
-        <div className="mx-4 mb-4">
+        <div className="mx-4 mb-3">
           <TrustRibbon />
         </div>
 
         {/* Honest trust block — no fake reviews or ratings */}
-        <div className="mx-4 my-3 rounded-xl border border-[#E5E5E5] px-4 py-4 bg-white text-center">
+        <div className="mx-4 my-2 rounded-xl border border-[#E5E5E5] px-4 py-3 bg-white text-center">
           <p className="text-sm font-medium text-[#1F2937] mb-2">
             متجر جديد وثقتكم تهمنا 🌱
           </p>
@@ -132,11 +112,16 @@ export function PackLanding({ pack }: PackLandingProps) {
           </p>
         </div>
 
+        {/* 3. CHECKOUT FORM — express COD, directly on page, immediately below price */}
+        <div className="mx-4 mb-3">
+          <CheckoutSection pack={pack} namePlaceholder={pack.namePlaceholder} />
+        </div>
+
         {/* 4. GOLDEN GUARANTEE (real policy) */}
         <GuaranteeSection guarantee={pack.guarantee} />
 
         {/* 5. Book details grid — genuine product information */}
-        <div className="mx-4 my-6 rounded-xl border border-[#E5E5E5] p-4 bg-white">
+        <div className="mx-4 my-4 rounded-xl border border-[#E5E5E5] p-4 bg-white">
           <h3 className="mb-3 text-center text-sm font-extrabold text-[#1F2937]">
             ما ستحصل عليه
           </h3>
@@ -159,23 +144,41 @@ export function PackLanding({ pack }: PackLandingProps) {
           </div>
         </div>
 
-        {/* 6. CHECKOUT FORM — express COD, directly on page */}
-        <div ref={formRef}>
-          <CheckoutSection pack={pack} namePlaceholder={pack.namePlaceholder} />
-        </div>
+        {/* ⭐ "أكمل مكتبتك" — cross-category bundle stacking (AFTER the form) */}
+        {/* This is now at the very bottom as a secondary offer, not a distraction */}
+        {complementaryPacks.length > 0 && (
+          <div className="mx-4 my-4">
+            <div className="text-center mb-2">
+              <h3 className="text-sm font-bold text-[#1F2937]">أكمل مكتبتك</h3>
+              <p className="text-xs text-[#6B7280]">
+                أضف باقات أخرى وتوفير كبير على طلبك
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+              {complementaryPacks.map((p) => (
+                <BundleCard
+                  key={p.slug}
+                  pack={p}
+                  ctaText="أضف"
+                  onAdd={() => console.log("add", p.packName)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 6. Mobile Sticky Footer — always-visible CTA */}
+        <MobileStickyFooter
+          price={pack.price}
+          feminine={pack.feminine}
+          onCtaClick={scrollToForm}
+        />
+
+        {/* Site footer */}
+        <footer className="mt-6 border-t border-[#E5E5E5] py-4 text-center text-[11px] text-[#6B7280]">
+          {pack.footer.copyright}
+        </footer>
       </main>
-
-      {/* 7. Mobile Sticky Footer — always-visible CTA */}
-      <MobileStickyFooter
-        price={pack.price}
-        feminine={pack.feminine}
-        onCtaClick={scrollToForm}
-      />
-
-      {/* Site footer */}
-      <footer className="mt-6 border-t border-[#E5E5E5] py-4 text-center text-[11px] text-[#6B7280]">
-        {pack.footer.copyright}
-      </footer>
     </>
   );
 }
