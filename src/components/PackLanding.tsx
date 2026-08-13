@@ -71,30 +71,10 @@ export function PackLanding({ pack }: PackLandingProps) {
     }, 600);
   };
 
-  const reviews = [
-    {
-      name: "سامية · الدار البيضاء",
-      summary: "تواصل سريع وتوصيل في 24 ساعة",
-      copy: "طلبت الباقة الأسبوع الماضية ووصلت في اليوم التالي. الكتب أصلية والتغليف محترم. جودة الطباعة ممتازة.",
-    },
-    {
-      name: "يوسف · مراكش",
-      summary: "باقة توفرت لي 300+ درهم",
-      copy: "كنت أفكر أشتري الكتب لوحدها بـ 350 درهم، لكن الباقة وفرت لي ما يقرب من 150 درهم. الصفحات سميكة والطباعة واضحة. راضي تمامًا.",
-    },
-    {
-      name: "فاطمة · طنجة",
-      summary: "دفعت عند الاستلام بدون أي تعقيد",
-      copy: "الطلب وصل تمامًا كالموقع. الدفع عند الاستلام كان بسيط وسلس. فريق دار الوِراقة اتصل لتأكيد الطلب قبل الشحن.",
-    },
-];
-
   // Other category bundles to display in the "أكمل مكتبتك" stack
   const complementaryPacks = otherPacks(pack, offers);
 
   const onAdd = (p: PackConfig) => {
-    // Trigger add-to-cart from the parent CartProvider
-    // (caller should have access via context; here we just log for demo)
     console.log("Adding to cart:", p.packName);
   };
 
@@ -117,7 +97,7 @@ export function PackLanding({ pack }: PackLandingProps) {
           onCtaClick={scrollToForm}
         />
 
-        {/* ⭐ New: "أكمل مكتبتك" — cross-category bundle stacking */}
+        {/* ⭐ "أكمل مكتبتك" — cross-category bundle stacking */}
         <div className="mx-4 mb-4">
           <div className="text-center mb-3">
             <h3 className="text-sm font-bold text-[#1F2937]">أكمل مكتبتك</h3>
@@ -142,38 +122,17 @@ export function PackLanding({ pack }: PackLandingProps) {
           <TrustRibbon />
         </div>
 
-        {/* Social proof strip — genuine review highlights */}
-        <div className="mx-4 my-3 rounded-xl border border-[#E5E5E5] px-4 py-3 text-center bg-white">
-          <div className="mb-1 text-base tracking-widest text-[#D4AF37]">★★★★★ 4.9</div>
-          <p className="text-xs font-bold text-[#1F2937]">
-            الباقة الأكثر طلباً في دار الوِراقة
+        {/* Honest trust block — no fake reviews or ratings */}
+        <div className="mx-4 my-3 rounded-xl border border-[#E5E5E5] px-4 py-4 bg-white text-center">
+          <p className="text-sm font-medium text-[#1F2937] mb-2">
+            متجر جديد وثقتكم تهمنا 🌱
+          </p>
+          <p className="text-xs text-[#6B7280] leading-relaxed">
+            كل طلب كنتأكدو منه شخصياً قبل الشحن، وضمان استرجاع كامل خلال 30 يوماً إلا ما عجبكش المحتوى.
           </p>
         </div>
 
-        {/* Named reviews — real customer testimonials */}
-        <div className="mx-4 my-3 space-y-2">
-          {reviews.map((r) => (
-            <div
-              key={r.name}
-              className="rounded-xl border border-[#E5E5E5] px-3.5 py-2.5 text-right bg-white"
-            >
-              <div className="mb-0.5 flex items-center justify-between">
-                <span className="text-[11px] font-bold text-[#1F2937]">
-                  {r.name}
-                </span>
-                <span className="text-xs text-[#D4AF37]">⭐⭐⭐⭐⭐</span>
-              </div>
-              <p className="text-[10px] font-bold text-[#6B7280] mb-1">
-                {r.summary}
-              </p>
-              <p className="text-[12px] leading-relaxed text-[#1F2937]">
-                {r.copy}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* 4. GOLDEN GUARANTEE */}
+        {/* 4. GOLDEN GUARANTEE (real policy) */}
         <GuaranteeSection guarantee={pack.guarantee} />
 
         {/* 5. Book details grid — genuine product information */}

@@ -8,21 +8,26 @@ import { BookCover } from "@/components/BookCover";
 /**
  * Reusable bundle card — same markup on homepage, category pages, and landing
  * pages. The caller provides `onAdd` (which should call CartProvider's
- * `addPack`). The component never hard-codes review numbers so it stays honest.
+ * `addPack`). The component only shows rating if realReviewCount > 0.
  */
 export function BundleCard({
   pack,
-  showRating = true,
   ctaText = "أضف إلى السلة",
   onAdd,
+  realRating,
+  realReviewCount,
 }: {
   pack: PackConfig;
-  showRating?: boolean;
   ctaText?: string;
   onAdd?: (pack: PackConfig) => void;
+  /** Average rating (e.g., 4.7) — only shown if realReviewCount > 0 */
+  realRating?: number;
+  /** Number of approved reviews — if 0 or undefined, no rating is shown */
+  realReviewCount?: number;
 }) {
   // Compute savings from the store-level original vs current price
   const savings = pack.originalPrice - pack.price;
+  const hasRealReviews = (realReviewCount ?? 0) > 0;
 
   return (
     <div className="bg-white border border-[#E5E5E5] rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-200">
@@ -55,16 +60,16 @@ export function BundleCard({
         })}
       </div>
 
-      {/* Bundle title + rating */}
+      {/* Bundle title + real rating (only if we have real reviews) */}
       <div className="mb-3">
         <h3 className="text-lg font-bold text-[#1F2937] line-clamp-2">
           {pack.packName}
         </h3>
-        {showRating && (
+        {hasRealReviews && realRating && (
           <p className="mt-1 flex items-center gap-1 text-xs text-[#6B7280]">
             <span className="text-[#D4AF37]">★★★★★</span>
             <span className="text-[9px]">
-              4.9 (87 طلب)
+              {realRating.toFixed(1)} ({realReviewCount} طلب)
             </span>
           </p>
         )}

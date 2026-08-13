@@ -32,16 +32,6 @@ export function HeroSection({
 
   return (
     <section className="px-4 pt-6 pb-8" id="hero">
-      {/* Star rating + reviews */}
-      <div className="mb-4 flex justify-center">
-        <div className="flex items-center gap-1 rounded-full bg-[#F3F3F5] px-3 py-1.5">
-          <span className="text-sm text-[#D4AF37]">★★★★★</span>
-          <span className="text-[10px] font-bold text-[#1F2937]">
-            4.9 (87 طلب)
-          </span>
-        </div>
-      </div>
-
       {/* Product Title */}
       <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#1F2937] leading-[1.8] mb-5 text-center">
         {headline}
