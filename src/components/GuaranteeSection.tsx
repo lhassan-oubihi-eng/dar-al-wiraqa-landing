@@ -16,7 +16,7 @@ export function GuaranteeSection({ guarantee }: GuaranteeSectionProps) {
         <Shield size={44} />
       </div>
       <h2 className="font-bold text-xl text-[#F3E6C4] mb-2">{guarantee.title}</h2>
-      <p className="text-sm text-[#CDBB9C]/85 leading-relaxed max-w-md mx-auto">
+      <p className="text-sm text-[#F3E6C4]/85 leading-relaxed max-w-md mx-auto">
         {guarantee.copy}
       </p>
     </section>

@@ -120,7 +120,7 @@ export function PackLanding({ pack }: PackLandingProps) {
                 </span>
                 <span className="text-[11px] text-[#D4AF37]">{r.stars}</span>
               </div>
-              <p className="text-[12px] leading-relaxed text-[#CDBB9C]">
+              <p className="text-[12px] leading-relaxed text-[#F3E6C4]">
                 {r.copy}
               </p>
             </div>
@@ -144,7 +144,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       />
 
       {/* Site footer */}
-      <footer className="mt-6 border-t border-[#3A2E22] py-4 text-center text-[11px] text-[#CDBB9C]/70">
+      <footer className="mt-6 border-t border-[#3A2E22] py-4 text-center text-[11px] text-[#F3E6C4]/70">
         {pack.footer.copyright}
       </footer>
 

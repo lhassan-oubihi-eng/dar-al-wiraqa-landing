@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Lock } from "lucide-react";
 import { PackConfig } from "@/data/offers";
+import { ADDED_BUMP_PRICE } from "@/components/CartContext";
 
 interface CheckoutSectionProps {
   pack: PackConfig;
@@ -28,6 +29,11 @@ export function CheckoutSection({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bump, setBump] = useState(false);
+
+  const liveTotal = useMemo(
+    () => pack.price + (bump ? ADDED_BUMP_PRICE : 0),
+    [pack.price, bump]
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -65,7 +71,7 @@ export function CheckoutSection({
     // "Thank You" page or captcha. keepalive:true lets the request finish
     // even though we redirect immediately below.
     const greedyAdd = bump
-      ? `${pack.giftBookIndex >= 0 ? "\n" : ""}[➕ باقة إضافية بسعر مخفض: 49 درهم]`
+      ? `${pack.giftBookIndex >= 0 ? "\n" : ""}[➕ باقة إضافية بسعر مخفض: ${ADDED_BUMP_PRICE} درهم]`
       : "";
     const formData = {
       _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
@@ -76,7 +82,7 @@ export function CheckoutSection({
       city: form.address,
       offer: pack.packName,
       books: books + greedyAdd,
-      price: `${pack.price} درهم` + (bump ? ` + 49 درهم (باقة إضافية)` : ""),
+      price: `${pack.price} درهم` + (bump ? ` + ${ADDED_BUMP_PRICE} درهم (باقة إضافية)` : ""),
       payment: "نقداً عند الاستلام",
       count: pack.books.length + (bump ? 1 : 0),
     };
@@ -89,7 +95,7 @@ export function CheckoutSection({
         content_ids: pack.books.map((b) => String(b.id).padStart(3, "0")),
         content_type: "product_group",
         currency: "MAD",
-        value: pack.price + (bump ? 49 : 0),
+        value: pack.price + (bump ? ADDED_BUMP_PRICE : 0),
       });
     } catch {
       /* non-blocking */
@@ -113,7 +119,7 @@ export function CheckoutSection({
       const w = window as unknown as { fbq?: (t: string, e: string, p?: unknown) => void };
       w.fbq?.("track", "Lead", {
         currency: "MAD",
-        value: pack.price + (bump ? 49 : 0),
+        value: pack.price + (bump ? ADDED_BUMP_PRICE : 0),
         content_name: pack.packName,
       });
     } catch {
@@ -134,7 +140,7 @@ export function CheckoutSection({
           address: form.address,
           packName: pack.packName,
           books,
-          price: pack.price + (bump ? 49 : 0),
+          price: pack.price + (bump ? ADDED_BUMP_PRICE : 0),
           count: pack.books.length + (bump ? 1 : 0),
           fbclid,
         }),
@@ -156,7 +162,7 @@ export function CheckoutSection({
           city: form.address,
           phone: form.phone,
           offer: pack.packName,
-          bump: bump ? 49 : 0,
+          bump: bump ? ADDED_BUMP_PRICE : 0,
         })
       );
     } catch {
@@ -175,7 +181,7 @@ export function CheckoutSection({
       <h2 className="font-bold text-center text-lg text-[#F3E6C4] mb-1">
         {pack.checkout.title}
       </h2>
-      <p className="text-center text-xs text-[#CDBB9C]/80 mb-5">
+      <p className="text-center text-xs text-[#F3E6C4]/80 mb-5">
         {pack.checkout.subtitle}
       </p>
 
@@ -226,7 +232,7 @@ export function CheckoutSection({
             required
             autoComplete="tel"
           />
-          <p className="text-[11px] text-[#CDBB9C] text-right mt-1">
+          <p className="text-[11px] text-[#F3E6C4] text-right mt-1">
             {pack.feminine
               ? "سنتصل بكِ في غضون 24 ساعة لتأكيد طلبكِ."
               : "سنتصل بك في غضون 24 ساعة لتأكيد طلبك."}
@@ -264,14 +270,38 @@ export function CheckoutSection({
             />
             <span className="text-left text-[12px] leading-snug text-[#F3E6C4]">
               🎁 <span className="font-bold">أضف باقة ثانية بخصم خاص</span> —{" "}
-              <span className="font-bold text-[#16a34a]">فقط 49 درهم</span>{" "}
+              <span className="font-bold text-[#16a34a]">فقط {ADDED_BUMP_PRICE} درهم</span>{" "}
               <span className="text-[#A68B69] line-through">(عوض 199 درهم)</span>
               <br />
-              <span className="text-[10px] text-[#CDBB9C]">
+              <span className="text-[10px] text-[#F3E6C4]">
                 تصلك كلتا الباقتين معاً والتوصيل لا يزال مجانياً.
               </span>
             </span>
           </label>
+        </div>
+
+        {/* Live order total — updates instantly when the bump toggle changes */}
+        <div className="rounded-xl border border-[#16a34a]/30 bg-[#271F17] p-3.5">
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-[#A68B69]">المجموع</span>
+            <span className="font-extrabold text-[#D4AF37]">
+              {pack.price} درهم
+              {bump && (
+                <>
+                  {" "}
+                  <span className="text-[#16a34a]">+ {ADDED_BUMP_PRICE} درهم</span>
+                </>
+              )}
+              {" "}
+              <span className="mx-1 text-[#F3E6C4]">=</span>
+              <span className="text-[#D4AF37]">{liveTotal} درهم</span>
+            </span>
+          </div>
+          <div className="mt-1 text-xs text-[#A68B69]/70 text-center">
+            {pack.feminine
+              ? "الدفع عند الاستلام — توصيل مجاني لجميع مدن المغرب"
+              : "الدفع عند الاستلام — توصيل مجاني لجميع مدن المغرب"}
+          </div>
         </div>
 
         <button

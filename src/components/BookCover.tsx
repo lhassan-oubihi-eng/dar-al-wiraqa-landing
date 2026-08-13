@@ -33,7 +33,7 @@ export function BookCover({ title, src, className = "" }: BookCoverProps) {
         border: "1px solid var(--color-border)",
       }}
     >
-      <div className="text-center text-[11px] font-bold leading-relaxed text-[#CDBB9C]">
+      <div className="text-center text-[11px] font-bold leading-relaxed text-[#F3E6C4]">
         {title}
       </div>
     </div>

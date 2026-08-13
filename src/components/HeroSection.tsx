@@ -1,7 +1,7 @@
 import React from "react";
 import { ShoppingCart } from "lucide-react";
 import { Book } from "@/data/offers";
-import { BookCover } from "@/components/BookCover";
+import { BookCarousel } from "@/components/BookCarousel";
 
 interface HeroSectionProps {
   headline: string;
@@ -31,56 +31,34 @@ export function HeroSection({
     : `وفر ${savings} درهم!`;
 
   return (
-    <section className="px-4 pt-8 pb-10" id="hero">
-      {/* 1. Headline */}
-            <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#F3E6C4] leading-[1.8] mb-6 text-center">
+    <section className="px-4 pt-6 pb-8" id="hero">
+      {/* Star rating + reviews */}
+      <div className="mb-4 flex justify-center">
+        <div className="flex items-center gap-1 rounded-full bg-[#241D17] px-3 py-1.5">
+          <span className="text-sm text-[#D4AF37]">★★★★★</span>
+          <span className="text-[10px] font-bold text-[#F3E6C4]">
+            4.9 (87 طلب)
+          </span>
+        </div>
+      </div>
+
+      {/* 1. Headline / Product Title */}
+      <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#F3E6C4] leading-[1.8] mb-5 text-center">
         {headline}
       </h1>
 
-      {/* 2. Product Image (6-book bundle — clear grid, no overlap) */}
-      <div className="mx-auto mb-6 grid w-full max-w-md grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-        {books.map((book, index) => {
-          const isGift = index === giftBookIndex;
-          return (
-            <div key={book.id} className="flex flex-col items-center">
-              <div
-                className="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-lg"
-                style={{
-                  background: "linear-gradient(160deg,#FFFFFF,#F3F4F6)",
-                  border: isGift
-                    ? "1px solid #16a34a"
-                    : "1px solid var(--color-border)",
-                }}
-              >
-                <BookCover
-                  title={book.title}
-                  src={book.coverUrl}
-                  className="h-full w-full object-contain"
-                />
-                {isGift && (
-                  <span
-                    className="absolute top-1 right-1 z-10 rounded-full px-1.5 py-0.5 text-[8px] font-black"
-                    style={{ background: "#16a34a", color: "#fff" }}
-                  >
-                    هدية
-                  </span>
-                )}
-              </div>
-              <span className="mt-1.5 text-center text-[10px] font-bold leading-tight text-[#CDBB9C]">
-                {book.title}
-              </span>
-            </div>
-          );
-        })}
+      {/* 2. Product Image Carousel (6-book bundle) */}
+      <div className="mb-6">
+        <BookCarousel books={books} giftBookIndex={giftBookIndex} />
       </div>
 
       {/* 3. Offer Summary Line */}
-      <p className="text-sm text-[#CDBB9C]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
+      <p className="text-sm text-[#F3E6C4]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
         {subheadline}
       </p>
 
       {/* 4. Price Section (old price, current price, savings badge) */}
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         <div className="flex items-center justify-center gap-3 flex-wrap mb-2">
           <del className="text-sm text-[#A68B69] line-through">
             {originalPrice} درهم
@@ -95,6 +73,16 @@ export function HeroSection({
         >
           {savingsText}
         </div>
+      </div>
+
+      {/* Trust badges */}
+      <div className="mb-5 flex justify-center gap-4 text-[11px] font-bold">
+        <span className="flex items-center gap-1 text-[#16a34a]">
+          💵 الدفع عند الاستلام
+        </span>
+        <span className="flex items-center gap-1 text-[#16a34a]">
+          🚚 توصيل مجاني
+        </span>
       </div>
 
       {/* 5. CTA Button */}

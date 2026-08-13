@@ -85,7 +85,7 @@ export function ExitIntentPopup({
           aria-label="إغلاق"
           className="absolute top-3 left-3 rounded-full p-1.5 hover:bg-[#F3F4F6]"
         >
-          <X size={18} className="text-[#CDBB9C]" />
+          <X size={18} className="text-[#F3E6C4]" />
         </button>
 
         <div
@@ -97,7 +97,7 @@ export function ExitIntentPopup({
         <h3 className="text-lg font-extrabold mb-1">
           لا تغادر الباقة الآن!
         </h3>
-        <p className="text-sm text-[#CDBB9C] leading-relaxed mb-4">
+        <p className="text-sm text-[#F3E6C4] leading-relaxed mb-4">
           «{packName}» بـ <strong className="text-[#16a34a]">{price} درهم</strong>{" "}
           شامل التوصيل — والدفع <strong>عند الاستلام</strong>. احجز مكانك الآن
           وبلا أي دفع مسبق.

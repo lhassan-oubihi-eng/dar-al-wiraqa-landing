@@ -32,7 +32,7 @@ export interface CartContextValue {
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "dar-al-wiraqa-cart";
-export const ADDED_BUMP_PRICE = 49; // mirrors CheckoutSection order-bump
+export const ADDED_BUMP_PRICE = 149; // mirrors CheckoutSection order-bump
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);

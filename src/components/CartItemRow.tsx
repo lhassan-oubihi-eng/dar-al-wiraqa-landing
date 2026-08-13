@@ -25,7 +25,7 @@ export function CartItemRow({
     <div className="rounded-xl border border-[#3A2E22] bg-[#241D17] p-3">
       <div className="flex items-start gap-2.5">
         <div className="flex flex-col items-center justify-center text-center">
-          <span className="line-clamp-1 text-[11px] font-bold text-[#CDBB9C]">
+          <span className="line-clamp-1 text-[11px] font-bold text-[#F3E6C4]">
             {pack.packName}
           </span>
           <X
@@ -37,7 +37,7 @@ export function CartItemRow({
 
         <div className="mt-1 flex-1 space-y-1.5">
           <div className="flex justify-between items-center">
-            <span className="text-xs text-[#CDBB9C]">
+            <span className="text-xs text-[#F3E6C4]">
               {pack.books.length} كتب · {pack.price} درهم/الباقة
             </span>
             <div className="flex items-center gap-0.5 rounded border border-[#3A2E22] bg-[#131010] text-[11px] text-[#F3E6C4]">
@@ -66,8 +66,8 @@ export function CartItemRow({
               onChange={() => onToggleBump(pack.slug)}
               className="h-3 w-3 rounded border-[#3A2E22] text-[#16a34a] focus:ring-[#16a34a]"
             />
-            <span className="text-[10px] text-[#CDBB9C]">
-              أضف باقة ثانية بخصم (٤٩ درهم)
+            <span className="text-[10px] text-[#F3E6C4]">
+              أضف باقة ثانية بخصم (١٤٩ درهم)
             </span>
           </label>
 

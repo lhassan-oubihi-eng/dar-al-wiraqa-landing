@@ -54,7 +54,7 @@ export function PackCard({ pack }: PackCardProps) {
                   </span>
                 )}
               </div>
-              <span className="mt-1 line-clamp-2 text-center text-[8px] font-bold leading-tight text-[#CDBB9C]/90">
+              <span className="mt-1 line-clamp-2 text-center text-[8px] font-bold leading-tight text-[#F3E6C4]/90">
                 {book.title}
               </span>
             </div>
@@ -99,7 +99,7 @@ export function PackCard({ pack }: PackCardProps) {
         </button>
         <Link
           href={`/${pack.slug}`}
-          className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#3A2E22] py-2 text-xs font-bold text-[#CDBB9C] transition-colors hover:text-[#F3E6C4]"
+          className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-[#3A2E22] py-2 text-xs font-bold text-[#F3E6C4] transition-colors hover:text-[#F3E6C4]"
         >
           <span>عرض التفاصيل</span>
         </Link>
