@@ -32,8 +32,8 @@ export function CartStep({
     <>
       {empty ? (
         <div className="flex-1 overflow-y-auto p-8 text-center">
-          <ShoppingCart size={40} className="mx-auto mb-2 opacity-40" />
-          <p className="text-sm text-[#CDBB9C]">السلة فارغة حتى الآن.</p>
+          <ShoppingCart size={40} className="mx-auto mb-2 opacity-40 text-[#9CA3AF]" />
+          <p className="text-sm text-[#4B5563]">السلة فارغة حتى الآن.</p>
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -50,27 +50,27 @@ export function CartStep({
       )}
 
       {!empty && (
-        <div className="border-t border-[#3A2E22] p-4 space-y-2 text-sm">
+        <div className="border-t border-[#E5E5E5] p-4 space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-[#A68B69]">الإجمالي (الباقات)</span>
-            <span className="text-[#F3E6C4]">{baseTotal} درهم</span>
+            <span className="text-[#6B7280]">الإجمالي (الباقات)</span>
+            <span className="text-[#1F2937]">{baseTotal} درهم</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#A68B69]">باقة إضافية (اختياري)</span>
-            <span className="text-[#16a34a]">+{bumpTotal} درهم</span>
+            <span className="text-[#6B7280]">باقة إضافية (اختياري)</span>
+            <span className="text-[#15803D]">+{bumpTotal} درهم</span>
           </div>
           <div className="flex justify-between font-bold">
-            <span className="text-[#F3E6C4]">الإجمالي الكلي</span>
+            <span className="text-[#1F2937]">الإجمالي الكلي</span>
             <span className="text-[#D4AF37]">{grandTotal} درهم</span>
           </div>
         </div>
       )}
 
-      <div className="border-t border-[#3A2E22] p-3 flex gap-2">
+      <div className="border-t border-[#E5E5E5] p-3 flex gap-2">
         <button
           onClick={() => onNext()}
           disabled={items.length === 0}
-          className="flex-1 rounded-lg bg-[#16a34a] py-2 text-xs font-bold text-white transition hover:scale-[1.03] disabled:opacity-50"
+          className="flex-1 rounded-xl bg-[#15803D] py-2 text-xs font-bold text-white hover:bg-[#16a34a] disabled:opacity-50 transition"
         >
           تأكيد الطلب
         </button>

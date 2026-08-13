@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Shield, Truck, Clock } from "lucide-react";
 import { Book } from "@/data/offers";
 import { BookCarousel } from "@/components/BookCarousel";
 
@@ -27,68 +27,78 @@ export function HeroSection({
   const savings = originalPrice - price;
   const ctaText = feminine ? "اطلبي الباقة الآن" : "اطلب الباقة الآن";
   const savingsText = feminine
-    ? `وفّري ${savings} درهم!`
-    : `وفر ${savings} درهم!`;
+    ? `توفير ${savings} درهم`
+    : `توفير ${savings} درهم`;
 
   return (
     <section className="px-4 pt-6 pb-8" id="hero">
       {/* Star rating + reviews */}
       <div className="mb-4 flex justify-center">
-        <div className="flex items-center gap-1 rounded-full bg-[#241D17] px-3 py-1.5">
+        <div className="flex items-center gap-1 rounded-full bg-[#F3F3F5] px-3 py-1.5">
           <span className="text-sm text-[#D4AF37]">★★★★★</span>
-          <span className="text-[10px] font-bold text-[#F3E6C4]">
+          <span className="text-[10px] font-bold text-[#1F2937]">
             4.9 (87 طلب)
           </span>
         </div>
       </div>
 
-      {/* 1. Headline / Product Title */}
-      <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#F3E6C4] leading-[1.8] mb-5 text-center">
+      {/* Product Title */}
+      <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#1F2937] leading-[1.8] mb-5 text-center">
         {headline}
       </h1>
 
-      {/* 2. Product Image Carousel (6-book bundle) */}
+      {/* Product Image Carousel (6-book bundle) */}
       <div className="mb-6">
         <BookCarousel books={books} giftBookIndex={giftBookIndex} />
       </div>
 
-      {/* 3. Offer Summary Line */}
-      <p className="text-sm text-[#F3E6C4]/85 leading-relaxed text-center max-w-xs mx-auto mb-6">
+      {/* Offer Summary */}
+      <p className="text-sm text-[#6B7280] leading-relaxed text-center max-w-xs mx-auto mb-6">
         {subheadline}
       </p>
 
-      {/* 4. Price Section (old price, current price, savings badge) */}
-      <div className="mb-6 text-center">
+      {/* Price Section (old price crossed, new price, savings) */}
+      <div className="mb-4 text-center">
         <div className="flex items-center justify-center gap-3 flex-wrap mb-2">
-          <del className="text-sm text-[#A68B69] line-through">
+          <del className="text-sm text-[#9CA3AF] line-through">
             {originalPrice} درهم
           </del>
-          <span className="text-3xl font-extrabold text-[#F3E6C4] leading-none">
+          <span className="text-3xl font-extrabold text-[#1F2937] leading-none">
             {price} درهم
           </span>
         </div>
-        <div
-          className="inline-block px-4 py-1.5 rounded-full text-xs font-bold"
-          style={{ background: "#16a34a", color: "#fff" }}
-        >
+        <div className="inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-[#15803D] text-white">
           {savingsText}
         </div>
       </div>
 
-      {/* Trust badges */}
-      <div className="mb-5 flex justify-center gap-4 text-[11px] font-bold">
-        <span className="flex items-center gap-1 text-[#16a34a]">
-          💵 الدفع عند الاستلام
+      {/* Trust badges — below price, above CTA */}
+      <div className="mb-5 flex justify-center gap-4 text-xs font-medium">
+        <span className="flex items-center gap-1 text-[#15803D]">
+          <Shield size={14} />
+          الدفع عند الاستلام
         </span>
-        <span className="flex items-center gap-1 text-[#16a34a]">
-          🚚 توصيل مجاني
+        <span className="flex items-center gap-1 text-[#15803D]">
+          <Truck size={14} />
+          توصيل مجاني
+        </span>
+        <span className="flex items-center gap-1 text-[#15803D]">
+          <Clock size={14} />
+          24-48 ساعة استلام
         </span>
       </div>
 
-      {/* 5. CTA Button */}
+      {/* Authenticity note */}
+      <p className="text-center text-[11px] text-[#6B7280] mb-4">
+        {feminine
+          ? "تغليف ممتاز • ادفعي فقط عند استلام طلبكِ والتأكد منه"
+          : "تغليف ممتاز • ادفع فقط عند استلام طلبك والتأكد منه"}
+      </p>
+
+      {/* CTA Button */}
       <button
         onClick={onCtaClick}
-        className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg bg-[#16a34a] text-white transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
+        className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-extrabold text-lg text-white bg-[#15803D] hover:bg-[#16a34a] active:scale-[0.98] transition-all duration-200"
         type="button"
       >
         <span>{ctaText}</span>

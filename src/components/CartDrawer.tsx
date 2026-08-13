@@ -150,7 +150,7 @@ export function CartDrawer({ open: controlled, onOpenChange }: CartDrawerProps) 
       `طلب من دار الوِراقة\n${summary}\nالمجموع: ${grandTotal} درهم\nالاسم: ${form.name}\nالهاتف: ${form.phone}\nالمدينة/العنوان: ${form.city}`
     );
     window.open(
-      `https://wa.me/212600000000?text=${msg}`,
+      `https://wa.me/212602800548?text=${msg}`,
       "_blank",
       "noopener,noreferrer"
     );

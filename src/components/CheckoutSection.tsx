@@ -1,7 +1,6 @@
-import React, { useState, useMemo } from "react";
-import { Lock } from "lucide-react";
+import React, { useState } from "react";
+import { Lock, Shield, Truck, Clock } from "lucide-react";
 import { PackConfig } from "@/data/offers";
-import { ADDED_BUMP_PRICE } from "@/components/CartContext";
 
 interface CheckoutSectionProps {
   pack: PackConfig;
@@ -15,7 +14,7 @@ interface FormData {
 }
 
 const INPUT_CLASSES =
-    "w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#2C1B16] text-sm text-[#F3E6C4] placeholder-[#A68B69] focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]";
+  "w-full px-4 py-3 rounded-xl border border-[#D1D5DB] bg-[#F9F9F9] text-sm text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#15803D] focus:ring-1 focus:ring-[#15803D]";
 
 export function CheckoutSection({
   pack,
@@ -28,12 +27,6 @@ export function CheckoutSection({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [bump, setBump] = useState(false);
-
-  const liveTotal = useMemo(
-    () => pack.price + (bump ? ADDED_BUMP_PRICE : 0),
-    [pack.price, bump]
-  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -64,15 +57,6 @@ export function CheckoutSection({
       )
       .join("\n");
 
-    // Silent lead capture — POST directly to FormSubmit's AJAX endpoint from
-    // the browser. This is the reliable path: the browser automatically sends
-    // the Origin header FormSubmit requires (server-to-server relays get
-    // blocked as spam). The AJAX endpoint returns JSON and never shows a
-    // "Thank You" page or captcha. keepalive:true lets the request finish
-    // even though we redirect immediately below.
-    const greedyAdd = bump
-      ? `${pack.giftBookIndex >= 0 ? "\n" : ""}[➕ باقة إضافية بسعر مخفض: ${ADDED_BUMP_PRICE} درهم]`
-      : "";
     const formData = {
       _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
       _captcha: "false",
@@ -81,13 +65,12 @@ export function CheckoutSection({
       phone: form.phone,
       city: form.address,
       offer: pack.packName,
-      books: books + greedyAdd,
-      price: `${pack.price} درهم` + (bump ? ` + ${ADDED_BUMP_PRICE} درهم (باقة إضافية)` : ""),
+      books,
+      price: `${pack.price} درهم`,
       payment: "نقداً عند الاستلام",
-      count: pack.books.length + (bump ? 1 : 0),
+      count: pack.books.length,
     };
 
-    // Track a "started checkout" event for retargeting (Meta).
     try {
       const w = window as unknown as { fbq?: (t: string, e: string, p?: unknown) => void };
       w.fbq?.("track", "InitiateCheckout", {
@@ -95,7 +78,7 @@ export function CheckoutSection({
         content_ids: pack.books.map((b) => String(b.id).padStart(3, "0")),
         content_type: "product_group",
         currency: "MAD",
-        value: pack.price + (bump ? ADDED_BUMP_PRICE : 0),
+        value: pack.price,
       });
     } catch {
       /* non-blocking */
@@ -113,22 +96,17 @@ export function CheckoutSection({
       console.error("FormSubmit direct send failed:", err);
     });
 
-    // Fire a browser "Lead" event too — Meta can optimise on qualified intent
-    // (form submit) while purchase-volume is still low for COD.
     try {
       const w = window as unknown as { fbq?: (t: string, e: string, p?: unknown) => void };
       w.fbq?.("track", "Lead", {
         currency: "MAD",
-        value: pack.price + (bump ? ADDED_BUMP_PRICE : 0),
+        value: pack.price,
         content_name: pack.packName,
       });
     } catch {
       /* non-blocking */
     }
 
-    // Server-side call to /api/order for the Meta Conversions API (CAPI) —
-    // recovers conversions lost to iOS ATT / ad-blockers. Uses keepalive so it
-    // survives the hard redirect to /thank-you below.
     const fbclid = new URLSearchParams(window.location.search).get("fbclid") ?? "";
     try {
       fetch("/api/order", {
@@ -140,8 +118,8 @@ export function CheckoutSection({
           address: form.address,
           packName: pack.packName,
           books,
-          price: pack.price + (bump ? ADDED_BUMP_PRICE : 0),
-          count: pack.books.length + (bump ? 1 : 0),
+          price: pack.price,
+          count: pack.books.length,
           fbclid,
         }),
         keepalive: true,
@@ -152,8 +130,6 @@ export function CheckoutSection({
       /* non-blocking */
     }
 
-    // 1. Persist order locally so /thank-you knows which pack was purchased
-    // (used to exclude it from the upsell selector and prefill the invoice).
     try {
       localStorage.setItem(
         "orderData",
@@ -162,28 +138,57 @@ export function CheckoutSection({
           city: form.address,
           phone: form.phone,
           offer: pack.packName,
-          bump: bump ? ADDED_BUMP_PRICE : 0,
+          bump: 0,
         })
       );
     } catch {
       /* non-blocking */
     }
 
-    // 2. Seamless redirect — the user never sees a FormSubmit page or captcha.
     window.location.href = "/thank-you";
   };
 
   return (
     <section
       id="orderForm"
-            className="mx-4 my-10 rounded-2xl bg-[#241D17] shadow-xl p-6 border border-[#3A2E22]"
+      className="mx-4 my-8 rounded-2xl bg-white shadow-lg p-6 border border-[#E5E5E5]"
     >
-      <h2 className="font-bold text-center text-lg text-[#F3E6C4] mb-1">
+      <h2 className="font-bold text-center text-xl text-[#1F2937] mb-1">
         {pack.checkout.title}
       </h2>
-      <p className="text-center text-xs text-[#F3E6C4]/80 mb-5">
+      <p className="text-center text-sm text-[#6B7280] mb-5">
         {pack.checkout.subtitle}
       </p>
+
+      {/* Trust badges — below heading, above form */}
+      <div className="mb-5 flex justify-center gap-4 text-xs font-medium">
+        <span className="flex items-center gap-1 text-[#15803D]">
+          <Shield size={14} />
+          الدفع عند الاستلام
+        </span>
+        <span className="flex items-center gap-1 text-[#15803D]">
+          <Truck size={14} />
+          توصيل مجاني
+        </span>
+        <span className="flex items-center gap-1 text-[#15803D]">
+          <Clock size={14} />
+          استلامك في 24-48 ساعة
+        </span>
+      </div>
+
+      {/* Simple order total — strictly the base pack price */}
+      <div className="mb-5 rounded-xl bg-[#F9F9F9] p-3.5 text-center">
+        <span className="text-sm text-[#6B7280]">المجموع</span>
+        <span className="ml-2 text-xl font-extrabold text-[#1F2937]">
+          {pack.price} درهم
+        </span>
+        <span className="text-xs text-[#6B7280]">
+          {" "}
+          — {pack.feminine
+            ? "الدفع عند الاستلام بلا أي رسوم"
+            : "الدفع عند الاستلام بلا أي رسوم"}
+        </span>
+      </div>
 
       {error && (
         <div className="mb-3 text-center text-[11px] text-red-700 bg-red-50 border border-red-200 rounded-lg py-1.5">
@@ -191,10 +196,10 @@ export function CheckoutSection({
         </div>
       )}
 
-      <form onSubmit={handleOrderSubmit} className="space-y-3.5">
+      <form onSubmit={handleOrderSubmit} className="space-y-4">
         <div>
           <label
-            className="block text-[11px] font-bold text-[#F3E6C4] mb-1"
+            className="block text-[11px] font-bold text-[#1F2937] mb-1"
             htmlFor="nameInput"
           >
             الاسم الكامل
@@ -215,7 +220,7 @@ export function CheckoutSection({
 
         <div>
           <label
-            className="block text-[11px] font-bold text-[#F3E6C4] mb-1"
+            className="block text-[11px] font-bold text-[#1F2937] mb-1"
             htmlFor="phone"
           >
             رقم الهاتف
@@ -232,7 +237,7 @@ export function CheckoutSection({
             required
             autoComplete="tel"
           />
-          <p className="text-[11px] text-[#F3E6C4] text-right mt-1">
+          <p className="text-[11px] text-[#6B7280] text-right mt-1">
             {pack.feminine
               ? "سنتصل بكِ في غضون 24 ساعة لتأكيد طلبكِ."
               : "سنتصل بك في غضون 24 ساعة لتأكيد طلبك."}
@@ -241,7 +246,7 @@ export function CheckoutSection({
 
         <div>
           <label
-            className="block text-[11px] font-bold text-[#F3E6C4] mb-1"
+            className="block text-[11px] font-bold text-[#1F2937] mb-1"
             htmlFor="address"
           >
             المدينة والعنوان الكامل
@@ -259,56 +264,10 @@ export function CheckoutSection({
           />
         </div>
 
-        {/* Order bump: cheap add-on to raise average order value */}
-        <div className="rounded-xl border border-[#16a34a]/40 bg-[#271F17] p-3">
-          <label className="flex items-start gap-2.5 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={bump}
-              onChange={(e) => setBump(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-[#16a34a] focus:ring-[#16a34a]"
-            />
-            <span className="text-left text-[12px] leading-snug text-[#F3E6C4]">
-              🎁 <span className="font-bold">أضف باقة ثانية بخصم خاص</span> —{" "}
-              <span className="font-bold text-[#16a34a]">فقط {ADDED_BUMP_PRICE} درهم</span>{" "}
-              <span className="text-[#A68B69] line-through">(عوض 199 درهم)</span>
-              <br />
-              <span className="text-[10px] text-[#F3E6C4]">
-                تصلك كلتا الباقتين معاً والتوصيل لا يزال مجانياً.
-              </span>
-            </span>
-          </label>
-        </div>
-
-        {/* Live order total — updates instantly when the bump toggle changes */}
-        <div className="rounded-xl border border-[#16a34a]/30 bg-[#271F17] p-3.5">
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-[#A68B69]">المجموع</span>
-            <span className="font-extrabold text-[#D4AF37]">
-              {pack.price} درهم
-              {bump && (
-                <>
-                  {" "}
-                  <span className="text-[#16a34a]">+ {ADDED_BUMP_PRICE} درهم</span>
-                </>
-              )}
-              {" "}
-              <span className="mx-1 text-[#F3E6C4]">=</span>
-              <span className="text-[#D4AF37]">{liveTotal} درهم</span>
-            </span>
-          </div>
-          <div className="mt-1 text-xs text-[#A68B69]/70 text-center">
-            {pack.feminine
-              ? "الدفع عند الاستلام — توصيل مجاني لجميع مدن المغرب"
-              : "الدفع عند الاستلام — توصيل مجاني لجميع مدن المغرب"}
-          </div>
-        </div>
-
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm text-white bg-[#16a34a] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-          style={{ opacity: isSubmitting ? 0.7 : 1 }}
+          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-lg text-white bg-[#15803D] hover:bg-[#16a34a] active:scale-[0.98] transition-all duration-200 disabled:opacity-70"
         >
           {isSubmitting ? (
             <span>جاري تأكيد الطلب...</span>
@@ -318,8 +277,8 @@ export function CheckoutSection({
         </button>
 
         <div className="flex justify-center items-center gap-1 mt-3">
-          <Lock size={14} className="text-gray-500" />
-          <span className="text-xs text-gray-500">
+          <Lock size={14} className="text-[#9CA3AF]" />
+          <span className="text-xs text-[#9CA3AF]">
             {pack.feminine
               ? "معلوماتكِ مشفرة ومحمية بالكامل 100%"
               : "معلوماتك مشفرة ومحمية بالكامل 100%"}

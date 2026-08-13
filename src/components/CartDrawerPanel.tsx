@@ -54,21 +54,21 @@ export function CartDrawerPanel(p: CartDrawerPanelProps) {
   return (
     <>
       <div
-        className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm"
         onClick={() => onOpen(false)}
       />
-      <aside className="fixed inset-y-0 end-0 z-[100] w-full max-w-md overflow-y-auto border-s border-[#3A2E22] bg-[#1B120F] text-[#CDBB9C] shadow-2xl flex flex-col">
-        <div className="relative border-b border-[#3A2E22] p-4 text-center">
-          <h2 className="font-display text-lg font-bold text-[#F3E6C4]">
+      <aside className="fixed inset-y-0 end-0 z-[100] w-full max-w-md overflow-y-auto border-s border-[#E5E5E5] bg-white text-[#1F2937] shadow-2xl flex flex-col">
+        <div className="relative border-b border-[#E5E5E5] p-4 text-center">
+          <h2 className="font-display text-lg font-bold text-[#1F2937]">
             سلة الشراء
           </h2>
-          <p className="mt-0.5 text-xs text-[#A68B69]">
+          <p className="mt-0.5 text-xs text-[#6B7280]">
             {packCount} عنصر · {grandTotal} درهم
           </p>
           <button
             onClick={() => onOpen(false)}
-            className="absolute end-3 top-3 text-[#A68B69] hover:text-[#F3E6C4]"
-            aria-label="إغلاف"
+            className="absolute end-3 top-3 text-[#6B7280] hover:text-[#15803D]"
+            aria-label="إغلاق"
           >
             <X size={16} />
           </button>
@@ -77,15 +77,15 @@ export function CartDrawerPanel(p: CartDrawerPanelProps) {
         {done ? (
           <div className="flex-1 overflow-y-auto p-8 text-center">
             <div className="mb-3 text-3xl">✅</div>
-            <h3 className="font-display text-lg font-bold text-[#16a34a]">
+            <h3 className="font-display text-lg font-bold text-[#15803D]">
               تم تقديم طلبك!
             </h3>
-            <p className="mt-2 text-sm text-[#CDBB9C]">
-              استلمنا طلبك وسنتصل بك لتأكيده. سلة الشراء أُفرقت.
+            <p className="mt-2 text-sm text-[#4B5563]">
+              استلمنا طلبك وسنتصل بك لتأكيده.
             </p>
             <button
               onClick={() => onOpen(false)}
-              className="mt-5 w-full rounded-lg bg-[#16a34a] py-2.5 text-sm font-bold text-white transition hover:scale-[1.02]"
+              className="mt-5 w-full rounded-xl bg-[#15803D] py-2.5 text-sm font-bold text-white hover:bg-[#16a34a] transition"
             >
               إغلاق
             </button>

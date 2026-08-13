@@ -27,7 +27,7 @@ export function BookCarousel({
 
   const goNext = useCallback(() => {
     setIdx((i) => (i + 1) % books.length);
-    onIndexChange?.((idx + 1) % books.length);
+    onIndexChange?.(((idx + 1) % books.length));
   }, [idx, books.length, onIndexChange]);
 
   const goPrev = useCallback(() => {
@@ -72,7 +72,7 @@ export function BookCarousel({
     <div className="relative">
       {/* Main cover display */}
       <div
-        className="relative mx-auto aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl border border-[#3A2E22] bg-gradient-to-b from-[#F3F4F6] to-[#3A2E22] shadow-xl"
+        className="relative mx-auto aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl border border-[#D1D5DB] bg-white shadow-lg"
         onMouseDown={onDragStart}
         onMouseUp={onDragEnd}
         onMouseLeave={onDragEnd}
@@ -86,14 +86,14 @@ export function BookCarousel({
         />
 
         {isGift && (
-          <span className="absolute top-3 right-3 z-10 rounded-full bg-[#16a34a] px-2.5 py-1 text-[10px] font-extrablack text-white">
+          <span className="absolute top-3 right-3 z-10 rounded-full bg-[#15803D] px-2.5 py-1 text-[10px] font-extrabold text-white">
             🎁 هدية
           </span>
         )}
       </div>
 
       {/* Book title */}
-      <p className="mt-2 text-center text-sm font-bold text-[#F3E6C4]">
+      <p className="mt-2 text-center text-sm font-bold text-[#1F2937]">
         {current.title}
       </p>
 
@@ -101,7 +101,7 @@ export function BookCarousel({
       <button
         type="button"
         onClick={goPrev}
-        className="absolute top-1/2 -translate-y-1/2 -left-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#16a34a] text-white shadow-lg hover:scale-105"
+        className="absolute top-1/2 -translate-y-1/2 -left-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#15803D] text-white shadow-md hover:scale-105"
         aria-label="الكتاب السابق"
       >
         <ChevronLeft size={16} />
@@ -110,7 +110,7 @@ export function BookCarousel({
       <button
         type="button"
         onClick={goNext}
-        className="absolute top-1/2 -translate-y-1/2 -right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#16a34a] text-white shadow-lg hover:scale-105"
+        className="absolute top-1/2 -translate-y-1/2 -right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#15803D] text-white shadow-md hover:scale-105"
         aria-label="الكتاب التالي"
       >
         <ChevronRight size={16} />
@@ -127,8 +127,8 @@ export function BookCarousel({
             }}
             className={`h-1.5 w-1.5 rounded-full transition-all ${
               i === idx
-                ? "w-4 bg-[#16a34a]"
-                : "bg-[#3A2E22] hover:bg-[#F3E6C4]/30"
+                ? "w-4 bg-[#15803D]"
+                : "bg-[#D1D5DB] hover:bg-[#9CA3AF]/50"
             }`}
             aria-label={`اذهب إلى الكتاب ${i + 1}`}
           />
@@ -148,8 +148,8 @@ export function BookCarousel({
               }}
               className={`relative h-10 w-7 flex-shrink-0 rounded border-2 transition-all ${
                 i === idx
-                  ? "border-[#16a34a]"
-                  : "border-[#3A2E22] hover:border-[#A68B69]/50"
+                  ? "border-[#15803D]"
+                  : "border-[#D1D5DB] hover:border-[#9CA3AF]/50"
               }`}
             >
               <BookCover
@@ -158,7 +158,7 @@ export function BookCarousel({
                 className="h-full w-full object-cover"
               />
               {isThumbGift && (
-                <span className="absolute top-0 right-0 rounded-bl rounded-tr-[2px] bg-[#16a34a] px-[2px] text-[6px]">
+                <span className="absolute top-0 right-0 rounded-bl rounded-tr-[2px] bg-[#15803D] px-[2px] text-[6px]">
                   🎁
                 </span>
               )}

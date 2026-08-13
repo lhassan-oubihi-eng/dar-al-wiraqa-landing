@@ -16,7 +16,7 @@ export function MobileStickyFooter({
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 420) {
+      if (window.scrollY > 300) {
         setVisible(true);
       } else {
         setVisible(false);
@@ -30,16 +30,16 @@ export function MobileStickyFooter({
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden">
-      <div       className="flex items-center justify-between gap-3 bg-[#241D17] border-t border-[#16a34a] px-4 py-3 shadow-lg">
+      <div className="flex items-center justify-between gap-3 bg-white border-t border-[#E5E5E5] px-4 py-3 shadow-lg">
         <div className="flex items-center gap-1">
-          <ShoppingCart size={18} className="text-[#16a34a]" />
-          <span className="font-bold text-base text-[#16a34a]">
+          <ShoppingCart size={18} className="text-[#15803D]" />
+          <span className="font-bold text-base text-[#1F2937]">
             {price} درهم
           </span>
         </div>
         <button
           onClick={onCtaClick}
-          className="flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm text-white bg-[#16a34a] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex-1 py-2.5 px-4 rounded-full font-extrabold text-sm text-white bg-[#15803D] hover:bg-[#16a34a] active:scale-[0.98] transition-all duration-200"
           type="button"
         >
           {feminine

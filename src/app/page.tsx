@@ -71,8 +71,8 @@ export default function Home() {
       />
 
       {/* 5. Footer */}
-      <footer className="border-t border-[#3A2E22] py-8 text-center">
-        <p className="text-sm opacity-60" style={{ color: "var(--color-ink-light)" }}>
+      <footer className="border-t border-[#E5E5E5] py-8 text-center">
+        <p className="text-sm text-[#6B7280]">
           {STORE.copyright}
         </p>
       </footer>

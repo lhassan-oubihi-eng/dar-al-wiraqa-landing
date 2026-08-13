@@ -22,11 +22,11 @@ export function CategorySection({
   return (
     <section className="mx-auto max-w-6xl px-4 py-6">
       <div className="mb-4 text-center">
-        <h2 className="text-xl font-extrabold text-[#F3E6C4] md:text-2xl">
+        <h2 className="text-xl font-extrabold text-[#1F2937] md:text-2xl">
           {title}
         </h2>
         {subtitle && (
-          <p className="mt-1 text-sm text-[#F3E6C4]/70">{subtitle}</p>
+          <p className="mt-1 text-sm text-[#6B7280]">{subtitle}</p>
         )}
       </div>
 
@@ -34,7 +34,7 @@ export function CategorySection({
         {packs.map((pack, i) => (
           <div key={pack.slug} className="relative">
             {featured && i === 0 && (
-              <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-[#D4AF37] px-2.5 py-0.5 text-[9px] font-extrabold text-[#131010] z-10">
+              <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-[#D4AF37] px-2.5 py-0.5 text-[9px] font-extrabold text-[#1F2937] z-10">
                 #1 الأكثر مبيعاً
               </span>
             )}

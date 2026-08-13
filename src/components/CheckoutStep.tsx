@@ -12,7 +12,7 @@ interface CheckoutStepProps {
 }
 
 const INPUT_CLASSES =
-  "w-full px-3.5 py-3 rounded-lg border border-[#3A2E22] bg-[#2C1B16] text-sm text-[#F3E6C4] placeholder-[#A68B69] focus:outline-none focus:border-[#16a34a] focus:ring-1 focus:ring-[#16a34a]";
+  "w-full px-4 py-3 rounded-xl border border-[#D1D5DB] bg-white text-sm text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#15803D] focus:ring-1 focus:ring-[#15803D]";
 
 /** The checkout step inside the drawer: lead capture form + WhatsApp confirm. */
 export function CheckoutStep({
@@ -29,13 +29,13 @@ export function CheckoutStep({
       className="flex-1 overflow-y-auto p-4 flex flex-col space-y-3"
     >
       {error && (
-        <p className="rounded border border-[#ef4444]/40 bg-[#7f1d1d]/20 px-3 py-2 text-xs text-[#fca5a5]">
+        <p className="rounded border border-[#ef4444]/40 bg-red-50 px-3 py-2 text-xs text-red-700">
           {error}
         </p>
       )}
       <div>
         <label
-          className="block text-[11px] font-bold text-[#F3E6C4] mb-1"
+          className="block text-[11px] font-bold text-[#1F2937] mb-1"
           htmlFor="cart-name"
         >
           الاسم الكامل
@@ -53,7 +53,7 @@ export function CheckoutStep({
       </div>
       <div>
         <label
-          className="block text-[11px] font-bold text-[#F3E6C4] mb-1"
+          className="block text-[11px] font-bold text-[#1F2937] mb-1"
           htmlFor="cart-phone"
         >
           رقم الهاتف
@@ -70,11 +70,11 @@ export function CheckoutStep({
           inputMode="numeric"
           autoComplete="tel"
         />
-        <p className="text-[11px] text-[#A68B69] mt-1">سنتصل بك لتأكيد الطلب.</p>
+        <p className="text-[11px] text-[#6B7280] mt-1">سنتصل بك لتأكيد الطلب.</p>
       </div>
       <div>
         <label
-          className="block text-[11px] font-bold text-[#F3E6C4] mb-1"
+          className="block text-[11px] font-bold text-[#1F2937] mb-1"
           htmlFor="cart-city"
         >
           المدينة والعنوان
@@ -93,7 +93,7 @@ export function CheckoutStep({
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-xl bg-[#16a34a] py-3.5 text-sm font-extrabold text-white transition hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-1.5"
+        className="w-full rounded-xl bg-[#15803D] py-3.5 text-sm font-extrabold text-white transition hover:bg-[#16a34a] active:scale-[0.98] flex items-center justify-center gap-1.5"
       >
         {submitting ? (
           <span className="animate-pulse">جاري إرسال الطلب…</span>
@@ -104,16 +104,17 @@ export function CheckoutStep({
           </>
         )}
       </button>
+
       <div className="flex justify-center items-center gap-1 mt-1">
-        <Lock size={12} className="text-[#A68B69]" />
-        <span className="text-[10px] text-[#A68B69]">
+        <Lock size={12} className="text-[#9CA3AF]" />
+        <span className="text-[10px] text-[#9CA3AF]">
           الدفع نقداً عند الاستلام — البيانات مشفرة 100%
         </span>
       </div>
       <button
         type="button"
         onClick={onWhatsApp}
-        className="w-full rounded-xl border border-[#16a34a]/30 py-2.5 text-xs font-bold text-[#A68B69] transition hover:text-[#F3E6C4]"
+        className="w-full rounded-xl border border-[#D1D5DB] py-2.5 text-xs font-bold text-[#6B7280] transition hover:text-[#15803D]"
       >
         أو أرسل الطلب مباشرة على الواتساب
       </button>
