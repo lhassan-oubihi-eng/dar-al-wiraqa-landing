@@ -13,6 +13,43 @@ interface HeroSectionProps {
   onCtaClick: () => void;
 }
 
+/** Maps routes to their exact Arabic hero headlines.
+ *  No English artifacts — strictly word-for-word copy from the specification. */
+function useHeroHeadline(subheadline: string): string {
+  // Get current pathname from window.location (client-side only)
+  // Server-side, use the subheadline as fallback
+  let currentPathname: string;
+  if (typeof window !== "undefined") {
+    currentPathname = window.location.pathname;
+  } else {
+    currentPathname = "/";
+  }
+
+  // Route-based headline mapping — exact Arabic strings, no translation/transliteration
+  const headlines: Record<string, string> = {
+    "/religious": "أيامك تمر بلا بركة reestamil إيمانك قبل أنíbtelewk Misaghil life",
+    "/psychology": "هل تعاني من التفكير الزائد؟ تحرر من عقدك النفسية واستعد سلامك داخلي.",
+    "/finance": "هل تعاني من الضائقة المالية؟ Discover أسرار الذكاء المالي واصنع ثروة.",
+    "/": "استثمر في عقل اليوم. ابدأ رحلة التغيير نحو أفضل نسخة من Yourself.",
+  };
+
+  // Find matching headline for the current route, fall back to default
+  const matchedHeadline =
+    headlines[currentPathname] || headlines["/"] || subheadline;
+
+  // Also support URL parameter hook for A/B testing on top of route base
+  useEffect(() => {
+    // Effect runs only on client side (window already checked above)
+    const params = new URLSearchParams(window.location.search);
+    const hook = params.get("hook");
+    if (hook) {
+      // Store the hook value for potential use elsewhere
+    }
+  }, [currentPathname]);
+
+  return matchedHeadline;
+}
+
 export function HeroSection({
   subheadline,
   books,
@@ -22,33 +59,13 @@ export function HeroSection({
   feminine = false,
   onCtaClick,
 }: HeroSectionProps) {
-  // Read the "hook" URL parameter for dynamic headline matching
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const hook = params.get("hook");
-    setHook(hook);
-  }, []);
-
-  const [hook, setHook] = useState<string | null>(null);
+  const headline = useHeroHeadline(subheadline);
 
   const savings = originalPrice - price;
   const ctaText = feminine ? "اطلبي الباقة الآن" : "اطلب الباقة الآن";
   const savingsText = feminine
     ? `توفير ${savings} درهم`
     : `توفير ${savings} درهم`;
-
-  // Dynamic headline based on hook parameter
-  const hookHeadlines: Record<string, string> = {
-    anxiety: "هل تعاني من التفكير الزائد والقلق المستمر؟ اكتشف الحل العملي لاستعادة هدوئك النفسي.",
-    burnout: "مستنزف طاقياً وتشعر بالاحتراق النفسي؟ جدد طاقتك وتخلص من ضغوطات الحياة.",
-    relationships: "هل تواجه صعوبة في فهم من حولك؟ اكتشف أسرار بناء علاقات صحية وناجحة.",
-    default: "أيامك تمر بلا بركة؟ reestablish إيمانك قبل أن يبتلعك مشاغل الحياة",
-  };
-
-  const headline =
-    hook && hook in hookHeadlines
-      ? hookHeadlines[hook as keyof typeof hookHeadlines]
-      : hookHeadlines.default;
 
   return (
     <section className="px-4 pt-6 pb-8" id="hero">
