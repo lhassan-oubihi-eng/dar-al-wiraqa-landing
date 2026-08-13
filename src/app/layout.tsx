@@ -17,7 +17,7 @@ export const viewport = {
 };
 
 /** Your Meta Pixel ID (DarAlWaraqa-Pixel). */
-const FB_PIXEL_ID = "27763336586642575";
+const FB_PIXEL_ID = "1566994631594360";
 
 /**
  * Official Meta Pixel base code — rendered as a literal <script> in the
@@ -60,7 +60,7 @@ export default function RootLayout({
           <img
             height="1"
             width="1"
-            src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
+            src={`https://www.facebook.com/tr?id=1566994631594360&ev=PageView&noscript=1`}
             alt=""
           />
         </noscript>
