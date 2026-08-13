@@ -25,17 +25,17 @@ function useHeroHeadline(subheadline: string): string {
     currentPathname = "/";
   }
 
-  // Route-based headline mapping — exact Arabic strings, no translation/transliteration
-  const headlines: Record<string, string> = {
-    "/religious": "أيامك تمر بلا بركة reestamil إيمانك قبل أنíbtelewk Misaghil life",
-    "/psychology": "هل تعاني من التفكير الزائد؟ تحرر من عقدك النفسية واستعد سلامك داخلي.",
-    "/finance": "هل تعاني من الضائقة المالية؟ Discover أسرار الذكاء المالي واصنع ثروة.",
-    "/": "استثمر في عقل اليوم. ابدأ رحلة التغيير نحو أفضل نسخة من Yourself.",
+  // Route-based headline mapping — EXACT Arabic strings, no translation/transliteration
+  const HEADLINE_MAPPING = {
+    "/religious": "أيامك تمر بلا بركة؟ أعد بناء إيمانك قبل أن تبتلعك مشاغل الحياة",
+    "/psychology": "هل تعاني من التفكير الزائد؟ تحرر من عقدك النفسية واستعد سلامك الداخلي.",
+    "/finance": "هل تعاني من الضائقة المالية؟ اكتشف أسرار الذكاء المالي واصنع ثروتك.",
+    "default": "استثمر في عقلك اليوم. ابدأ رحلة التغيير نحو أفضل نسخة من نفسك."
   };
 
   // Find matching headline for the current route, fall back to default
   const matchedHeadline =
-    headlines[currentPathname] || headlines["/"] || subheadline;
+    HEADLINE_MAPPING[currentPathname as keyof typeof HEADLINE_MAPPING] || HEADLINE_MAPPING.default;
 
   // Also support URL parameter hook for A/B testing on top of route base
   useEffect(() => {
