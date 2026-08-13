@@ -71,13 +71,6 @@ export function PackLanding({ pack }: PackLandingProps) {
     }, 600);
   };
 
-  // Other category bundles to display in the "أكمل مكتبتك" stack
-  const complementaryPacks = otherPacks(pack, offers);
-
-  const onAdd = (p: PackConfig) => {
-    console.log("Adding to cart:", p.packName);
-  };
-
   return (
     <>
       {/* 1. Sticky top banner */}
@@ -143,29 +136,6 @@ export function PackLanding({ pack }: PackLandingProps) {
             </p>
           </div>
         </div>
-
-        {/* ⭐ "أكمل مكتبتك" — cross-category bundle stacking (AFTER the form) */}
-        {/* This is now at the very bottom as a secondary offer, not a distraction */}
-        {complementaryPacks.length > 0 && (
-          <div className="mx-4 my-4">
-            <div className="text-center mb-2">
-              <h3 className="text-sm font-bold text-[#1F2937]">أكمل مكتبتك</h3>
-              <p className="text-xs text-[#6B7280]">
-                أضف باقات أخرى وتوفير كبير على طلبك
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-              {complementaryPacks.map((p) => (
-                <BundleCard
-                  key={p.slug}
-                  pack={p}
-                  ctaText="أضف"
-                  onAdd={() => console.log("add", p.packName)}
-                />
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* 6. Mobile Sticky Footer — always-visible CTA */}
         <MobileStickyFooter
