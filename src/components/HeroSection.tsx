@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ShoppingCart, Shield, Truck, Clock } from "lucide-react";
 import { Book } from "@/data/offers";
 import { BookCarousel } from "@/components/BookCarousel";
 
 interface HeroSectionProps {
-  headline: string;
   subheadline: string;
   books: Book[];
   giftBookIndex: number;
@@ -15,7 +14,6 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({
-  headline,
   subheadline,
   books,
   giftBookIndex,
@@ -24,15 +22,37 @@ export function HeroSection({
   feminine = false,
   onCtaClick,
 }: HeroSectionProps) {
+  // Read the "hook" URL parameter for dynamic headline matching
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const hook = params.get("hook");
+    setHook(hook);
+  }, []);
+
+  const [hook, setHook] = useState<string | null>(null);
+
   const savings = originalPrice - price;
   const ctaText = feminine ? "اطلبي الباقة الآن" : "اطلب الباقة الآن";
   const savingsText = feminine
     ? `توفير ${savings} درهم`
     : `توفير ${savings} درهم`;
 
+  // Dynamic headline based on hook parameter
+  const hookHeadlines: Record<string, string> = {
+    anxiety: "هل تعاني من التفكير الزائد والقلق المستمر؟ اكتشف الحل العملي لاستعادة هدوئك النفسي.",
+    burnout: "مستنزف طاقياً وتشعر بالاحتراق النفسي؟ جدد طاقتك وتخلص من ضغوطات الحياة.",
+    relationships: "هل تواجه صعوبة في فهم من حولك؟ اكتشف أسرار بناء علاقات صحية وناجحة.",
+    default: "أيامك تمر بلا بركة؟ reestablish إيمانك قبل أن يبتلعك مشاغل الحياة",
+  };
+
+  const headline =
+    hook && hook in hookHeadlines
+      ? hookHeadlines[hook as keyof typeof hookHeadlines]
+      : hookHeadlines.default;
+
   return (
     <section className="px-4 pt-6 pb-8" id="hero">
-      {/* Product Title */}
+      {/* Product Title with dynamic headline */}
       <h1 className="font-display text-2xl md:text-3xl font-extrabold text-[#1F2937] leading-[1.8] mb-5 text-center">
         {headline}
       </h1>

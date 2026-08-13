@@ -80,7 +80,6 @@ export function PackLanding({ pack }: PackLandingProps) {
       <main className="mx-auto max-w-[420px] pb-6 bg-[#F9F9F9] min-h-screen">
         {/* 2. HERO SECTION — product carousel, price, trust badges, CTA */}
         <HeroSection
-          headline={pack.headline}
           subheadline={pack.subheadline}
           books={pack.books}
           giftBookIndex={pack.giftBookIndex}
