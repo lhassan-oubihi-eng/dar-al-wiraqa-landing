@@ -147,9 +147,10 @@ function fireConversion(total: number) {
         num_items: 1,
         content_name: "Dar Al Wiraqa Pack",
       });
+      console.log("��� SUCCESS: Meta Pixel 'Purchase' event fired!", { value: total, currency: "MAD" });
     }
-  } catch {
-    /* ad tracking is non-blocking */
+  } catch (error) {
+    console.error("��� Error firing Meta Pixel Purchase:", error);
   }
 }
 
@@ -166,10 +167,58 @@ export function ThankYouClient() {
   const upsellTotal = upsellCount * UPSELL_PRICE;
   const finalTotal = orderValue + upsellTotal;
 
+  // Robust Meta Pixel Purchase event with retry mechanism
   useEffect(() => {
-    const t = setTimeout(() => fireConversion(finalTotal), 700);
-    return () => clearTimeout(t);
-  }, [finalTotal]);
+    // 1. Determine the order total (fallback to base price if order data missing)
+    let orderTotal = orderValue;
+    try {
+      const savedOrder = localStorage.getItem("orderData");
+      if (savedOrder) {
+        const parsed = JSON.parse(savedOrder);
+        // Find the pack price from offers using the offer name
+        if (parsed.offer) {
+          const pack = offers.find((o) => o.packName === parsed.offer);
+          if (pack) {
+            orderTotal = pack.price;
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error reading order data for Pixel:", error);
+    }
+
+    // Add upsells to the base order total
+    const totalWithUpsells = orderTotal + upsellTotal;
+
+    console.log("���� Preparing to fire Meta Pixel Purchase event. Value:", totalWithUpsells);
+
+    // 2. Robust retry mechanism for fbq
+    let retries = 0;
+    let timeoutId: NodeJS.Timeout;
+
+    const firePurchaseEvent = () => {
+      const w = window as PixelWindow;
+      if (typeof window !== "undefined" && w.fbq) {
+        w.fbq("track", "Purchase", {
+          currency: "MAD",
+          value: totalWithUpsells,
+        });
+        console.log("��� SUCCESS: Meta Pixel 'Purchase' event fired!");
+      } else if (retries < 10) {
+        retries++;
+        console.log(`��� fbq not ready, retrying... (${retries}/10)`);
+        timeoutId = setTimeout(firePurchaseEvent, 500);
+      } else {
+        console.error("��� FAILED: Meta Pixel fbq never loaded after 10 retries.");
+      }
+    };
+
+    firePurchaseEvent();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [upsellTotal]); // Re-fire when upsells change
 
   const alternatives = useMemo(() => {
     const purchased = order?.offer ?? null;
