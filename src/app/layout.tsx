@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { CartProvider } from "@/components/CartContext";
 import { CartButton } from "@/components/CartButton";
+import { MetaPixel } from "@/components/MetaPixel";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,27 +16,6 @@ export const viewport = {
   maximumScale: 1,
 };
 
-/** Your Meta Pixel ID (DarAlWaraqa-Pixel). */
-const FB_PIXEL_ID = "1566994631594360";
-
-/**
- * Official Meta Pixel base code — rendered as a literal <script> in the
- * document <head> of the initial HTML (beforeInteractive strategy) on every
- * page. It defines `window.fbq`, inits the pixel, and fires a PageView so
- * each route (homepage, pack pages, thank-you) is tracked.
- */
-const FB_PIXEL_BASE = `
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '${FB_PIXEL_ID}');
-fbq('track', 'PageView');
-`;
-
 export default function RootLayout({
   children,
 }: {
@@ -48,22 +27,8 @@ export default function RootLayout({
         className="min-h-full flex flex-col antialiased"
         style={{ background: "var(--color-paper)" }}
       >
-        {/* Meta Pixel base — literal <script> in <head>; defines window.fbq + PageView */}
-        <Script
-          id="fb-pixel-base"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: FB_PIXEL_BASE }}
-        />
-                {/* Meta Pixel noscript fallback for no-JS visitors */}
-        <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element -- 1x1 pixel fallback, no-JS only */}
-          <img
-            height="1"
-            width="1"
-            src={`https://www.facebook.com/tr?id=1566994631594360&ev=PageView&noscript=1`}
-            alt=""
-          />
-        </noscript>
+        {/* Meta Pixel base + PageView on route changes */}
+        <MetaPixel />
         <CartProvider>
           {children}
           {/* Floating mini-cart trigger — sits above every route */}
