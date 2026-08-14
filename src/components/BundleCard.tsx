@@ -1,25 +1,24 @@
 "use client";
 
 import React from "react";
-import { ShoppingCart } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
 
 /**
  * Reusable bundle card — same markup on homepage, category pages, and landing
- * pages. The caller provides `onAdd` (which should call CartProvider's
- * `addPack`). The component only shows rating if realReviewCount > 0.
+ * pages. The caller provides `onBuy` (which scrolls to checkout with selected pack).
+ * The component only shows rating if realReviewCount > 0.
  */
 export function BundleCard({
   pack,
-  ctaText = "أضف إلى السلة",
-  onAdd,
+  ctaText = "شراء الآن",
+  onBuy,
   realRating,
   realReviewCount,
 }: {
   pack: PackConfig;
   ctaText?: string;
-  onAdd?: (pack: PackConfig) => void;
+  onBuy?: (pack: PackConfig) => void;
   /** Average rating (e.g., 4.7) — only shown if realReviewCount > 0 */
   realRating?: number;
   /** Number of approved reviews — if 0 or undefined, no rating is shown */
@@ -77,7 +76,7 @@ export function BundleCard({
 
       {/* Value prop — 1-line subtitle */}
       <p className="text-sm text-[#6B7280] mb-3 line-clamp-1">
-        {pack.desc.replace(" + كتاب هدية 🎁", "").trim()}
+        {pack.desc.replace(" + كتاب هدية ���", "").trim()}
       </p>
 
       {/* Price block */}
@@ -95,14 +94,13 @@ export function BundleCard({
         </span>
       </div>
 
-      {/* CTA */}
+      {/* CTA — Direct Buy Now */}
       <button
-        onClick={() => onAdd?.(pack)}
-        className="w-full py-2.5 px-4 rounded-full font-semibold text-lg text-white bg-[#15803D] hover:bg-[#16a34a] transition-colors"
+        onClick={() => onBuy?.(pack)}
+        className="w-full py-3 px-4 rounded-xl font-extrabold text-lg text-white bg-[#15803D] hover:bg-[#16a34a] transition-colors shadow-sm hover:shadow-md"
         type="button"
       >
         {ctaText}
-        <ShoppingCart size={14} className="ml-2" />
       </button>
     </div>
   );

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { CartProvider } from "@/components/CartContext";
-import { CartButton } from "@/components/CartButton";
 import { MetaPixel } from "@/components/MetaPixel";
 import "./globals.css";
 
@@ -29,11 +27,7 @@ export default function RootLayout({
       >
         {/* Meta Pixel base + PageView on route changes */}
         <MetaPixel />
-        <CartProvider>
-          {children}
-          {/* Floating mini-cart trigger — sits above every route */}
-          <CartButton />
-        </CartProvider>
+        {children}
       </body>
     </html>
   );
