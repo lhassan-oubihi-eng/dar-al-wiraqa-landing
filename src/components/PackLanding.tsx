@@ -1,38 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { PackConfig, offers } from "@/data/offers";
+import { PackConfig } from "@/data/offers";
 import { StickyBanner } from "@/components/StickyBanner";
 import { HeroSection } from "@/components/HeroSection";
-import { BundleCard } from "@/components/BundleCard";
-import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { CheckoutSection } from "@/components/CheckoutSection";
 import { MobileStickyFooter } from "@/components/MobileStickyFooter";
-import { TrustRibbon } from "@/components/TrustRibbon";
+import { Gift, Truck, CreditCard, Check, Headphones, ShieldCheck } from "lucide-react";
 
 interface PackLandingProps {
   pack: PackConfig;
 }
 
-/** Return the 3 other category packs (excluding the current one),
- * prioritizing the 4 core categories: psychology, religious, self-dev, finance. */
-function otherPacks(pack: PackConfig, all: PackConfig[]): PackConfig[] {
-  const coreSlugs = ["psychology", "religious", "self-development", "finance"];
-  const core = all.filter((p) => coreSlugs.includes(p.slug) && p.slug !== pack.slug);
-  const others = all.filter((p) => !coreSlugs.includes(p.slug) && p.slug !== pack.slug);
-  const result = [...core];
-  while (result.length < 3) {
-    const next = others.find((p) => !result.some((q) => q.slug === p.slug));
-    if (next) {
-      result.push(next);
-    } else {
-      break;
-    }
-  }
-  return result;
-}
-
-function firePixel(name: string, params: Record<string, unknown>) {
+export function firePixel(name: string, params: Record<string, unknown>) {
   try {
     const w = window as unknown as {
       fbq?: (type: string, eventName: string, p?: Record<string, unknown>) => void;
@@ -76,67 +56,77 @@ export function PackLanding({ pack }: PackLandingProps) {
       {/* 1. Sticky top banner */}
       <StickyBanner text={pack.tagline} />
 
-      {/* Main content */}
+      {/* Main content — Direct Response single-column flow */}
       <main className="mx-auto max-w-[420px] pb-6 bg-[#F9F9F9] min-h-screen">
-        {/* 2. HERO SECTION — product carousel, price, trust badges, CTA */}
-        <HeroSection
-          subheadline={pack.subheadline}
-          books={pack.books}
-          giftBookIndex={pack.giftBookIndex}
-          originalPrice={pack.originalPrice}
-          price={pack.price}
-          feminine={pack.feminine}
-          onCtaClick={scrollToForm}
-        />
 
-        {/* COD / delivery trust ribbon */}
-        <div className="mx-4 mb-3">
-          <TrustRibbon />
-        </div>
-
-        {/* Honest trust block — no fake reviews or ratings */}
-        <div className="mx-4 my-2 rounded-xl border border-[#E5E5E5] px-4 py-3 bg-white text-center">
-          <p className="text-sm font-medium text-[#1F2937] mb-2">
-            متجر جديد وثقتكم تهمنا 🌱
-          </p>
-          <p className="text-xs text-[#6B7280] leading-relaxed">
-            كل طلب كنتأكدو منه شخصياً قبل الشحن، وضمان استرجاع كامل خلال 30 يوماً إلا ما عجبكش المحتوى.
-          </p>
-        </div>
-
-        {/* 3. CHECKOUT FORM — express COD, directly on page, immediately below price */}
-        <div className="mx-4 mb-3">
-          <CheckoutSection pack={pack} namePlaceholder={pack.namePlaceholder} />
-        </div>
-
-        {/* 4. GOLDEN GUARANTEE (real policy) */}
-        <GuaranteeSection guarantee={pack.guarantee} />
-
-        {/* 5. Book details grid — genuine product information */}
-        <div className="mx-4 my-4 rounded-xl border border-[#E5E5E5] p-4 bg-white">
-          <h3 className="mb-3 text-center text-sm font-extrabold text-[#1F2937]">
-            ما ستحصل عليه
-          </h3>
-          <div className="space-y-2 text-center">
-            <p className="text-xs text-[#6B7280]">
-              ✓ 5 كتب أساسية مختارة بعناية
-            </p>
-            <p className="text-xs text-[#6B7280]">
-              ✓ كتاب هدية مجاني
-            </p>
-            <p className="text-xs text-[#6B7280]">
-              ✓ توصيل مجاني لجميع مدن المغرب
-            </p>
-            <p className="text-xs text-[#6B7280]">
-              ✓ دفع عند الاستلام — لا دفع مسبق
-            </p>
-            <p className="text-xs text-[#6B7280]">
-              ✓ ضمان استرجاع كامل خلال 30 يوماً
-            </p>
+        {/* Top Trust Bar */}
+        <div className="bg-white border-b border-gray-200 py-3 px-3">
+          <div className="flex items-center justify-around text-sm font-bold text-gray-700">
+            <div className="flex items-center gap-1.5">
+              <Headphones className="w-5 h-5 text-rose-500" />
+              <span>خدمة ما بعد البيع</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Truck className="w-5 h-5 text-rose-500" />
+              <span>التوصيل مجاني</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="w-5 h-5 text-rose-500" />
+              <span>مع الضمان</span>
+            </div>
           </div>
         </div>
 
-        {/* 6. Mobile Sticky Footer — always-visible CTA */}
+        {/* ===== 2. VISUAL & HOOK ===== */}
+        <HeroSection
+          books={pack.books}
+          price={pack.price}
+          originalPrice={pack.originalPrice}
+          packName={pack.packName}
+          feminine={pack.feminine}
+        />
+
+        {/* ===== 3. MINIMALIST VALUE PROPOSITION ===== */}
+        <section className="mx-4 my-6">
+          <h2 className="text-center text-xl md:text-2xl font-black text-gray-900 mb-4">
+            ماذا تحصل؟
+          </h2>
+          <ul className="space-y-2 text-center">
+            {pack.books.map((book, i) => (
+              <li
+                key={book.id}
+                className="flex items-center justify-center gap-2 text-base font-medium text-gray-900"
+              >
+                {i === pack.giftBookIndex ? (
+                  <>
+                    <Gift className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" />
+                    <span className="text-[#15803D] font-bold">{book.title} (هدية مجانية)</span>
+                  </>
+                ) : (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                    <span>{book.title}</span>
+                  </>
+                )}
+              </li>
+            ))}
+            <li className="flex items-center justify-center gap-2 text-base font-medium text-gray-900">
+              <Truck className="w-5 h-5 text-rose-500 inline-block ml-1.5 align-sub" />
+              <span>توصيل مجاني لجميع مدن المغرب</span>
+            </li>
+            <li className="flex items-center justify-center gap-2 text-base font-medium text-gray-900">
+              <CreditCard className="w-5 h-5 text-rose-500 inline-block ml-1.5 align-sub" />
+              <span>دفع نقداً عند الاستلام — لا تدفع شيئاً الآن</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* ===== 4. EMBEDDED DIRECT CHECKOUT FORM ===== */}
+        <div ref={formRef} className="mx-4">
+          <CheckoutSection pack={pack} onCtaClick={scrollToForm} />
+        </div>
+
+        {/* Mobile Sticky Footer */}
         <MobileStickyFooter
           price={pack.price}
           feminine={pack.feminine}
@@ -144,8 +134,10 @@ export function PackLanding({ pack }: PackLandingProps) {
         />
 
         {/* Site footer */}
-        <footer className="mt-6 border-t border-[#E5E5E5] py-4 text-center text-[11px] text-[#6B7280]">
-          {pack.footer.copyright}
+        <footer className="border-t border-[#E5E5E5] py-4 text-center">
+          <p className="text-sm text-[#6B7280]">
+            {pack.footer.copyright}
+          </p>
         </footer>
       </main>
     </>

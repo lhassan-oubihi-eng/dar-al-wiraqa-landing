@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { X, Gift } from "lucide-react";
 
 interface ExitIntentPopupProps {
   packName: string;
@@ -92,13 +92,13 @@ export function ExitIntentPopup({
           className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full text-2xl"
           style={{ background: "#271F17" }}
         >
-          🎁
+          <Gift className="w-8 h-8 text-rose-500 inline-block align-sub" />
         </div>
-        <h3 className="text-lg font-extrabold mb-1">
+        <h3 className="text-xl md:text-2xl font-black mb-1">
           لا تغادر الباقة الآن!
         </h3>
-        <p className="text-sm text-[#F3E6C4] leading-relaxed mb-4">
-          «{packName}» بـ <strong className="text-[#16a34a]">{price} درهم</strong>{" "}
+        <p className="text-base text-[#F3E6C4] leading-relaxed mb-4">
+          «{packName}» بـ <strong className="text-[#16a34a] text-lg">{price} درهم</strong>{" "}
           شامل التوصيل — والدفع <strong>عند الاستلام</strong>. احجز مكانك الآن
           وبلا أي دفع مسبق.
         </p>
@@ -107,13 +107,13 @@ export function ExitIntentPopup({
             setOpen(false);
             onReserve();
           }}
-          className="w-full rounded-xl bg-[#16a34a] py-3.5 text-sm font-extrabold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 py-4 text-lg font-extrabold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
         >
           احجز الباقة الآن — بلا دفع مسبق
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="mt-2 w-full text-xs text-[#A68B69] underline"
+          className="mt-2 w-full text-sm text-[#A68B69] underline"
         >
           لا شكراً، سأعيد التفكير
         </button>

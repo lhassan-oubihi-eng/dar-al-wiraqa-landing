@@ -7,7 +7,7 @@ interface StickyBannerProps {
 export function StickyBanner({ text }: StickyBannerProps) {
   return (
     <div
-      className="sticky top-0 z-20 text-center text-sm font-bold py-3 px-4"
+      className="sticky top-0 z-20 text-center text-base font-extrabold py-3 px-4"
       style={{ background: "#16a34a", color: "#fff" }}
     >
       {text}

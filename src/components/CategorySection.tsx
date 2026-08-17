@@ -7,7 +7,6 @@ interface CategorySectionProps {
   title: string;
   subtitle?: string;
   packs: PackConfig[];
-  onBuy?: (pack: PackConfig) => void;
   marketingHook?: string;
   hookIcon?: React.ReactNode;
 }
@@ -72,7 +71,6 @@ export function CategorySection({
   title,
   subtitle,
   packs,
-  onBuy,
   marketingHook,
   hookIcon,
 }: CategorySectionProps) {
@@ -88,14 +86,14 @@ export function CategorySection({
         {hook && (
           <div className="mb-4 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#F0FDF4] to-[#D1FAE5] border border-[#BBF7D0]">
             {icon && <span className="text-[#15803D]">{icon}</span>}
-            <span className="text-sm font-bold text-[#15803D]">{hook}</span>
+            <span className="text-base font-bold text-[#15803D]">{hook}</span>
           </div>
         )}
-        <h2 className="text-2xl font-extrabold text-[#1F2937] md:text-3xl">
+        <h2 className="text-2xl font-black text-gray-900 md:text-4xl">
           {title}
         </h2>
         {subtitle && (
-          <p className="mt-1 text-sm text-[#6B7280]">{subtitle}</p>
+          <p className="mt-1 text-base text-[#6B7280]">{subtitle}</p>
         )}
       </div>
 
@@ -103,7 +101,7 @@ export function CategorySection({
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {packs.map((pack) => (
           <div key={pack.slug}>
-            <PackSlider pack={pack} onBuy={onBuy!} />
+            <PackSlider pack={pack} />
           </div>
         ))}
       </div>

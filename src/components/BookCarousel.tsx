@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Gift } from "lucide-react";
 import { Book } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
 
@@ -87,13 +87,13 @@ export function BookCarousel({
 
         {isGift && (
           <span className="absolute top-3 right-3 z-10 rounded-full bg-[#15803D] px-2.5 py-1 text-[10px] font-extrabold text-white">
-            🎁 هدية
+            <Gift className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" /> هدية
           </span>
         )}
       </div>
 
       {/* Book title */}
-      <p className="mt-2 text-center text-sm font-bold text-[#1F2937]">
+      <p className="mt-2 text-center text-base md:text-lg font-bold text-gray-900">
         {current.title}
       </p>
 
@@ -159,7 +159,7 @@ export function BookCarousel({
               />
               {isThumbGift && (
                 <span className="absolute top-0 right-0 rounded-bl rounded-tr-[2px] bg-[#15803D] px-[2px] text-[6px]">
-                  🎁
+                  <Gift className="w-2 h-2 text-rose-500 inline-block align-middle" />
                 </span>
               )}
             </button>

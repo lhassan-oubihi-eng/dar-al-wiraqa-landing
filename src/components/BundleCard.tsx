@@ -3,6 +3,8 @@
 import React from "react";
 import { PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
+import Link from "next/link";
+import { Star } from "lucide-react";
 
 /**
  * Reusable bundle card — same markup on homepage, category pages, and landing
@@ -61,13 +63,17 @@ export function BundleCard({
 
       {/* Bundle title + real rating (only if we have real reviews) */}
       <div className="mb-3">
-        <h3 className="text-lg font-bold text-[#1F2937] line-clamp-2">
+        <h3 className="text-xl md:text-2xl font-black text-gray-900 line-clamp-2">
           {pack.packName}
         </h3>
         {hasRealReviews && realRating && (
-          <p className="mt-1 flex items-center gap-1 text-xs text-[#6B7280]">
-            <span className="text-[#D4AF37]">★★★★★</span>
-            <span className="text-[9px]">
+          <p className="mt-1 flex items-center gap-1 text-sm text-[#6B7280]">
+            <span className="flex items-center gap-0.5 text-[#D4AF37]">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star key={i} className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
+              ))}
+            </span>
+            <span className="text-xs">
               {realRating.toFixed(1)} ({realReviewCount} طلب)
             </span>
           </p>
@@ -75,33 +81,32 @@ export function BundleCard({
       </div>
 
       {/* Value prop — 1-line subtitle */}
-      <p className="text-sm text-[#6B7280] mb-3 line-clamp-1">
-        {pack.desc.replace(" + كتاب هدية ���", "").trim()}
+      <p className="text-base text-[#6B7280] mb-3 line-clamp-1">
+        {pack.desc.replace(" + كتاب هدية", "").trim()}
       </p>
 
       {/* Price block */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <del className="text-sm text-[#9CA3AF] line-through">
+          <del className="text-base text-[#9CA3AF] line-through">
             {pack.originalPrice} درهم
           </del>
-          <span className="text-2xl font-bold text-[#15803D]">
+          <span className="text-2xl md:text-3xl font-black text-[#15803D]">
             {pack.price} درهم
           </span>
         </div>
-        <span className="text-sm text-[#15803D] font-medium">
+        <span className="text-sm font-bold text-[#15803D]">
          وفرت {savings} درهم
         </span>
       </div>
 
-      {/* CTA — Direct Buy Now */}
-      <button
-        onClick={() => onBuy?.(pack)}
-        className="w-full py-3 px-4 rounded-xl font-extrabold text-lg text-white bg-[#15803D] hover:bg-[#16a34a] transition-colors shadow-sm hover:shadow-md"
-        type="button"
+      {/* CTA — Direct Buy Now as Link */}
+      <Link
+        href={`/checkout/${pack.slug}`}
+        className="w-full py-4 px-4 rounded-xl font-extrabold text-lg md:text-xl text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-sm hover:shadow-md flex items-center justify-center"
       >
         {ctaText}
-      </button>
+      </Link>
     </div>
   );
 }

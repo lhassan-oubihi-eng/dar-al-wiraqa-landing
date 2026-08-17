@@ -60,8 +60,10 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
       }
 
       onSuccess();
-    } catch (err: any) {
-      setError(err?.message ?? "خطأ غير متوقع. يرجى المحاولة مرة أخرى.");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "خطأ غير متوقع. يرجى المحاولة مرة أخرى.";
+      setError(message);
       setSubmitting(false);
     }
   };
@@ -74,10 +76,10 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
     >
       <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6 md:p-8 shadow-sm">
         <div className="mb-6 text-center">
-          <h2 id="checkout-title" className="text-2xl font-extrabold text-[#1F2937]">
+          <h2 id="checkout-title" className="text-2xl md:text-3xl font-black text-gray-900">
             إتمام الطلب — {pack.packName}
           </h2>
-          <p className="mt-2 text-sm text-[#6B7280]">
+          <p className="mt-2 text-base text-[#6B7280]">
             {pack.checkout.subtitle}
           </p>
         </div>
@@ -91,11 +93,11 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           <div>
             <label
               htmlFor="name"
-              className="block mb-1 text-sm font-medium text-[#374151]"
+              className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
               الاسم الكامل <span className="text-red-500">*</span>
             </label>
@@ -107,7 +109,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full rounded-lg border border-[#D1D5DB] bg-white px-4 py-3 text-base text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
+              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
               placeholder="مثال: محمد علي"
               disabled={submitting}
             />
@@ -116,7 +118,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <div>
             <label
               htmlFor="phone"
-              className="block mb-1 text-sm font-medium text-[#374151]"
+              className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
               رقم الهاتف (يبدأ بـ 06 أو 07) <span className="text-red-500">*</span>
             </label>
@@ -128,7 +130,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               required
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="w-full rounded-lg border border-[#D1D5DB] bg-white px-4 py-3 text-base text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
+              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
               placeholder="مثال: 0612345678"
               disabled={submitting}
               maxLength={10}
@@ -138,7 +140,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <div>
             <label
               htmlFor="city"
-              className="block mb-1 text-sm font-medium text-[#374151]"
+              className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
               المدينة <span className="text-red-500">*</span>
             </label>
@@ -150,7 +152,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               required
               value={form.city}
               onChange={(e) => setForm({ ...form, city: e.target.value })}
-              className="w-full rounded-lg border border-[#D1D5DB] bg-white px-4 py-3 text-base text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
+              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
               placeholder="مثال: الدار البيضاء"
               disabled={submitting}
             />
@@ -159,7 +161,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <div>
             <label
               htmlFor="address"
-              className="block mb-1 text-sm font-medium text-[#374151]"
+              className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
               العنوان بالتفصيل (الشارع، الحي، رقم المنزل/الشقة) <span className="text-red-500">*</span>
             </label>
@@ -171,17 +173,17 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
               rows={3}
-              className="w-full rounded-lg border border-[#D1D5DB] bg-white px-4 py-3 text-base text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition resize-none"
+              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition resize-none"
               placeholder="مثال: شارع الحسن الثاني، حي الأمل، رقم 45، الطابق 2، شقة 3"
               disabled={submitting}
             />
           </div>
 
           <div className="rounded-xl bg-[#F0FDF4] p-4 text-center border border-[#BBF7D0]">
-            <p className="text-sm text-[#15803D] font-medium">
-              <span className="font-extrabold">{pack.price} درهم</span> شامل التوصيل
+            <p className="text-base text-[#15803D] font-medium">
+              <span className="font-black text-xl text-gray-900">{pack.price} درهم</span> شامل التوصيل
             </p>
-            <p className="mt-1 text-xs text-[#15803D]">
+            <p className="mt-1 text-sm text-[#15803D]">
               الدفع نقداً عند الاستلام — لا تدفع شيئاً حتى تستلم طلبك
             </p>
           </div>
@@ -189,15 +191,17 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-4 rounded-xl bg-[#15803D] text-white font-extrabold text-lg transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? "جاري التأكيد..." : pack.checkout.submitText}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-xs text-[#9CA3AF]">
-          بالضغط على الزر أعلاه، أنت تؤكد طلبك وتوافق على تواصل فريقنا معك خلال 24 ساعة.
-        </p>
+        <div className="mt-4 text-center text-sm font-bold text-gray-500">
+          <span className="text-rose-600 underline underline-offset-4">
+            اشتري الآن الكمية جد محدودة : الجودة مع الضمان.
+          </span>
+        </div>
       </div>
     </section>
   );

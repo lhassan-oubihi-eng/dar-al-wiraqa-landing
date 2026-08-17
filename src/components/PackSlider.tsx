@@ -1,27 +1,24 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import { PackConfig, Book } from "@/data/offers";
+import { useState, useCallback, useEffect } from "react";
+import { PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Zap, Gift } from "lucide-react";
+import Link from "next/link";
 
 interface PackSliderProps {
   pack: PackConfig;
-  onBuy: (pack: PackConfig) => void;
   ctaText?: string;
 }
 
-export function PackSlider({ pack, onBuy, ctaText = "شراء الآن" }: PackSliderProps) {
+export function PackSlider({ pack, ctaText = "شراء الآن" }: PackSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-
+  const [isPaused, setIsPaused] = useState(false);
   const books = pack.books;
   const savings = pack.originalPrice - pack.price;
 
   const goToSlide = useCallback((index: number) => {
-    setCurrentIndex(Math.max(0, Math.min(index, books.length - 1)));
+    setCurrentIndex((index + books.length) % books.length);
   }, [books.length]);
 
   const nextSlide = useCallback(() => {
@@ -32,209 +29,113 @@ export function PackSlider({ pack, onBuy, ctaText = "شراء الآن" }: PackS
     goToSlide(currentIndex - 1);
   }, [currentIndex, goToSlide]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-    setIsDragging(true);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (touchStart === null || !isDragging) return;
-    const touchCurrent = e.touches[0].clientX;
-    const diff = touchStart - touchCurrent;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) nextSlide();
-      else prevSlide();
-      setTouchStart(null);
-      setIsDragging(false);
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setTouchStart(null);
-    setIsDragging(false);
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setTouchStart(e.clientX);
-    setIsDragging(true);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (touchStart === null || !isDragging) return;
-    const diff = touchStart - e.clientX;
-    if (Math.abs(diff) > 80) {
-      if (diff > 0) nextSlide();
-      else prevSlide();
-      setTouchStart(null);
-      setIsDragging(false);
-    }
-  };
-
-  const handleMouseUp = () => {
-    setTouchStart(null);
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setTouchStart(null);
-    setIsDragging(false);
-  };
-
-  const currentBook = books[currentIndex];
-  const isGift = books.indexOf(currentBook) === books.length - 1;
+  // Auto-advance carousel every 3 seconds unless paused
+  useEffect(() => {
+    if (isPaused || books.length <= 1) return;
+    const interval = setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [currentIndex, isPaused, books.length, goToSlide]);
 
   return (
-    <div className="bg-white border border-[#E5E5E5] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300">
+    <div 
+      className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       {/* Marketing Hook Badge */}
-      <div className="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#FEF3C7] to-[#FDE68A] border border-[#FCD34D]">
-        <span className="text-xs font-extrabold text-[#92400E]">عرض حصري</span>
-        <span className="text-[11px] font-medium text-[#78350F]">
+      <div className="mb-3 inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#FEF3C7] to-[#FDE68A] border border-[#FCD34D] text-center w-full">
+        <span className="text-xs font-extrabold text-[#92400E]"><Zap className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-1.5 align-sub" /> عرض حصري</span>
+        <span className="text-[11px] font-bold text-[#78350F]">
           {pack.price} درهم فقط لـ 6 كتب + توصيل مجاني
         </span>
       </div>
 
-      {/* Book Carousel */}
-      <div className="relative mb-6">
-        <div
-          ref={sliderRef}
-          className="flex overflow-hidden snap-x snap-mandatory pb-4 -mx-4 px-4"
-          role="region"
-          aria-label={`كتب باقة ${pack.packName}`}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
-        >
-          {books.map((book, i) => {
-            const isGiftBook = i === books.length - 1;
-            return (
-              <div
-                key={book.id}
-                className="flex-none w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 snap-center px-4"
+      {/* Book Carousel Slider */}
+      <div className="relative mb-4">
+        <div className="relative aspect-[5/7] w-full max-w-[220px] mx-auto overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-md group">
+          <BookCover
+            title={books[currentIndex].title}
+            src={books[currentIndex].coverUrl}
+            className="h-full w-full object-cover transition-all duration-500 scale-100"
+          />
+          {currentIndex === books.length - 1 && (
+            <span className="absolute inset-x-0 top-0 z-10 py-1.5 text-center text-[10px] font-extrabold text-white bg-[#15803D] shadow-sm">
+              <Gift className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" /> هدية مجانية
+            </span>
+          )}
+
+          {/* Navigation Arrows */}
+          {books.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.preventDefault(); prevSlide(); }}
+                className="absolute left-1 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow-md hover:bg-white hover:text-[#15803D] transition-all"
+                aria-label="الكتاب السابق"
               >
-                <div className="flex flex-col items-center group">
-                  <div className="relative aspect-[5/7] w-full max-w-xs overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm group-hover:shadow-md transition-shadow duration-300">
-                    <BookCover
-                      title={book.title}
-                      src={book.coverUrl}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    {isGiftBook && (
-                      <span className="absolute inset-x-0 top-0 z-10 py-1.5 text-center text-[10px] font-extrabold text-white"
-                        style={{ background: "linear-gradient(90deg,#15803D,#22c55e)" }}
-                      >
-                        ��� هدية مجانية
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-2 text-center text-sm font-semibold text-[#1F2937] line-clamp-2 px-1">
-                    {book.title}
-                  </p>
-                  {isGiftBook && (
-                    <p className="mt-1 text-center text-xs font-medium text-[#15803D]">
-                      مُضمن مجاناً مع الباقة
-                    </p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+                <ChevronRight size={18} />
+              </button>
+              <button
+                onClick={(e) => { e.preventDefault(); nextSlide(); }}
+                className="absolute right-1 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow-md hover:bg-white hover:text-[#15803D] transition-all"
+                aria-label="الكتاب التالي"
+              >
+                <ChevronLeft size={18} />
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Navigation Arrows */}
-        {(books.length > 1) && (
-          <>
-            <button
-              onClick={prevSlide}
-              disabled={currentIndex === 0}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm border border-[#E5E5E5] text-[#6B7280] shadow-lg transition-all duration-200 hover:bg-white hover:text-[#15803D] disabled:opacity-0 disabled:pointer-events disabled:-translate-x-2"
-              aria-label="الكتاب السابق"
-            >
-              <ChevronRight size={20} />
-            </button>
-            <button
-              onClick={nextSlide}
-              disabled={currentIndex === books.length - 1}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm border border-[#E5E5E5] text-[#6B7280] shadow-lg transition-all duration-200 hover:bg-white hover:text-[#15803D] disabled:opacity-0 disabled:pointer-events disabled:translate-x-2"
-              aria-label="الكتاب التالي"
-            >
-              <ChevronLeft size={20} />
-            </button>
-          </>
-        )}
+        {/* Book Title */}
+        <p className="mt-3 text-center text-sm font-bold text-[#1F2937] line-clamp-1 px-2">
+          {books[currentIndex].title}
+        </p>
+        <p className="text-center text-xs text-[#6B7280]">
+          كتاب {currentIndex + 1} من {books.length} {currentIndex === books.length - 1 ? "(هدية مجانية)" : ""}
+        </p>
 
-        {/* Slide Indicators */}
-        <div className="mt-3 flex items-center justify-center gap-1.5">
+        {/* Slide Dots */}
+        <div className="mt-2 flex items-center justify-center gap-1.5">
           {books.map((_, i) => (
             <button
               key={i}
-              onClick={() => goToSlide(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === currentIndex
-                  ? "w-8 bg-[#15803D]"
-                  : "w-2 bg-[#D1D5DB] hover:bg-[#9CA3AF]"
+              onClick={(e) => { e.preventDefault(); goToSlide(i); }}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === currentIndex ? "w-6 bg-[#15803D]" : "w-1.5 bg-[#D1D5DB]"
               }`}
-              aria-label={`الذهاب للكتاب ${i + 1}`}
-              aria-current={i === currentIndex ? "true" : "false"}
+              aria-label={`الانتقال للكتاب ${i + 1}`}
             />
           ))}
         </div>
-
-        {/* Slide Counter */}
-        <p className="mt-2 text-center text-xs text-[#9CA3AF]">
-          كتاب {currentIndex + 1} من {books.length}
-        </p>
       </div>
 
       {/* Pack Info */}
-      <div className="mb-4 text-center">
-        <h3 className="text-xl font-extrabold text-[#1F2937]">{pack.packName}</h3>
-        <p className="mt-1 text-sm text-[#6B7280]">{pack.desc}</p>
+      <div className="mb-3 text-center border-t border-[#F3F4F6] pt-3">
+        <h3 className="text-xl md:text-2xl font-black text-gray-900">{pack.packName}</h3>
+        <p className="mt-0.5 text-sm text-[#6B7280] line-clamp-2">{pack.desc}</p>
       </div>
 
-      {/* Benefits List */}
-      <div className="mb-5 space-y-2 border-t border-[#F3F4F6] pt-4">
-        {[
-          "��� 5 كتب أساسية مختارة بعناية",
-          "���� كتاب هدية مجاني (القيمة: 49 درهم)",
-          "���� توصيل مجاني لجميع مدن المغرب",
-          "���� دفع عند الاستلام — لا دفع مسبق",
-          "���� ضمان استرجاع كامل خلال 30 يوم",
-        ].map((benefit, i) => (
-          <div key={i} className="flex items-start gap-2 text-sm text-[#4B5563]">
-            <span className="flex-shrink-0 mt-0.5">{benefit.slice(0, 2)}</span>
-            <span>{benefit.slice(2)}</span>
-          </div>
-        ))}
-      </div>
+      {/* Price & CTA Button */}
+      <div className="mt-auto pt-2">
+        <div className="mb-3 flex items-center justify-center gap-2">
+          <del className="text-sm text-[#9CA3AF] line-through">{pack.originalPrice} د.م</del>
+          <span className="text-2xl md:text-3xl font-black text-[#15803D]">{pack.price} درهم</span>
+          <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-[#15803D]">
+            وفر {savings}
+          </span>
+        </div>
 
-      {/* Price Block */}
-      <div className="mb-4 flex items-center justify-center gap-3">
-        <del className="text-lg text-[#9CA3AF] line-through">{pack.originalPrice} درهم</del>
-        <span className="text-3xl font-extrabold text-[#15803D]">{pack.price} درهم</span>
-        <span className="px-3 py-1 rounded-full text-sm font-bold text-white" style={{ background: "linear-gradient(90deg,#15803D,#22c55e)" }}>
-          وفر {savings} درهم
-        </span>
-      </div>
-
-      {/* CTA Button */}
-      <button
-        onClick={() => onBuy(pack)}
-        className="w-full py-4 rounded-xl font-extrabold text-lg text-white transition-all duration-200 shadow-lg hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg,#15803D 0%,#16a34a 100%)" }}
-        type="button"
-      >
-        <span className="relative z-10 flex items-center justify-center gap-2">
-          {ctaText}
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <Link
+          href={`/checkout/${pack.slug}`}
+          className="flex items-center justify-center gap-2 w-full py-4 rounded-xl font-extrabold text-lg md:text-xl text-white bg-emerald-600 hover:bg-emerald-700 shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all"
+        >
+          <span>{ctaText}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
-        </span>
-        <span className="absolute inset-0 bg-white/20 opacity-0 hover:opacity-100 transition-opacity" />
-      </button>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { STORE, offers, PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
+import { BookOpen, Check } from "lucide-react";
 
 /**
  * The order value used for ad conversion events (MAD). All packs share the
@@ -147,10 +148,10 @@ function fireConversion(total: number) {
         num_items: 1,
         content_name: "Dar Al Wiraqa Pack",
       });
-      console.log("��� SUCCESS: Meta Pixel 'Purchase' event fired!", { value: total, currency: "MAD" });
+      console.log("SUCCESS: Meta Pixel 'Purchase' event fired!", { value: total, currency: "MAD" });
     }
   } catch (error) {
-    console.error("��� Error firing Meta Pixel Purchase:", error);
+    console.error("Error firing Meta Pixel Purchase:", error);
   }
 }
 
@@ -190,7 +191,7 @@ export function ThankYouClient() {
     // Add upsells to the base order total
     const totalWithUpsells = orderTotal + upsellTotal;
 
-    console.log("���� Preparing to fire Meta Pixel Purchase event. Value:", totalWithUpsells);
+    console.log("Preparing to fire Meta Pixel Purchase event. Value:", totalWithUpsells);
 
     // 2. Robust retry mechanism for fbq
     let retries = 0;
@@ -203,13 +204,13 @@ export function ThankYouClient() {
           currency: "MAD",
           value: totalWithUpsells,
         });
-        console.log("��� SUCCESS: Meta Pixel 'Purchase' event fired!");
+        console.log("SUCCESS: Meta Pixel 'Purchase' event fired!");
       } else if (retries < 10) {
         retries++;
-        console.log(`��� fbq not ready, retrying... (${retries}/10)`);
+        console.log(`fbq not ready, retrying... (${retries}/10)`);
         timeoutId = setTimeout(firePurchaseEvent, 500);
       } else {
-        console.error("��� FAILED: Meta Pixel fbq never loaded after 10 retries.");
+        console.error("FAILED: Meta Pixel fbq never loaded after 10 retries.");
       }
     };
 
@@ -264,36 +265,36 @@ export function ThankYouClient() {
           </svg>
         </div>
 
-        <h1 className="font-extrabold text-xl mb-2 text-[#1F2937]">
+        <h1 className="font-black text-2xl md:text-3xl mb-2 text-gray-900">
           {STORE.name} — تم استلام طلبك!
         </h1>
-        <p className="text-sm text-[#4B5563] mb-1">
+        <p className="text-base text-[#4B5563] mb-1">
           شكراً لك في دار الوِراقة.
         </p>
-        <p className="text-sm text-[#4B5563] mb-1">
+        <p className="text-base text-[#4B5563] mb-1">
           طلبيتك تم تسجيلها وستصلك في أقرب وقت.
         </p>
         <hr className="border-[#E5E5E5] my-4" />
-        <p className="text-sm text-[#4B5563] mb-4">
+        <p className="text-base text-[#4B5563] mb-4">
           إجمالي الطلب:{" "}
-          <span className="text-[#15803D] font-bold">{finalTotal} درهم</span>
+          <span className="text-[#15803D] font-black text-xl">{finalTotal} درهم</span>
           {upsellCount > 0 && (
-            <span className="text-xs text-[#6B7280]">
+            <span className="text-sm text-[#6B7280]">
               {" "}
               (شامل {upsellCount} باقة إضافية)
             </span>
           )}
         </p>
-        <p className="text-xs text-[#6B7280] mb-6">
+        <p className="text-sm text-[#6B7280] mb-6">
           برجاء إبقاء هاتفك مفتوحاً؛ سيتصل بك فريقنا خلال 24 ساعة لتأكيد الطلب.
         </p>
 
         {/* Post-purchase upsell — genuine value offer, not fake urgency */}
         <div className="rounded-2xl p-5 text-center border border-[#E5E5E5] bg-[#F9F9F9]">
-          <h2 className="mb-1 text-sm font-extrabold text-[#1F2937]">
+          <h2 className="mb-1 text-lg md:text-xl font-black text-gray-900">
             أضف باقات إضافية لطلبيتك بخصم خاص
           </h2>
-          <p className="mb-4 text-xs text-[#6B7280]">
+          <p className="mb-4 text-base text-[#6B7280]">
             <span className="font-bold text-[#15803D]">
               {UPSELL_PRICE} درهم للباقة
             </span>{" "}
@@ -302,7 +303,7 @@ export function ThankYouClient() {
             مصاريف شحن إضافية
           </p>
 
-          <p className="mb-2 text-right text-[11px] font-bold text-[#6B7280]">
+          <p className="mb-2 text-right text-sm font-bold text-[#6B7280]">
             اضغط على الباقات لإضافتها أو إزالتها (يمكنك اختيار عدة باقات):
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
@@ -322,9 +323,9 @@ export function ThankYouClient() {
                       : "border-[#E5E5E5] bg-white hover:border-[#15803D]/60"
                   }`}
                 >
-                  <span className="text-lg">{p.emoji}</span>
+                  <BookOpen className="w-5 h-5 text-rose-500 flex-shrink-0" />
                   <span className="flex-1">
-                    <span className="block text-xs font-bold text-[#1F2937] leading-snug">
+                    <span className="block text-sm font-bold text-[#1F2937] leading-snug">
                       {p.packName}
                     </span>
                     <span
@@ -335,13 +336,13 @@ export function ThankYouClient() {
                       }`}
                     >
                       {isSelected
-                        ? `✓ تمت الإضافة (+${UPSELL_PRICE} درهم)`
+                        ? `تمت الإضافة (+${UPSELL_PRICE} درهم)`
                         : `${UPSELL_PRICE} درهم`}
                     </span>
                   </span>
                   {isSelected && (
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-[10px] font-black text-white">
-                      ✓
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-white">
+                      <Check className="w-3 h-3" strokeWidth={3} />
                     </span>
                   )}
                 </button>

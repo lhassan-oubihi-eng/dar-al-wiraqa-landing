@@ -1,10 +1,14 @@
+"use client";
+
 import React, { useState } from "react";
-import { Lock, Shield, Truck, Clock } from "lucide-react";
+import { User, Phone, MapPin, ShoppingBag } from "lucide-react";
 import { PackConfig } from "@/data/offers";
+
+const PHONE_RE = /^(06|07)\d{8}$/;
 
 interface CheckoutSectionProps {
   pack: PackConfig;
-  namePlaceholder?: string;
+  onCtaClick?: () => void;
 }
 
 interface FormData {
@@ -13,18 +17,11 @@ interface FormData {
   address: string;
 }
 
-const INPUT_CLASSES =
-  "w-full px-4 py-3 rounded-xl border border-[#D1D5DB] bg-[#F9F9F9] text-sm text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#15803D] focus:ring-1 focus:ring-[#15803D]";
-
-export function CheckoutSection({
-  pack,
-  namePlaceholder = "محمد علي",
-}: CheckoutSectionProps) {
-  const [form, setForm] = useState<FormData>({
-    name: "",
-    phone: "",
-    address: "",
-  });
+/**
+  * High-converting CRO checkout form matching exact requested specifications.
+  */
+export function CheckoutSection({ pack }: CheckoutSectionProps) {
+  const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,12 +35,12 @@ export function CheckoutSection({
     setError(null);
 
     if (!form.name || !form.phone || !form.address) {
-      setError("رجاءً املأ جميع الحقول.");
+      setError("رجاءً املأ جميع الحقول المطلوبة.");
       return;
     }
 
-    if (!/^(06|07)\d{8}$/.test(form.phone)) {
-      setError("أدخل رقم هاتف صحيح يبدأ بـ 06 أو 07.");
+    if (!PHONE_RE.test(form.phone)) {
+      setError("أدخل رقم هاتف صحيح يبدأ بـ 06 أو 07 (10 أرقام).");
       return;
     }
 
@@ -63,7 +60,7 @@ export function CheckoutSection({
       _template: "table",
       name: form.name,
       phone: form.phone,
-      city: form.address,
+      address: form.address,
       offer: pack.packName,
       books,
       price: `${pack.price} درهم`,
@@ -72,13 +69,23 @@ export function CheckoutSection({
     };
 
     try {
-      const w = window as unknown as { fbq?: (t: string, e: string, p?: unknown) => void };
+      const w = window as unknown as {
+        fbq?: (t: string, e: string, p?: unknown) => void;
+      };
       w.fbq?.("track", "InitiateCheckout", {
         content_name: pack.packName,
         content_ids: pack.books.map((b) => String(b.id).padStart(3, "0")),
         content_type: "product_group",
         currency: "MAD",
         value: pack.price,
+      });
+      w.fbq?.("track", "Purchase", {
+        content_name: pack.packName,
+        content_ids: pack.books.map((b) => String(b.id).padStart(3, "0")),
+        content_type: "product_group",
+        currency: "MAD",
+        value: pack.price,
+        num_items: 1,
       });
     } catch {
       /* non-blocking */
@@ -95,17 +102,6 @@ export function CheckoutSection({
     }).catch((err) => {
       console.error("FormSubmit direct send failed:", err);
     });
-
-    try {
-      const w = window as unknown as { fbq?: (t: string, e: string, p?: unknown) => void };
-      w.fbq?.("track", "Lead", {
-        currency: "MAD",
-        value: pack.price,
-        content_name: pack.packName,
-      });
-    } catch {
-      /* non-blocking */
-    }
 
     const fbclid = new URLSearchParams(window.location.search).get("fbclid") ?? "";
     try {
@@ -135,7 +131,7 @@ export function CheckoutSection({
         "orderData",
         JSON.stringify({
           name: form.name,
-          city: form.address,
+          address: form.address,
           phone: form.phone,
           offer: pack.packName,
           bump: 0,
@@ -145,143 +141,133 @@ export function CheckoutSection({
       /* non-blocking */
     }
 
-    window.location.href = "/thank-you";
+    setTimeout(function () {
+      window.location.href = "/thank-you";
+    }, 800);
   };
 
   return (
-    <section
-      id="orderForm"
-      className="mx-4 my-8 rounded-2xl bg-white shadow-lg p-6 border border-[#E5E5E5]"
-    >
-      <h2 className="font-bold text-center text-xl text-[#1F2937] mb-1">
-        {pack.checkout.title}
-      </h2>
-      <p className="text-center text-sm text-[#6B7280] mb-5">
-        {pack.checkout.subtitle}
-      </p>
-
-      {/* Trust badges — below heading, above form */}
-      <div className="mb-5 flex justify-center gap-4 text-xs font-medium">
-        <span className="flex items-center gap-1 text-[#15803D]">
-          <Shield size={14} />
-          الدفع عند الاستلام
-        </span>
-        <span className="flex items-center gap-1 text-[#15803D]">
-          <Truck size={14} />
-          توصيل مجاني
-        </span>
-        <span className="flex items-center gap-1 text-[#15803D]">
-          <Clock size={14} />
-          استلامك في 24-48 ساعة
-        </span>
+    <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border border-gray-200">
+      
+      {/* Sleek React Live Pulse Scarcity Badge */}
+      <div className="flex justify-center mb-3">
+        <div className="inline-flex items-center gap-2 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold px-3.5 py-1.5 rounded-full">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+          </span>
+          <span>عرض مباشر: باقي 4 باقات فقط بهذا السعر</span>
+        </div>
       </div>
 
-      {/* Simple order total — strictly the base pack price */}
-      <div className="mb-5 rounded-xl bg-[#F9F9F9] p-3.5 text-center">
-        <span className="text-sm text-[#6B7280]">المجموع</span>
-        <span className="ml-2 text-xl font-extrabold text-[#1F2937]">
-          {pack.price} درهم
-        </span>
-        <span className="text-xs text-[#6B7280]">
-          {" "}
-          — {pack.feminine
-            ? "الدفع عند الاستلام بلا أي رسوم"
-            : "الدفع عند الاستلام بلا أي رسوم"}
-        </span>
+      <div className="text-center mb-3">
+        <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
+          ادخل معلوماتك للطلب
+        </h2>
+      </div>
+
+      {/* In-Form Order Summary Box */}
+      <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-4 text-base font-medium text-gray-700 space-y-2.5">
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500">ثمن المنتج</span>
+          <span className="font-bold text-gray-900">{pack.price}.00 درهم</span>
+        </div>
+        <div className="flex justify-between items-center border-t border-gray-200 pt-2">
+          <span className="text-gray-500">التوصيل</span>
+          <span className="font-bold text-emerald-600">مجاني</span>
+        </div>
+        <div className="flex justify-between items-center border-t border-gray-200 pt-2 text-xl font-black">
+          <span className="text-gray-800">المجموع</span>
+          <span className="text-[#15803D]">{pack.price}.00 درهم</span>
+        </div>
       </div>
 
       {error && (
-        <div className="mb-3 text-center text-[11px] text-red-700 bg-red-50 border border-red-200 rounded-lg py-1.5">
+        <div className="mb-3 text-center text-xs font-bold text-red-700 bg-red-50 border border-red-200 rounded-xl py-2" role="alert">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleOrderSubmit} className="space-y-4">
+      <form onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
+        {/* Name Field */}
         <div>
-          <label
-            className="block text-[11px] font-bold text-[#1F2937] mb-1"
-            htmlFor="nameInput"
-          >
-            الاسم الكامل
-          </label>
-          <input
-            id="nameInput"
-            name="name"
-            type="text"
-            value={form.name}
-            onChange={handleChange}
-            className={INPUT_CLASSES}
-            placeholder={namePlaceholder}
-            required
-            autoFocus
-            autoComplete="name"
-          />
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition-all bg-white">
+            <input
+              id="nameInput"
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              value={form.name}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
+              placeholder="الاسم"
+              disabled={isSubmitting}
+            />
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <User className="w-5 h-5 text-gray-700" />
+            </div>
+          </div>
         </div>
 
+        {/* Phone Field */}
         <div>
-          <label
-            className="block text-[11px] font-bold text-[#1F2937] mb-1"
-            htmlFor="phone"
-          >
-            رقم الهاتف
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            value={form.phone}
-            onChange={handleChange}
-            className={INPUT_CLASSES}
-            placeholder="06XXXXXXXX"
-            inputMode="numeric"
-            required
-            autoComplete="tel"
-          />
-          <p className="text-[11px] text-[#6B7280] text-right mt-1">
-            {pack.feminine
-              ? "سنتصل بكِ في غضون 24 ساعة لتأكيد طلبكِ."
-              : "سنتصل بك في غضون 24 ساعة لتأكيد طلبك."}
-          </p>
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition-all bg-white">
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              required
+              value={form.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
+              placeholder="الهاتف (06/07)"
+              inputMode="numeric"
+              maxLength={10}
+              disabled={isSubmitting}
+            />
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <Phone className="w-5 h-5 text-gray-700" />
+            </div>
+          </div>
         </div>
 
+        {/* Address Field */}
         <div>
-          <label
-            className="block text-[11px] font-bold text-[#1F2937] mb-1"
-            htmlFor="address"
-          >
-            المدينة والعنوان الكامل
-          </label>
-          <input
-            id="address"
-            name="address"
-            type="text"
-            value={form.address}
-            onChange={handleChange}
-            className={INPUT_CLASSES}
-            placeholder="مثال: الدار البيضاء، شارع الحسن الثاني رقم 12"
-            required
-            autoComplete="street-address"
-          />
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition-all bg-white">
+            <input
+              id="address"
+              name="address"
+              type="text"
+              autoComplete="street-address"
+              required
+              value={form.address}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
+              placeholder="العنوان أو المدينة"
+              disabled={isSubmitting}
+            />
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <MapPin className="w-5 h-5 text-gray-700" />
+            </div>
+          </div>
         </div>
 
+        {/* Sleek CTA Button */}
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 rounded-xl font-extrabold text-lg text-white bg-[#15803D] hover:bg-[#16a34a] active:scale-[0.98] transition-all duration-200 disabled:opacity-70"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/20 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
         >
-          {isSubmitting ? (
-            <span>جاري تأكيد الطلب...</span>
-          ) : (
-            <span>{pack.checkout.submitText}</span>
-          )}
+          <ShoppingBag className="w-5 h-5 stroke-[2.5]" />
+          <span>{isSubmitting ? "جاري تأكيد الطلب..." : "اشتري الآن"}</span>
         </button>
 
-        <div className="flex justify-center items-center gap-1 mt-3">
-          <Lock size={14} className="text-[#9CA3AF]" />
-          <span className="text-xs text-[#9CA3AF]">
-            {pack.feminine
-              ? "معلوماتكِ مشفرة ومحمية بالكامل 100%"
-              : "معلوماتك مشفرة ومحمية بالكامل 100%"}
+        {/* Zero-Friction Trust Note */}
+        <div className="text-center text-sm font-bold text-gray-500 mt-2">
+          <span className="text-rose-600 underline underline-offset-4">
+            اشتري الآن الكمية جد محدودة : الجودة مع الضمان.
           </span>
         </div>
       </form>

@@ -23,7 +23,6 @@ export interface Benefit {
 export interface PackConfig {
   slug: string;
   packName: string;
-  emoji: string;
   feminine: boolean;
   namePlaceholder: string;
   desc: string;
@@ -103,7 +102,6 @@ interface RawBook {
 interface RawPack {
   slug: string;
   packName: string;
-  emoji: string;
   feminine?: boolean;
   namePlaceholder?: string;
   desc: string;
@@ -134,7 +132,6 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
   return {
     slug: pack.slug,
     packName: pack.packName,
-    emoji: pack.emoji,
     feminine,
     namePlaceholder: pack.namePlaceholder ?? "محمد علي",
     desc: pack.desc,

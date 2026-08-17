@@ -1,4 +1,3 @@
-import Script from "next/script";
 import { ThankYouClient } from "@/components/ThankYouClient";
 
 export const metadata = {

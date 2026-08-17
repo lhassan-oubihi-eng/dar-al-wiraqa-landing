@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Clock } from "lucide-react";
 
 interface UrgencyBannerProps {
   text: string;
@@ -80,8 +81,9 @@ export function UrgencyBanner({ text }: UrgencyBannerProps) {
       </div>
 
       {/* Evergreen countdown timer */}
-      <p className="mt-2 text-[11px] font-bold text-[#DC2626]">
-        ⏳ ينتهي عرض الهدية خلال <span dir="ltr">{countdown}</span>
+      <p className="mt-2 text-sm font-bold text-[#DC2626]">
+        <Clock className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" />
+        ينتهي عرض الهدية خلال <span dir="ltr">{countdown}</span>
       </p>
     </div>
   );
