@@ -192,6 +192,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
               placeholder="الاسم"
               disabled={isSubmitting}
+              autoFocus
             />
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <User className="w-5 h-5 text-gray-700" />
