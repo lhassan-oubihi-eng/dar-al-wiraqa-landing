@@ -92,7 +92,7 @@ export function ExitIntentPopup({
           className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full text-2xl"
           style={{ background: "#271F17" }}
         >
-          <Gift className="w-8 h-8 text-rose-500 inline-block align-sub" />
+          <Gift className="w-8 h-8 text-amber-300 inline-block align-sub" />
         </div>
         <h3 className="text-xl md:text-2xl font-black mb-1">
           لا تغادر الباقة الآن!

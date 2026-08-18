@@ -24,15 +24,15 @@ export function CheckoutPageClient({ pack }: { pack: PackConfig }) {
       <div className="bg-white border-b border-gray-200 py-3 px-3">
         <div className="flex items-center justify-around text-sm font-bold text-gray-700">
           <div className="flex items-center gap-1.5">
-            <Headphones className="w-5 h-5 text-rose-500" />
+            <Headphones className="w-5 h-5 text-emerald-600" />
             <span>خدمة ما بعد البيع</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Truck className="w-5 h-5 text-rose-500" />
+            <Truck className="w-5 h-5 text-emerald-600" />
             <span>التوصيل مجاني</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="w-5 h-5 text-rose-500" />
+            <ShieldCheck className="w-5 h-5 text-emerald-600" />
             <span>مع الضمان</span>
           </div>
         </div>

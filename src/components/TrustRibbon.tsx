@@ -16,10 +16,10 @@ export function TrustRibbon() {
       }}
     >
       <span className="flex items-center gap-1.5 text-[#15803D]">
-        <Banknote className="w-5 h-5 text-rose-500 inline-block ml-1.5 align-sub" /> الدفع عند الاستلام
+        <Banknote className="w-5 h-5 text-emerald-600 inline-block ml-1.5 align-sub" /> الدفع عند الاستلام
       </span>
       <span className="flex items-center gap-1.5 text-[#15803D]">
-        <Truck className="w-5 h-5 text-rose-500 inline-block ml-1.5 align-sub" /> توصيل مجاني
+        <Truck className="w-5 h-5 text-emerald-600 inline-block ml-1.5 align-sub" /> توصيل مجاني
       </span>
       <span className="flex items-center gap-1.5 text-[#15803D]">
         <Zap className="w-4 h-4 text-amber-500 fill-amber-500 inline-block ml-1.5 align-sub" /> 24 ساعة استلام

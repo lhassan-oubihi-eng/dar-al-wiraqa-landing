@@ -323,7 +323,7 @@ export function ThankYouClient() {
                       : "border-[#E5E5E5] bg-white hover:border-[#15803D]/60"
                   }`}
                 >
-                  <BookOpen className="w-5 h-5 text-rose-500 flex-shrink-0" />
+                  <BookOpen className="w-5 h-5 text-emerald-600 flex-shrink-0" />
                   <span className="flex-1">
                     <span className="block text-sm font-bold text-[#1F2937] leading-snug">
                       {p.packName}

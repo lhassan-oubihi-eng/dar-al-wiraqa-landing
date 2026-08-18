@@ -2,7 +2,8 @@
 
 import React from "react";
 import { PackConfig } from "@/data/offers";
-import { Truck, Banknote, Tag, Gift } from "lucide-react";
+import { Truck, Banknote, Tag } from "lucide-react";
+import { DailyOfferCountdown } from "@/components/DailyOfferCountdown";
 
 export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
   const original = pack.originalPrice;
@@ -10,15 +11,10 @@ export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
   const pct = original > 0 ? Math.round(((original - pack.price) / original) * 100) : 0;
 
   return (
-    <div className="bg-gradient-to-b from-red-600 via-red-700 to-red-800 text-white">
+    <div className="bg-gradient-to-b from-emerald-600 via-emerald-700 to-teal-800 text-white">
       <div className="mx-auto max-w-[420px] px-4 py-5">
-        {/* Header Tag — honest offer, not fake scarcity */}
-        <div className="flex justify-center mb-3">
-          <span className="bg-white/10 backdrop-blur-md border border-white/20 text-amber-200 px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1.5">
-            <Gift className="w-4 h-4 text-amber-300" />
-            توصيل مجاني + هدية مع الباقة
-          </span>
-        </div>
+        {/* Honest daily-offer countdown — ends at midnight Casablanca time */}
+        <DailyOfferCountdown />
 
         {/* Main Headline — value, not fake urgency */}
         <h2 className="text-center font-black text-lg md:text-xl leading-snug mb-4">
@@ -31,9 +27,9 @@ export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
             <div className="flex items-center justify-center gap-1.5 mb-1.5">
               <Tag className="w-4 h-4 text-amber-300" />
             </div>
-            <p className="text-[10px] font-medium text-red-100 mb-1">السعر بعد الخصم</p>
+            <p className="text-[10px] font-medium text-white/80 mb-1">السعر بعد الخصم</p>
             <div className="flex items-center justify-center gap-1">
-              <span className="bg-white text-red-700 font-black text-sm px-1.5 py-1 rounded-md font-mono tabular-nums">
+              <span className="bg-white text-emerald-700 font-black text-sm px-1.5 py-1 rounded-md font-mono tabular-nums">
                 {pack.price}
               </span>
               <span className="text-white/90 font-bold text-[10px] self-end pb-1">درهم</span>
@@ -45,18 +41,18 @@ export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
             <div className="flex items-center justify-center gap-1.5 mb-1.5">
               <Truck className="w-4 h-4 text-amber-300" />
             </div>
-            <p className="text-[10px] font-medium text-red-100 mb-1">التوصيل</p>
+            <p className="text-[10px] font-medium text-white/80 mb-1">التوصيل</p>
             <p className="text-xs font-bold text-white leading-tight">24-48 ساعة</p>
             <p className="text-[9px] text-amber-200 mt-1">لجميع المدن</p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-3 text-center shadow-inner">
             <div className="flex items-center justify-center gap-1.5 mb-1.5">
-              <Banknote className="w-4 h-4 text-emerald-300" />
+              <Banknote className="w-4 h-4 text-amber-300" />
             </div>
-            <p className="text-[10px] font-medium text-red-100 mb-1">الدفع</p>
+            <p className="text-[10px] font-medium text-white/80 mb-1">الدفع</p>
             <p className="text-xs font-bold text-white leading-tight">عند الاستلام</p>
-            <p className="text-[9px] text-emerald-200 mt-1">نقداً</p>
+            <p className="text-[9px] text-amber-200 mt-1">نقداً</p>
           </div>
         </div>
 

@@ -54,7 +54,7 @@ export function HeroSection({
           />
           {currentIndex === books.length - 1 && (
             <span className="absolute inset-x-0 top-0 z-10 py-1 text-center text-[10px] font-extrabold text-white bg-[#15803D]">
-              <Gift className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" /> هدية مجانية
+              <Gift className="w-4 h-4 text-emerald-600 inline-block ml-1.5 align-sub" /> هدية مجانية
             </span>
           )}
 

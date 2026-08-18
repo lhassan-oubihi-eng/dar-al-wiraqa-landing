@@ -62,7 +62,7 @@ export function PackSlider({ pack, ctaText = "شراء الآن" }: PackSliderPr
           />
           {currentIndex === books.length - 1 && (
             <span className="absolute inset-x-0 top-0 z-10 py-1.5 text-center text-[10px] font-extrabold text-white bg-[#15803D] shadow-sm">
-              <Gift className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" /> هدية مجانية
+              <Gift className="w-4 h-4 text-emerald-100 inline-block ml-1.5 align-sub" /> هدية مجانية
             </span>
           )}
 
