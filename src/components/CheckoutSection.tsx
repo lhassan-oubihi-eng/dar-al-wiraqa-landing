@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { User, Phone, MapPin, ShoppingBag, PackageCheck, Truck, ShieldCheck } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { User, Phone, MapPin, ShoppingBag, PackageCheck, Truck, ShieldCheck, Zap, CheckCircle2 } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
@@ -24,23 +24,33 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (error) setError(null);
   };
+
+  const handleBlur = (name: string) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
+
+  const phoneValid = PHONE_RE.test(form.phone);
+  const nameValid = form.name.trim().length >= 2;
+  const addressValid = form.address.trim().length >= 3;
+  const allValid = nameValid && phoneValid && addressValid;
 
   const handleOrderSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
-    if (!form.name || !form.phone || !form.address) {
-      setError("رجاءً املأ جميع الحقول المطلوبة.");
-      return;
-    }
+    setTouched({ name: true, phone: true, address: true });
+    setIsSubmitted(true);
 
-    if (!PHONE_RE.test(form.phone)) {
-      setError("أدخل رقم هاتف صحيح يبدأ بـ 06 أو 07 (10 أرقام).");
+    if (!allValid) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
@@ -153,14 +163,23 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
           ادخل معلوماتك للطلب
         </h2>
+        <p className="text-sm text-gray-500 mt-1">
+          {pack.price} درهم فقط — توصيل مجاني والدفع عند الاستلام
+        </p>
       </div>
 
       {/* In-Form Order Summary Box */}
       <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-4 text-base font-medium text-gray-700 space-y-2.5">
         <div className="flex justify-between items-center">
-          <span className="text-gray-500">ثمن المنتج</span>
+          <span className="text-gray-500">ثمن الباقة (5 كتب + هدية)</span>
           <span className="font-bold text-gray-900">{pack.price}.00 درهم</span>
         </div>
+        {pack.originalPrice && (
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-gray-400">الثمن الأصلي</span>
+            <span className="text-gray-400 line-through font-medium">{pack.originalPrice}.00 درهم</span>
+          </div>
+        )}
         <div className="flex justify-between items-center border-t border-gray-200 pt-2">
           <span className="text-gray-500">التوصيل</span>
           <span className="font-bold text-emerald-600">مجاني</span>
@@ -169,6 +188,11 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <span className="text-gray-800">المجموع</span>
           <span className="text-[#15803D]">{pack.price}.00 درهم</span>
         </div>
+        {pack.originalPrice && (
+          <div className="bg-emerald-100 text-emerald-800 text-center text-sm font-bold rounded-lg py-1.5 mt-1">
+            وفرت {pack.originalPrice - pack.price} درهم (خصم {(100 - Math.round((pack.price / pack.originalPrice) * 100))}%)
+          </div>
+        )}
       </div>
 
       {error && (
@@ -180,7 +204,10 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       <form onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
         {/* Name Field */}
         <div>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition-all bg-white">
+          <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-gray-700">
+            الاسم الكامل <span className="text-red-500">*</span>
+          </label>
+          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.name) && !nameValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
             <input
               id="nameInput"
               name="name"
@@ -189,20 +216,27 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               required
               value={form.name}
               onChange={handleChange}
+              onBlur={() => handleBlur("name")}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="الاسم"
+              placeholder="مثال: محمد العلوي"
               disabled={isSubmitting}
               autoFocus
             />
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-              <User className="w-5 h-5 text-gray-700" />
+              {touched.name && nameValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <User className="w-5 h-5 text-gray-700" />}
             </div>
           </div>
+          {(isSubmitted || touched.name) && !nameValid && (
+            <p className="text-xs text-red-500 font-medium mt-1">رجاءً أدخل اسمك الكامل (حرفين على الأقل).</p>
+          )}
         </div>
 
         {/* Phone Field */}
         <div>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition-all bg-white">
+          <label htmlFor="phone" className="block mb-1.5 text-sm font-bold text-gray-700">
+            رقم الهاتف <span className="text-red-500">*</span>
+          </label>
+          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.phone) && !phoneValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
             <input
               id="phone"
               name="phone"
@@ -211,61 +245,102 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               required
               value={form.phone}
               onChange={handleChange}
+              onBlur={() => handleBlur("phone")}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="رقم الهاتف"
-              inputMode="numeric"
+              placeholder="0612345678"
+              inputMode="tel"
               maxLength={10}
               disabled={isSubmitting}
             />
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-              <Phone className="w-5 h-5 text-gray-700" />
+              {touched.phone && phoneValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <Phone className="w-5 h-5 text-gray-700" />}
             </div>
           </div>
+          {(isSubmitted || touched.phone) && !phoneValid && (
+            <p className="text-xs text-red-500 font-medium mt-1">أدخل رقم يبدأ بـ 06 أو 07 (10 أرقام).</p>
+          )}
         </div>
 
         {/* Address Field */}
         <div>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition-all bg-white">
+          <label htmlFor="address" className="block mb-1.5 text-sm font-bold text-gray-700">
+            العنوان أو المدينة <span className="text-red-500">*</span>
+          </label>
+          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.address) && !addressValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
             <input
               id="address"
               name="address"
               type="text"
-              autoComplete="street-address"
+              autoComplete="address-level2"
+              list="moroccan-cities"
               required
               value={form.address}
               onChange={handleChange}
+              onBlur={() => handleBlur("address")}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="العنوان أو المدينة"
+              placeholder="مثال: الدار البيضاء، حي الأمل"
               disabled={isSubmitting}
             />
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-gray-700" />
+              {touched.address && addressValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <MapPin className="w-5 h-5 text-gray-700" />}
             </div>
           </div>
+          {(isSubmitted || touched.address) && !addressValid && (
+            <p className="text-xs text-red-500 font-medium mt-1">رجاءً أدخل عنوانك أو مدينتك.</p>
+          )}
         </div>
+
+        {/* Major Moroccan cities — lightweight autocomplete with free-text fallback */}
+        <datalist id="moroccan-cities">
+          <option value="الدار البيضاء" />
+          <option value="الرباط" />
+          <option value="فاس" />
+          <option value="مراكش" />
+          <option value="طنجة" />
+          <option value="أكادير" />
+          <option value="وجدة" />
+          <option value="مكناس" />
+          <option value="القنيطرة" />
+          <option value="تطوان" />
+          <option value="سلا" />
+          <option value="تمارة" />
+          <option value="بني ملال" />
+          <option value="الجديدة" />
+          <option value="خريبكة" />
+          <option value="سطات" />
+          <option value="العرائش" />
+          <option value="الصويرة" />
+          <option value="الناظور" />
+          <option value="سيدي سليمان" />
+          <option value="بركان" />
+        </datalist>
 
         {/* Sleek CTA Button */}
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/20 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+          disabled={isSubmitting || !allValid}
+          className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          <ShoppingBag className="w-5 h-5 stroke-[2.5]" />
-          <span>{isSubmitting ? "جاري تأكيد الطلب..." : "اشتري الآن"}</span>
+          <Zap className="w-5 h-5 fill-white" />
+          <span>{isSubmitting ? "جاري تأكيد الطلب..." : "تأكيد طلبي الآن"}</span>
         </button>
 
-        {/* Trust Badges */}
-        <div className="mt-4 space-y-2.5 pt-3 border-t border-gray-100 text-right font-sans text-xs md:text-sm">
-          <div className="flex items-center gap-2.5 p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-lg text-emerald-900">
+        {/* Trust Badges — compact 2-column grid */}
+        <div className="grid grid-cols-2 gap-2 text-xs md:text-sm my-4">
+          <div className="flex items-center gap-2 p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-lg text-emerald-900">
             <PackageCheck className="w-5 h-5 text-emerald-600 shrink-0"/>
             <span><strong>معاينة قبل الدفع:</strong> افتح الطرد وتأكد من جودة الكتب قبل التسليم.</span>
           </div>
-          <div className="flex items-center gap-2.5 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
+          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
             <Truck className="w-5 h-5 text-gray-600 shrink-0"/>
             <span><strong>توصيل سريع ومضمون:</strong> خلال 24 إلى 48 ساعة لجميع المدن.</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-500 text-xs px-1">
-            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0"/>
+          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
+            <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0"/>
+            <span><strong>ضمان استرجاع 14 يوماً:</strong> إن لم تكن راضياً نسترجع المبلغ كاملاً.</span>
+          </div>
+          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-500">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0"/>
             <span>طباعة عالية الجودة وورق ممتاز مريح للقراءة.</span>
           </div>
         </div>

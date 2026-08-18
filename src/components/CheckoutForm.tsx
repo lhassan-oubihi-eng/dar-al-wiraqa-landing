@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { PackConfig } from "@/data/offers";
-import { Flame } from "lucide-react";
+import { ShoppingBag, PackageCheck, Truck, ShieldCheck, CheckCircle2, User, Phone, MapPin } from "lucide-react";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
 
@@ -85,19 +85,18 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           </p>
         </div>
 
-        {/* Urgency Banner */}
-        <div className="bg-gradient-to-r from-red-50 via-amber-50 to-red-50 border border-red-200 rounded-xl p-3.5 mb-4 text-right shadow-sm">
+        {/* Honest offer banner (no fake scarcity) */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 mb-4 text-right shadow-sm">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-red-100 text-red-600 rounded-lg shrink-0 animate-pulse">
-              <Flame className="w-5 h-5 fill-red-500 text-red-600"/>
+            <div className="p-2 bg-emerald-100 text-emerald-700 rounded-lg shrink-0">
+              <Truck className="w-5 h-5 text-emerald-700"/>
             </div>
             <div>
-              <h4 className="font-bold text-red-900 text-sm md:text-base flex items-center gap-1.5">
-                <span>سارع بالطلب! العرض محدود جداً</span>
-                <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-ping"/>
+              <h4 className="font-bold text-emerald-900 text-sm md:text-base">
+                توصيل مجاني + الدفع عند الاستلام
               </h4>
-              <p className="text-xs md:text-sm text-red-700 font-medium mt-0.5">
-                اطلب الآن واستفد من التوصيل المجاني قبل انتهاء الخصم والرجوع للسعر الأصلي!
+              <p className="text-xs md:text-sm text-emerald-700 font-medium mt-0.5">
+                {pack.price} درهم فقط — لا تدفع شيئاً حتى تستلم طلبك
               </p>
             </div>
           </div>
@@ -120,18 +119,24 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               الاسم الكامل <span className="text-red-500">*</span>
             </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              autoComplete="name"
-              required
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
-              placeholder="مثال: محمد علي"
-              disabled={submitting}
-            />
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autoComplete="name"
+                required
+                autoFocus
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
+                placeholder="مثال: محمد علي"
+                disabled={submitting}
+              />
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                <User className="w-5 h-5 text-gray-400" />
+              </div>
+            </div>
           </div>
 
           <div>
@@ -141,19 +146,25 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               رقم الهاتف (يبدأ بـ 06 أو 07) <span className="text-red-500">*</span>
             </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              autoComplete="tel"
-              required
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
-              placeholder="مثال: 0612345678"
-              disabled={submitting}
-              maxLength={10}
-            />
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                autoComplete="tel"
+                required
+                inputMode="tel"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
+                placeholder="مثال: 0612345678"
+                disabled={submitting}
+                maxLength={10}
+              />
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                <Phone className="w-5 h-5 text-gray-400" />
+              </div>
+            </div>
           </div>
 
           <div>
@@ -163,18 +174,23 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               المدينة <span className="text-red-500">*</span>
             </label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              autoComplete="address-level2"
-              required
-              value={form.city}
-              onChange={(e) => setForm({ ...form, city: e.target.value })}
-              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition"
-              placeholder="مثال: الدار البيضاء"
-              disabled={submitting}
-            />
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <input
+                type="text"
+                id="city"
+                name="city"
+                autoComplete="address-level2"
+                required
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
+                placeholder="مثال: الدار البيضاء"
+                disabled={submitting}
+              />
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-gray-400" />
+              </div>
+            </div>
           </div>
 
           <div>
@@ -184,25 +200,32 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               العنوان بالتفصيل (الشارع، الحي، رقم المنزل/الشقة) <span className="text-red-500">*</span>
             </label>
-            <textarea
-              id="address"
-              name="address"
-              autoComplete="street-address"
-              required
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
-              rows={3}
-              className="w-full rounded-xl border border-[#D1D5DB] bg-white px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:border-[#15803D] focus:ring-2 focus:ring-[#15803D]/20 outline-none transition resize-none"
-              placeholder="مثال: شارع الحسن الثاني، حي الأمل، رقم 45، الطابق 2، شقة 3"
-              disabled={submitting}
-            />
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <textarea
+                id="address"
+                name="address"
+                autoComplete="street-address"
+                required
+                value={form.address}
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
+                rows={3}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none resize-none"
+                placeholder="مثال: شارع الحسن الثاني، حي الأمل، رقم 45، الطابق 2، شقة 3"
+                disabled={submitting}
+              />
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
+                <MapPin className="w-5 h-5 text-gray-400" />
+              </div>
+            </div>
           </div>
 
-          <div className="rounded-xl bg-[#F0FDF4] p-4 text-center border border-[#BBF7D0]">
-            <p className="text-base text-[#15803D] font-medium">
-              <span className="font-black text-xl text-gray-900">{pack.price} درهم</span> شامل التوصيل
-            </p>
-            <p className="mt-1 text-sm text-[#15803D]">
+          <div className="flex items-center justify-between p-3.5 bg-gray-50 border border-gray-100 rounded-xl mb-4">
+            <span className="font-semibold text-gray-700 text-sm md:text-base">ثمن الباقة</span>
+            <span className="font-bold text-emerald-700 text-base md:text-lg">{pack.price} درهم</span>
+          </div>
+
+          <div className="rounded-xl bg-[#F0FDF4] p-4 text-center border border-[#BBF7D0] mb-5">
+            <p className="text-sm text-[#15803D]">
               الدفع نقداً عند الاستلام — لا تدفع شيئاً حتى تستلم طلبك
             </p>
           </div>
@@ -210,16 +233,31 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {submitting ? "جاري التأكيد..." : pack.checkout.submitText}
+            <span>{submitting ? "جاري التأكيد..." : pack.checkout.submitText}</span>
+            <ShoppingBag className="w-6 h-6 shrink-0" />
           </button>
         </form>
 
-        <div className="mt-4 text-center text-sm font-bold text-gray-500">
-          <span className="text-rose-600 underline underline-offset-4">
-            اشتري الآن الكمية جد محدودة : الجودة مع الضمان.
-          </span>
+        {/* Lucide Trust Badges — 2x2 compact grid */}
+        <div className="mt-5 grid grid-cols-2 gap-2.5 pt-4 border-t border-gray-100 text-right text-xs">
+          <div className="flex items-center gap-2 p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-lg text-emerald-900">
+            <PackageCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+            <span><strong>معاينة قبل الدفع</strong></span>
+          </div>
+          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
+            <Truck className="w-5 h-5 text-gray-600 shrink-0" />
+            <span><strong>توصيل 24-48 ساعة</strong></span>
+          </div>
+          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
+            <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+            <span><strong>ضمان استرجاع 14 يوماً</strong></span>
+          </div>
+          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+            <span><strong>طباعة فاخرة</strong></span>
+          </div>
         </div>
       </div>
     </section>
