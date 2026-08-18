@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, Phone, MapPin, ShoppingBag } from "lucide-react";
+import { User, Phone, MapPin, ShoppingBag, PackageCheck, Truck, ShieldCheck } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
@@ -149,17 +149,6 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   return (
     <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border border-gray-200">
       
-      {/* Sleek React Live Pulse Scarcity Badge */}
-      <div className="flex justify-center mb-3">
-        <div className="inline-flex items-center gap-2 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold px-3.5 py-1.5 rounded-full">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
-          </span>
-          <span>عرض مباشر: باقي 4 باقات فقط بهذا السعر</span>
-        </div>
-      </div>
-
       <div className="text-center mb-3">
         <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
           ادخل معلوماتك للطلب
@@ -222,7 +211,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.phone}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="الهاتف (06/07)"
+              placeholder="رقم الهاتف (مثال: 06XXXXXXXX)"
               inputMode="numeric"
               maxLength={10}
               disabled={isSubmitting}
@@ -264,11 +253,20 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <span>{isSubmitting ? "جاري تأكيد الطلب..." : "اشتري الآن"}</span>
         </button>
 
-        {/* Zero-Friction Trust Note */}
-        <div className="text-center text-sm font-bold text-gray-500 mt-2">
-          <span className="text-rose-600 underline underline-offset-4">
-            اشتري الآن الكمية جد محدودة : الجودة مع الضمان.
-          </span>
+        {/* Trust Badges */}
+        <div className="mt-4 space-y-2.5 pt-3 border-t border-gray-100 text-right font-sans text-xs md:text-sm">
+          <div className="flex items-center gap-2.5 p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-lg text-emerald-900">
+            <PackageCheck className="w-5 h-5 text-emerald-600 shrink-0"/>
+            <span><strong>معاينة قبل الدفع:</strong> افتح الطرد وتأكد من جودة الكتب قبل التسليم.</span>
+          </div>
+          <div className="flex items-center gap-2.5 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
+            <Truck className="w-5 h-5 text-gray-600 shrink-0"/>
+            <span><strong>توصيل سريع ومضمون:</strong> خلال 24 إلى 48 ساعة لجميع المدن.</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-500 text-xs px-1">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0"/>
+            <span>طباعة عالية الجودة وورق ممتاز مريح للقراءة.</span>
+          </div>
         </div>
       </form>
     </section>

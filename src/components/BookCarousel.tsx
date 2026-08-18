@@ -86,9 +86,10 @@ export function BookCarousel({
         />
 
         {isGift && (
-          <span className="absolute top-3 right-3 z-10 rounded-full bg-[#15803D] px-2.5 py-1 text-[10px] font-extrabold text-white">
-            <Gift className="w-4 h-4 text-rose-500 inline-block ml-1.5 align-sub" /> هدية
-          </span>
+          <div className="absolute top-3 right-3 left-3 z-20 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs md:text-sm py-1.5 px-3 rounded-lg shadow-lg flex items-center justify-center gap-2 border border-emerald-400/30">
+            <Gift className="w-4 h-4 text-amber-300 animate-bounce"/>
+            <span>🎁 هدية مجانية مع الباقة</span>
+          </div>
         )}
       </div>
 

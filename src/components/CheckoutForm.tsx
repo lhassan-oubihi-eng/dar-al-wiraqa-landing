@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { PackConfig } from "@/data/offers";
+import { Flame } from "lucide-react";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
 
@@ -82,6 +83,24 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <p className="mt-2 text-base text-[#6B7280]">
             {pack.checkout.subtitle}
           </p>
+        </div>
+
+        {/* Urgency Banner */}
+        <div className="bg-gradient-to-r from-red-50 via-amber-50 to-red-50 border border-red-200 rounded-xl p-3.5 mb-4 text-right shadow-sm">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 bg-red-100 text-red-600 rounded-lg shrink-0 animate-pulse">
+              <Flame className="w-5 h-5 fill-red-500 text-red-600"/>
+            </div>
+            <div>
+              <h4 className="font-bold text-red-900 text-sm md:text-base flex items-center gap-1.5">
+                <span>سارع بالطلب! العرض محدود جداً</span>
+                <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-ping"/>
+              </h4>
+              <p className="text-xs md:text-sm text-red-700 font-medium mt-0.5">
+                اطلب الآن واستفد من التوصيل المجاني قبل انتهاء الخصم والرجوع للسعر الأصلي!
+              </p>
+            </div>
+          </div>
         </div>
 
         {error && (

@@ -1,30 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ShoppingCart } from "lucide-react";
 
 interface MobileStickyFooterProps {
   price: number;
   feminine?: boolean;
   onCtaClick: () => void;
+  formRef?: React.RefObject<HTMLDivElement>;
 }
 
 export function MobileStickyFooter({
   price,
   feminine = false,
   onCtaClick,
+  formRef,
 }: MobileStickyFooterProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setVisible(true);
-      } else {
-        setVisible(false);
+    if (!formRef?.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(false);
+        } else {
+          setVisible(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
       }
-    };
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
-  }, []);
+    );
+
+    observer.observe(formRef.current);
+
+    return () => observer.unobserve(formRef.current);
+  }, [formRef]);
 
   if (!visible) return null;
 
