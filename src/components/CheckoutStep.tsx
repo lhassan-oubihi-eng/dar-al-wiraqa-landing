@@ -66,7 +66,7 @@ export function CheckoutStep({
           value={form.phone}
           onChange={(e) => onSetForm({ ...form, phone: e.target.value })}
           className={INPUT_CLASSES}
-          placeholder="06XXXXXXXX"
+          placeholder="رقم الهاتف"
           inputMode="numeric"
           autoComplete="tel"
         />

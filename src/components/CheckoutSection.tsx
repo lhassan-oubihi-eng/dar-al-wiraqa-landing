@@ -211,7 +211,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.phone}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="رقم الهاتف (مثال: 06XXXXXXXX)"
+              placeholder="رقم الهاتف"
               inputMode="numeric"
               maxLength={10}
               disabled={isSubmitting}
