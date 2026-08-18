@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PackConfig } from "@/data/offers";
-import { Truck, CreditCard, Tag, Gift } from "lucide-react";
+import { Truck, Banknote, Tag, Gift } from "lucide-react";
 
 export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
   const original = pack.originalPrice;
@@ -52,7 +52,7 @@ export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
 
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-3 text-center shadow-inner">
             <div className="flex items-center justify-center gap-1.5 mb-1.5">
-              <CreditCard className="w-4 h-4 text-emerald-300" />
+              <Banknote className="w-4 h-4 text-emerald-300" />
             </div>
             <p className="text-[10px] font-medium text-red-100 mb-1">الدفع</p>
             <p className="text-xs font-bold text-white leading-tight">عند الاستلام</p>
