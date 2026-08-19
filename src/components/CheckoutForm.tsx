@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { PackConfig } from "@/data/offers";
-import { ShoppingCart, Truck, Phone, MapPin } from "lucide-react";
+import { ShoppingCart, Truck, User, Phone, MapPin } from "lucide-react";
 
 interface CheckoutFormProps {
   pack: PackConfig;
@@ -10,7 +10,7 @@ interface CheckoutFormProps {
 }
 
 export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
-  const [form, setForm] = useState({ phone: "", address: "" });
+  const [form, setForm] = useState({ name: "", phone: "", address: "" });
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -19,6 +19,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
 
     try {
       const orderData = {
+        name: form.name,
         phone: form.phone,
         address: form.address,
         offer: pack.packName,
@@ -83,25 +84,51 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-          <div>
-            <label
-              htmlFor="phone"
-              className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
-            >
-              رقم الهاتف <span className="text-red-500">*</span>
-            </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
-              <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-gray-400" />
-              </div>
-              <input
+         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+           <div>
+             <label
+               htmlFor="name"
+               className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
+             >
+               الاسم الكامل <span className="text-red-500">*</span>
+             </label>
+             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
+               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                 <User className="w-5 h-5 text-gray-400" />
+               </div>
+               <input
+                 type="text"
+                 id="name"
+                 name="name"
+                 autoComplete="name"
+                 required
+                 autoFocus
+                 value={form.name}
+                 onChange={(e) => setForm({ ...form, name: e.target.value })}
+                 className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                 placeholder="الاسم الكامل"
+                 disabled={submitting}
+               />
+             </div>
+           </div>
+
+           <div>
+             <label
+               htmlFor="phone"
+               className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
+             >
+               رقم الهاتف <span className="text-red-500">*</span>
+             </label>
+             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
+               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                 <Phone className="w-5 h-5 text-gray-400" />
+               </div>
+               <input
                  type="tel"
                  id="phone"
                  name="phone"
                  autoComplete="tel"
                  required
-                 autoFocus
                  inputMode="tel"
                  value={form.phone}
                  onChange={(e) => setForm({ ...form, phone: e.target.value })}

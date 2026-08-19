@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Phone, MapPin, ShoppingCart } from "lucide-react";
+import { User, Phone, MapPin, ShoppingCart } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 interface CheckoutSectionProps {
@@ -10,6 +10,7 @@ interface CheckoutSectionProps {
 }
 
 interface FormData {
+  name: string;
   phone: string;
   address: string;
 }
@@ -18,7 +19,7 @@ interface FormData {
  * High-converting CRO checkout form matching exact requested specifications.
  */
 export function CheckoutSection({ pack }: CheckoutSectionProps) {
-  const [form, setForm] = useState<FormData>({ phone: "", address: "" });
+  const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       .join("\n");
 
     const formData = {
-      o_name: "",
+      o_name: form.name,
       o_phone: form.phone,
       o_address: form.address,
       offer: pack.packName,
@@ -90,7 +91,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "",
+          name: form.name,
           phone: form.phone,
           address: form.address,
           packName: pack.packName,
@@ -111,6 +112,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       localStorage.setItem(
         "orderData",
         JSON.stringify({
+          name: form.name,
           address: form.address,
           phone: form.phone,
           offer: pack.packName,
@@ -135,6 +137,31 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       </div>
 
       <form id="order-form" onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
+        {/* Name Field */}
+        <div>
+          <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
+            الاسم الكامل <span className="text-red-500">*</span>
+          </label>
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <User className="w-5 h-5 text-gray-700" />
+            </div>
+            <input
+              id="nameInput"
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              value={form.name}
+              onChange={handleChange}
+              className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                placeholder="الاسم الكامل"
+              disabled={isSubmitting}
+              autoFocus
+            />
+          </div>
+        </div>
+
         {/* Phone Field */}
         <div>
           <label htmlFor="phone"             className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
@@ -157,7 +184,6 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               inputMode="tel"
               maxLength={10}
               disabled={isSubmitting}
-              autoFocus
             />
           </div>
         </div>
