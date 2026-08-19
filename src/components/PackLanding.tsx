@@ -43,7 +43,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       {/* 2. Honest promo banner (no fake scarcity) */}
       <PackUrgencyBanner pack={pack} />
 
-      <main className="mx-auto max-w-[420px] pb-24 bg-white min-h-screen">
+      <main className="mx-auto max-w-[420px] pb-8 bg-white min-h-screen">
         {/* Main headline + ethical social proof */}
         <section className="px-4 pt-4 text-center">
           <h1 className="font-black text-2xl md:text-3xl text-[#111827] leading-snug">{pack.heroHeadline}</h1>
