@@ -10,9 +10,9 @@ export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
         {/* Honest daily-offer countdown — ends at midnight Casablanca time */}
         <DailyOfferCountdown />
 
-        {/* Main Headline — value, not fake urgency */}
+        {/* Urgency / countdown text */}
         <h2 className="text-center font-black text-lg md:text-xl leading-snug mb-4">
-          اطلب {pack.packName} الآن واحصل على التوصيل المجاني + هدية
+          {pack.urgencyText}
         </h2>
       </div>
     </div>

@@ -131,15 +131,15 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   return (
     <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border-2 border-dashed border-gray-300">
       <div className="text-center mb-3">
-        <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
-          ادخل معلوماتك للطلب
-        </h2>
+          <h2 className="font-extrabold text-xl md:text-2xl text-[#111827]">
+            {pack.formHeader}
+          </h2>
       </div>
 
       <form onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
         {/* Name Field */}
         <div>
-          <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-gray-700">
+          <label htmlFor="nameInput"             className="block mb-1.5 text-sm font-bold text-[#111827]">
             الاسم الكامل <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
@@ -154,7 +154,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               required
               value={form.name}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="الاسم الكامل"
               disabled={isSubmitting}
               autoFocus
@@ -164,7 +164,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
         {/* Phone Field */}
         <div>
-          <label htmlFor="phone" className="block mb-1.5 text-sm font-bold text-gray-700">
+          <label htmlFor="phone"             className="block mb-1.5 text-sm font-bold text-[#111827]">
             رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
@@ -179,7 +179,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               required
               value={form.phone}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="رقم الهاتف (الواتساب)"
               inputMode="tel"
               maxLength={10}
@@ -190,7 +190,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
         {/* Address Field */}
         <div>
-          <label htmlFor="address" className="block mb-1.5 text-sm font-bold text-gray-700">
+          <label htmlFor="address"             className="block mb-1.5 text-sm font-bold text-[#111827]">
             المدينة والعنوان <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
@@ -206,8 +206,8 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               required
               value={form.address}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="المدينة والعنوان"
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                placeholder="المدينة والعنوان بالكامل"
               disabled={isSubmitting}
             />
           </div>
@@ -247,10 +247,10 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="bg-[#059669] hover:bg-[#047857] text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5" />
-             <span>{isSubmitting ? "جاري تأكيد الطلب..." : "تأكيد الطلب (الدفع عند الاستلام)"}</span>
+             <span>{isSubmitting ? "جاري تأكيد الطلب..." : pack.ctaText}</span>
         </button>
 
       </form>

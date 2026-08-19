@@ -42,10 +42,10 @@ export function StickyMobileCTA({ pack }: { pack: PackConfig }) {
       <button
         onClick={scrollToForm}
         type="button"
-        className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+        className="bg-[#059669] hover:bg-[#047857] text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
       >
         <ShoppingBag className="w-5 h-5 shrink-0" />
-        <span>اطلب الآن</span>
+        <span>تأكيد الطلب الآن</span>
       </button>
     </div>
   );

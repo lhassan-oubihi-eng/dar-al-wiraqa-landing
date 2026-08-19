@@ -35,6 +35,12 @@ export interface PackConfig {
   tagline: string;
   urgency: string;
   trustLine: string;
+  announcement: string;
+  urgencyText: string;
+  heroHeadline: string;
+  socialProof: string;
+  formHeader: string;
+  ctaText: string;
   valuePropTitle: string;
   benefits: Benefit[];
   guarantee: {
@@ -104,6 +110,12 @@ interface RawPack {
   slug: string;
   packName: string;
   trustLine?: string;
+  announcement?: string;
+  urgencyText?: string;
+  heroHeadline?: string;
+  socialProof?: string;
+  formHeader?: string;
+  ctaText?: string;
   feminine?: boolean;
   namePlaceholder?: string;
   desc: string;
@@ -146,6 +158,12 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     tagline: feminine ? taglineFeminine : tagline,
     urgency: pack.urgency,
     trustLine: pack.trustLine ?? "باقة مختارة بعناية من دار الوِراقة",
+    announcement: pack.announcement ?? "🚚 توصيل مجاني + الدفع عند الاستلام بعد معاينة وفحص الكتب!",
+    urgencyText: pack.urgencyText ?? `🔥 عرض خاص محدود: ${pack.packName} كاملة بـ ${pack.price} درهم فقط`,
+    heroHeadline: pack.heroHeadline ?? pack.heroH1,
+    socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ ${pack.packName} الأكثر طلباً (${allBooks.length} كتب + هدية)`,
+    formHeader: pack.formHeader ?? "📦 أدخل معلومات الاستلام (التوصيل لباب منزلك)",
+    ctaText: pack.ctaText ?? "تأكيد الطلب الآن — الدفع عند الاستلام 👈",
     valuePropTitle,
     benefits: allBooks.map((b) => ({
       title: b.title,

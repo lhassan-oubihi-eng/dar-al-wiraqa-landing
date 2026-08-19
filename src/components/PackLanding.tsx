@@ -38,13 +38,22 @@ export function PackLanding({ pack }: PackLandingProps) {
   return (
     <>
       {/* 1. Sticky top banner */}
-      <StickyBanner text={pack.tagline} />
+      <StickyBanner text={pack.announcement} />
 
       {/* 2. Honest promo banner (no fake scarcity) */}
       <PackUrgencyBanner pack={pack} />
 
       <main className="mx-auto max-w-[420px] pb-24 bg-[#F9F9F9] min-h-screen">
-        {/* 3. Static Bundle Showcase */}
+        {/* Main headline + ethical social proof */}
+        <section className="px-4 pt-4 text-center">
+          <h1 className="font-black text-2xl md:text-3xl text-[#111827] leading-tight">{pack.heroHeadline}</h1>
+          <p className="mt-2 text-sm font-bold text-[#111827] flex items-center justify-center gap-1">
+            <span aria-hidden>⭐⭐⭐⭐⭐</span>
+            <span>{pack.socialProof}</span>
+          </p>
+        </section>
+
+        {/* Static Bundle Showcase */}
         <BundleShowcase pack={pack} />
 
         {/* 4. Checkout form placed HIGH on the page */}

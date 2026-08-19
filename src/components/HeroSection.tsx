@@ -78,7 +78,7 @@ export function HeroSection({
           )}
         </div>
 
-        <p className="mt-1 text-xs font-bold text-[#1F2937] line-clamp-1">
+        <p className="mt-1 text-xs font-bold text-[#111827] line-clamp-1">
           {books[currentIndex].title}
         </p>
 
