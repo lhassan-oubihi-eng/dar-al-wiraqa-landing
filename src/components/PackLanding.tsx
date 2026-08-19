@@ -42,7 +42,7 @@ export function PackLanding({ pack }: PackLandingProps) {
       {/* Persistent site header with free-shipping text */}
       <StickyBanner text={pack.announcement} />
 
-      <main className="mx-auto max-w-[420px] pb-8 bg-white min-h-screen">
+      <main className="mx-auto max-w-[460px] pb-12 bg-white min-h-screen">
         {/* HERO — attention + clarity */}
         <ProductHero pack={pack} />
 

@@ -20,7 +20,7 @@ const HEADING = "text-center font-black text-xl text-[#111827] mb-3";
 /* ---------- 1. HERO: attention + clarity ---------- */
 export function ProductHero({ pack }: { pack: PackConfig }) {
   return (
-    <section className="px-4 pt-4 text-center">
+    <section className="px-5 pt-6 text-center">
       <h1 className="font-black text-3xl md:text-4xl text-[#1E3A8A] leading-snug">
         {pack.heroHeadline}
       </h1>
@@ -30,7 +30,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
       </p>
 
       {/* Book covers with titles underneath, 3 per row */}
-      <div className="mt-2 grid grid-cols-3 gap-2.5">
+      <div className="mt-3 grid grid-cols-3 gap-3">
         {pack.books.map((b, i) => (
           <div key={b.id} className="flex flex-col">
             <div
@@ -53,7 +53,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
       </div>
 
       {/* Price block */}
-      <div className="mt-3 flex items-center justify-center gap-2 flex-wrap">
+      <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
         <span className="text-gray-400 line-through text-base">
           {pack.originalPrice} درهم
         </span>
@@ -61,7 +61,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
           {pack.price} درهم
         </span>
       </div>
-      <p className="text-center text-sm font-bold text-[#1E3A8A] mt-1">
+      <p className="text-center text-sm font-bold text-[#1E3A8A] mt-2">
         توصيل مجاني + الدفع عند الاستلام
       </p>
     </section>
