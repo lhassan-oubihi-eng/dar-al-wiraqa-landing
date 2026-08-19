@@ -140,7 +140,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Name Field */}
         <div>
           <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
-            الاسم الكامل <span className="text-red-500">*</span>
+            الاسم <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -155,7 +155,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.name}
               onChange={handleChange}
               className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="الاسم الكامل"
+                placeholder="الاسم"
               disabled={isSubmitting}
               autoFocus
             />
@@ -191,7 +191,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Address Field */}
         <div>
             <label htmlFor="address"             className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
-            المدينة والحَيّ <span className="text-red-500">*</span>
+            العنوان <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -207,7 +207,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.address}
               onChange={handleChange}
               className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="المدينة والحَيّ"
+                placeholder="العنوان"
               disabled={isSubmitting}
             />
           </div>
