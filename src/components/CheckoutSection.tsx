@@ -129,7 +129,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   };
 
   return (
-    <section id="orderForm" className="mt-4 rounded-2xl bg-white shadow-xl p-5 sm:p-6 border-2 border-dashed border-gray-300">
+    <section id="orderForm" className="mt-10 rounded-2xl bg-white shadow-xl p-5 sm:p-6 border-2 border-solid border-[#1E3A8A]">
       <div className="text-center mb-3">
           <h2 className="font-extrabold text-xl md:text-2xl text-[#1E3A8A]">
             {pack.formHeader}

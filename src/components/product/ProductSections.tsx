@@ -21,12 +21,12 @@ const HEADING = "text-center font-black text-xl text-[#111827] mb-3";
 export function ProductHero({ pack }: { pack: PackConfig }) {
   return (
     <section className="px-5 pt-6 text-center">
-      <h1 className="font-black text-3xl md:text-4xl text-[#1E3A8A] leading-snug">
+      <h1 className="font-black text-3xl md:text-4xl text-[#1E3A8A] leading-relaxed">
         {pack.heroHeadline}
       </h1>
 
       {/* Book covers with titles underneath, 3 per row */}
-      <div className="mt-3 grid grid-cols-3 gap-3">
+      <div className="mt-8 grid grid-cols-3 gap-3">
         {pack.books.map((b, i) => (
           <div key={b.id} className="flex flex-col">
             <div
