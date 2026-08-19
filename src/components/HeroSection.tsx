@@ -40,7 +40,7 @@ export function HeroSection({
 
   return (
     <section className="px-3 pt-3 pb-3 text-center bg-white border-b border-[#E5E5E5] shadow-xs">
-      <h1 className="font-display text-2xl md:text-3xl font-black text-gray-900 leading-tight mb-2">
+          <h1 className="font-display text-2xl md:text-3xl font-black text-gray-900 leading-tight mb-2">
         {packName}
       </h1>
 
@@ -53,8 +53,8 @@ export function HeroSection({
             className="h-full w-full object-cover"
           />
           {currentIndex === books.length - 1 && (
-            <span className="absolute inset-x-0 top-0 z-10 py-1 text-center text-[10px] font-extrabold text-white bg-[#15803D]">
-              <Gift className="w-4 h-4 text-emerald-600 inline-block ml-1.5 align-sub" /> هدية مجانية
+            <span className="absolute inset-x-0 top-0 z-10 py-1 text-center text-[10px] font-extrabold text-white bg-[#047857]">
+              <Gift className="w-4 h-4 text-[#047857] inline-block ml-1.5 align-sub" /> هدية مجانية
             </span>
           )}
 
@@ -62,14 +62,14 @@ export function HeroSection({
             <>
               <button
                 onClick={() => goToSlide(currentIndex - 1)}
-                className="absolute left-1 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow hover:bg-white hover:text-[#15803D]"
+                className="absolute left-1 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow hover:bg-white hover:text-[#047857]"
                 aria-label="السابق"
               >
                 <ChevronRight size={16} />
               </button>
               <button
                 onClick={() => goToSlide(currentIndex + 1)}
-                className="absolute right-1 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow hover:bg-white hover:text-[#15803D]"
+                className="absolute right-1 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow hover:bg-white hover:text-[#047857]"
                 aria-label="التالي"
               >
                 <ChevronLeft size={16} />
@@ -89,7 +89,7 @@ export function HeroSection({
               key={i}
               onClick={() => goToSlide(i)}
               className={`h-1 rounded-full transition-all ${
-                i === currentIndex ? "w-4 bg-[#15803D]" : "w-1 bg-[#D1D5DB]"
+                i === currentIndex ? "w-4 bg-[#047857]" : "w-1 bg-[#D1D5DB]"
               }`}
               aria-label={`الكتاب ${i + 1}`}
             />
@@ -100,20 +100,20 @@ export function HeroSection({
       {/* Price tag */}
       <div className="flex items-center justify-center gap-2 mb-1">
         <del className="text-base text-[#9CA3AF] line-through">{originalPrice} درهم</del>
-        <span className="text-3xl font-black text-[#15803D]">{price} درهم</span>
-        <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-[#15803D]">
+        <span className="text-3xl font-black text-[#047857]">{price} درهم</span>
+        <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-[#047857]">
           وفر {savings} د.م
         </span>
       </div>
       
-      <p className="text-sm font-bold text-[#15803D]">
+      <p className="text-sm font-bold text-[#047857]">
         {feminine ? (
           <>
-            <Truck className="w-4 h-4 text-emerald-600 inline-block ml-1.5 align-sub" /> توصيل مجاني + الدفع عند الاستلام (لا تدفلي شيئاً الآن)
+            <Truck className="w-4 h-4 text-[#047857] inline-block ml-1.5 align-sub" /> توصيل مجاني + الدفع عند الاستلام (لا تدفلي شيئاً الآن)
           </>
         ) : (
           <>
-            <Truck className="w-4 h-4 text-emerald-600 inline-block ml-1.5 align-sub" /> توصيل مجاني + الدفع عند الاستلام (لا تدفع شيئاً الآن)
+            <Truck className="w-4 h-4 text-[#047857] inline-block ml-1.5 align-sub" /> توصيل مجاني + الدفع عند الاستلام (لا تدفع شيئاً الآن)
           </>
         )}
       </p>

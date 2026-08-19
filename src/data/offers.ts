@@ -10,6 +10,7 @@ import packs from "./data.json";
 export interface Book {
   id: number;
   title: string;
+  desc?: string;
   coverUrl: string | null;
   gift?: boolean;
 }
@@ -18,6 +19,11 @@ export interface Benefit {
   title: string;
   coverUrl: string | null;
   gift?: boolean;
+}
+
+export interface Faq {
+  q: string;
+  a: string;
 }
 
 export interface PackConfig {
@@ -41,6 +47,13 @@ export interface PackConfig {
   socialProof: string;
   formHeader: string;
   ctaText: string;
+  category: string;
+  outcomes: string[];
+  forYouIf: string[];
+  notForYouIf: string[];
+  faqs: Faq[];
+  previewNote?: string;
+  crossSell: string[];
   valuePropTitle: string;
   benefits: Benefit[];
   guarantee: {
@@ -64,6 +77,30 @@ export const STORE = {
   copyright: "دار الوِراقة © 2026",
   price: 199,
 };
+
+/**
+ * Store-wide FAQs answered ONLY from real, supportable policies.
+ * These are appended to every bundle's product-specific FAQs so the
+ * objection-handling system is consistent and never invents a policy.
+ */
+export const STORE_FAQS: Faq[] = [
+  {
+    q: "كيف يتم الدفع؟",
+    a: "الدفع نقداً عند الاستلام — لا تدفع أي مبلغ قبل استلام باقتك.",
+  },
+  {
+    q: "ما طريقة التوصيل ومتى أستلم طلبي؟",
+    a: "التوصيل مجاني لجميع مدن المغرب، ويتم عادة خلال 24 إلى 48 ساعة.",
+  },
+  {
+    q: "هل الكتب أصلية وورقية؟",
+    a: "نعم، كتب مطبوعة باللغة العربية تُسلّم إلى باب منزلك.",
+  },
+  {
+    q: "ماذا لو أردت الإلغاء أو كان هناك مشكل في الطلب؟",
+    a: "بما أن الدفع عند الاستلام، يمكنك فحص الطلب عند التسليم؛ ولأي استفسار تواصل مع خدمة العملاء.",
+  },
+];
 
 export const OFFER_BOOKS = 4;
 export const OFFER_GIFT = 1;
@@ -116,6 +153,13 @@ interface RawPack {
   socialProof?: string;
   formHeader?: string;
   ctaText?: string;
+  category?: string;
+  outcomes?: string[];
+  forYouIf?: string[];
+  notForYouIf?: string[];
+  faqs?: Faq[];
+  previewNote?: string;
+  crossSell?: string[];
   feminine?: boolean;
   namePlaceholder?: string;
   desc: string;
@@ -132,6 +176,7 @@ function toBook(book: RawBook, fallbackId: number, gift = false): Book {
   return {
     id: book.coverId ?? fallbackId,
     title: book.title,
+    desc: book.desc,
     coverUrl: book.coverId ? coverUrlFor(book.coverId) : null,
     gift,
   };
@@ -164,6 +209,13 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ (${pack.trustLine})`,
     formHeader: pack.formHeader ?? "📦 أدخل معلومات الاستلام (التوصيل لباب منزلك)",
     ctaText: pack.ctaText ?? "تأكيد الطلب الآن — الدفع عند الاستلام",
+    category: pack.category ?? pack.packName,
+    outcomes: pack.outcomes ?? [],
+    forYouIf: pack.forYouIf ?? [],
+    notForYouIf: pack.notForYouIf ?? [],
+    faqs: [...(pack.faqs ?? []), ...STORE_FAQS],
+    previewNote: pack.previewNote,
+    crossSell: pack.crossSell ?? [],
     valuePropTitle,
     benefits: allBooks.map((b) => ({
       title: b.title,
