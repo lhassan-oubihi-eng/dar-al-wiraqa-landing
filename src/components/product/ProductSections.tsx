@@ -19,16 +19,11 @@ const HEADING = "text-center font-black text-xl text-[#111827] mb-3";
 
 /* ---------- 1. HERO: attention + clarity ---------- */
 export function ProductHero({ pack }: { pack: PackConfig }) {
-  const savings = pack.originalPrice - pack.price;
-
   return (
     <section className="px-4 pt-4 text-center">
       <h1 className="font-black text-3xl md:text-4xl text-[#1E3A8A] leading-snug">
         {pack.heroHeadline}
       </h1>
-      <p className="mt-2 text-sm text-[#4B5563] leading-relaxed">
-        {pack.subheadline}
-      </p>
 
       {/* Book covers with titles underneath, 3 per row */}
       <div className="mt-3 grid grid-cols-3 gap-2.5">
@@ -60,9 +55,6 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         </span>
         <span className="text-3xl font-black text-[#1E3A8A]">
           {pack.price} درهم
-        </span>
-        <span className="bg-[#D97706] text-white text-xs font-bold px-2 py-0.5 rounded-full">
-          وفّر {savings} د.م
         </span>
       </div>
       <p className="text-center text-sm font-bold text-[#1E3A8A] mt-1">
