@@ -62,7 +62,8 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
       </div>
 
       {/* What's inside — compact bullets */}
-      <ul className="mt-3 space-y-1.5">
+      <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl">
+        <ul className="space-y-1.5">
         {pack.books.map((book, i) => (
           <li
             key={book.id}
@@ -79,6 +80,7 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
           </li>
         ))}
       </ul>
+      </div>
     </section>
   );
 }

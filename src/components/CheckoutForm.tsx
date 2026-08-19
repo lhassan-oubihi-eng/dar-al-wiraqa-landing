@@ -75,7 +75,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
       className="mx-auto max-w-2xl px-4 py-10 scroll-mt-20"
       aria-labelledby="checkout-title"
     >
-      <div className="rounded-2xl border border-[#E5E5E5] bg-white p-6 md:p-8 shadow-sm">
+        <div className="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-6 md:p-8 shadow-sm">
         <div className="mb-6 text-center">
           <h2 id="checkout-title" className="text-2xl md:text-3xl font-black text-gray-900">
             إتمام الطلب — {pack.packName}
@@ -129,7 +129,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 autoFocus
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="الاسم الكامل / Nom Complet"
                 disabled={submitting}
               />
@@ -156,7 +156,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 inputMode="tel"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="رقم الهاتف / Numéro"
                 disabled={submitting}
                 maxLength={10}
@@ -183,7 +183,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 required
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="المدينة / Ville"
                 disabled={submitting}
               />
@@ -209,7 +209,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.address}
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none resize-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
                 placeholder="العنوان / Adresse"
                 disabled={submitting}
               />

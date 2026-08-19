@@ -158,7 +158,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   };
 
   return (
-    <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border border-gray-200">
+    <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border-2 border-dashed border-gray-300">
       
       <div className="text-center mb-3">
         <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
