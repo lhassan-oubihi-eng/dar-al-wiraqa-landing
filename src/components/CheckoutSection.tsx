@@ -165,7 +165,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Phone Field */}
         <div>
           <label htmlFor="phone"             className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
-            رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
+            رقم الهاتف <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -180,7 +180,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.phone}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="رقم الهاتف (الواتساب)"
+                placeholder="رقم الهاتف"
               inputMode="tel"
               maxLength={10}
               disabled={isSubmitting}
@@ -239,23 +239,14 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         </datalist>
 
         {/* Sleek CTA Button */}
-        <p className="text-center text-xs font-bold text-[#1E3A8A] mb-3 flex items-center justify-center gap-1">
-          <span aria-hidden>⭐⭐⭐⭐⭐</span>
-          <span>{pack.trustLine}</span>
-        </p>
-
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-[#1E3A8A] text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-[#1E3A8A]/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="bg-[#22C55E] text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-[#22C55E]/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5 text-[#F87171]" />
              <span>{isSubmitting ? "جاري تأكيد الطلب..." : pack.ctaText}</span>
         </button>
-
-        <p className="text-center text-xs text-[#6B7280] mt-2 flex items-center justify-center gap-1">
-          🔒 الدفع آمن - لن تدفع شيئاً حتى يأتيك الموزع إلى باب منزلك
-        </p>
 
       </form>
     </section>

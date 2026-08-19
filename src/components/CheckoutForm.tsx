@@ -117,7 +117,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="phone"
               className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
             >
-              رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
+              رقم الهاتف <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
@@ -133,7 +133,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="رقم الهاتف (الواتساب)"
+                placeholder="رقم الهاتف"
                 disabled={submitting}
                 maxLength={10}
               />
@@ -177,23 +177,15 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             </p>
           </div>
 
-            <p className="text-center text-xs font-bold text-[#1E3A8A] mb-3 flex items-center justify-center gap-1">
-            <span aria-hidden>⭐⭐⭐⭐⭐</span>
-            <span>{pack.trustLine}</span>
-          </p>
-
           <button
             type="submit"
             disabled={submitting}
-              className="w-full bg-[#1E3A8A] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#22C55E] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-6 h-6 shrink-0 text-[#F87171]" />
               <span>{submitting ? "جاري التأكيد..." : pack.ctaText}</span>
           </button>
 
-          <p className="text-center text-xs text-[#6B7280] mt-3 flex items-center justify-center gap-1">
-            🔒 الدفع آمن - لن تدفع شيئاً حتى يأتيك الموزع إلى باب منزلك
-          </p>
         </form>
       </div>
     </section>
