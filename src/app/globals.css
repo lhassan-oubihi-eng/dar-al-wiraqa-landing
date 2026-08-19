@@ -53,6 +53,15 @@ h3 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
   font-weight: 600;
 }
 
+/* ===== Subtle attention pulse for the confirm-order CTA ===== */
+@keyframes soft-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 10px 24px -8px rgba(34, 197, 94, 0.45); }
+  50% { transform: scale(1.025); box-shadow: 0 14px 30px -6px rgba(34, 197, 94, 0.6); }
+}
+.animate-soft-pulse {
+  animation: soft-pulse 2.2s ease-in-out infinite;
+}
+
 /* ===== Global card preset (reused via Tailwind classes too) ===== */
 .premium-card {
   background: var(--color-card);

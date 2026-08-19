@@ -180,7 +180,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <button
             type="submit"
             disabled={submitting}
-              className="w-full bg-[#22C55E] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#22C55E] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 animate-soft-pulse"
             >
               <ShoppingCart className="w-6 h-6 shrink-0" />
               <span>{submitting ? "جاري التأكيد..." : pack.ctaText}</span>
