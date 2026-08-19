@@ -203,7 +203,7 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     tagline: feminine ? taglineFeminine : tagline,
     urgency: pack.urgency,
     trustLine: pack.trustLine ?? "باقة مختارة بعناية من دار الوِراقة",
-    announcement: pack.announcement ?? "🚚 توصيل مجاني · الدفع عند الاستلام",
+    announcement: pack.announcement ?? "توصيل مجاني · الدفع عند الاستلام",
     urgencyText: pack.urgencyText ?? `${pack.packName} كاملة بـ ${pack.price} درهم — توصيل مجاني والدفع عند الاستلام`,
     heroHeadline: pack.heroHeadline ?? pack.heroH1,
     socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ (${pack.trustLine})`,

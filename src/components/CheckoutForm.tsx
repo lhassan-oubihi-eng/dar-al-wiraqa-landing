@@ -70,14 +70,14 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
         {/* Honest offer banner (no fake scarcity) */}
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-3.5 mb-4 text-right shadow-sm">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-gray-100 text-[#111827] rounded-lg shrink-0">
-              <Truck className="w-5 h-5 text-[#111827]"/>
+            <div className="p-2 bg-gray-100 text-[#1E3A8A] rounded-lg shrink-0">
+              <Truck className="w-5 h-5 text-[#1E3A8A]"/>
             </div>
             <div>
               <h4 className="font-bold text-gray-900 text-sm md:text-base">
                 توصيل مجاني + الدفع عند الاستلام
               </h4>
-              <p className="text-xs md:text-sm text-[#111827] font-medium mt-0.5">
+              <p className="text-xs md:text-sm text-[#1E3A8A] font-medium mt-0.5">
                 {pack.price} درهم فقط — لا تدفع شيئاً حتى تستلم طلبك
               </p>
             </div>
@@ -88,11 +88,11 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <div>
             <label
               htmlFor="name"
-              className="block mb-1.5 text-lg font-bold text-[#111827]"
+              className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
             >
               الاسم الكامل <span className="text-red-500">*</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#111827] focus-within:ring-2 focus-within:ring-[#111827]/20 transition-all bg-white">
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
                 <User className="w-5 h-5 text-gray-400" />
               </div>
@@ -105,7 +105,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 autoFocus
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="الاسم الكامل"
                 disabled={submitting}
               />
@@ -115,11 +115,11 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <div>
             <label
               htmlFor="phone"
-              className="block mb-1.5 text-lg font-bold text-[#111827]"
+              className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
             >
               رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#111827] focus-within:ring-2 focus-within:ring-[#111827]/20 transition-all bg-white">
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
                 <Phone className="w-5 h-5 text-gray-400" />
               </div>
@@ -132,7 +132,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 inputMode="tel"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
                 placeholder="رقم الهاتف (الواتساب)"
                 disabled={submitting}
                 maxLength={10}
@@ -143,11 +143,11 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <div>
             <label
               htmlFor="address"
-              className="block mb-1.5 text-lg font-bold text-[#111827]"
+              className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
             >
               المدينة والحَيّ (أو العنوان بالتفصيل) <span className="text-red-500">*</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#111827] focus-within:ring-2 focus-within:ring-[#111827]/20 transition-all bg-white">
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
                 <MapPin className="w-5 h-5 text-gray-400" />
               </div>
@@ -159,7 +159,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.address}
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
                 placeholder="المدينة والحَيّ (أو العنوان بالتفصيل)"
                 disabled={submitting}
               />
@@ -168,16 +168,16 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
 
           <div className="flex items-center justify-between p-3.5 bg-gray-50 border border-gray-100 rounded-xl mb-4">
             <span className="font-semibold text-gray-700 text-sm md:text-base">ثمن الباقة</span>
-            <span className="font-bold text-[#111827] text-base md:text-lg">{pack.price} درهم</span>
+            <span className="font-bold text-[#1E3A8A] text-base md:text-lg">{pack.price} درهم</span>
           </div>
 
           <div className="rounded-xl bg-[#F9FAFB] p-4 text-center border border-[#E5E7EB] mb-5">
-            <p className="text-sm text-[#111827]">
+            <p className="text-sm text-[#1E3A8A]">
               الدفع نقداً عند الاستلام — لا تدفع شيئاً حتى تستلم طلبك
             </p>
           </div>
 
-            <p className="text-center text-xs font-bold text-[#111827] mb-3 flex items-center justify-center gap-1">
+            <p className="text-center text-xs font-bold text-[#1E3A8A] mb-3 flex items-center justify-center gap-1">
             <span aria-hidden>⭐⭐⭐⭐⭐</span>
             <span>{pack.trustLine}</span>
           </p>
@@ -185,9 +185,9 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <button
             type="submit"
             disabled={submitting}
-              className="w-full bg-[#111827] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#1E3A8A] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <ShoppingCart className="w-6 h-6 shrink-0" />
+              <ShoppingCart className="w-6 h-6 shrink-0 text-[#F87171]" />
               <span>{submitting ? "جاري التأكيد..." : pack.ctaText}</span>
           </button>
 

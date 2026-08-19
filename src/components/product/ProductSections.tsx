@@ -23,7 +23,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
 
   return (
     <section className="px-4 pt-4 text-center">
-      <h1 className="font-black text-3xl md:text-4xl text-[#111827] leading-snug">
+      <h1 className="font-black text-3xl md:text-4xl text-[#1E3A8A] leading-snug">
         {pack.heroHeadline}
       </h1>
       <p className="mt-2 text-sm text-[#4B5563] leading-relaxed">
@@ -36,12 +36,12 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
           <div key={b.id} className="flex flex-col">
             <div
               className={`relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm ${
-                i === pack.giftBookIndex ? "ring-2 ring-[#111827]" : ""
+                i === pack.giftBookIndex ? "ring-2 ring-[#1E3A8A]" : ""
               }`}
             >
               <BookCover title={b.title} src={b.coverUrl} className="h-full w-full object-cover" />
               {i === pack.giftBookIndex && (
-                <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[10px] font-extrabold py-1">
+                <span className="absolute inset-x-0 bottom-0 bg-[#1E3A8A] text-white text-[10px] font-extrabold py-1">
                   🎁 هدية
                 </span>
               )}
@@ -58,15 +58,15 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         <span className="text-gray-400 line-through text-base">
           {pack.originalPrice} درهم
         </span>
-        <span className="text-3xl font-black text-[#111827]">
+        <span className="text-3xl font-black text-[#1E3A8A]">
           {pack.price} درهم
         </span>
         <span className="bg-[#D97706] text-white text-xs font-bold px-2 py-0.5 rounded-full">
           وفّر {savings} د.م
         </span>
       </div>
-      <p className="text-center text-sm font-bold text-[#111827] mt-1 flex items-center justify-center gap-1">
-        <Truck className="w-4 h-4" /> توصيل مجاني + الدفع عند الاستلام
+      <p className="text-center text-sm font-bold text-[#1E3A8A] mt-1">
+        توصيل مجاني + الدفع عند الاستلام
       </p>
     </section>
   );
