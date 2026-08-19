@@ -129,14 +129,14 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
   };
 
   return (
-    <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border-2 border-dashed border-gray-300">
-      <div className="text-center mb-3">
+    <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-3 sm:p-4 border-2 border-dashed border-gray-300">
+      <div className="text-center mb-2">
           <h2 className="font-extrabold text-xl md:text-2xl text-[#111827]">
             {pack.formHeader}
           </h2>
       </div>
 
-      <form id="order-form" onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
+      <form id="order-form" onSubmit={handleOrderSubmit} className="space-y-3" noValidate>
         {/* Name Field */}
         <div>
           <label htmlFor="nameInput"             className="block mb-1.5 text-sm font-bold text-[#111827]">
@@ -253,8 +253,8 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
              <span>{isSubmitting ? "جاري تأكيد الطلب..." : pack.ctaText}</span>
         </button>
 
-        <p className="text-center text-xs text-[#6B7280] mt-2">
-          لا تدفع الآن — يُدفع نقداً عند استلام الطلب
+        <p className="text-center text-xs text-[#6B7280] mt-2 flex items-center justify-center gap-1">
+          🔒 الدفع آمن - لن تدفع شيئاً حتى يأتيك الموزع إلى باب منزلك
         </p>
 
       </form>

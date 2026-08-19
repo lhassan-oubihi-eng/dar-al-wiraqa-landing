@@ -28,25 +28,25 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
 
   return (
     <section className="px-4 pt-4 text-center">
-      <h1 className="font-black text-2xl md:text-3xl text-[#111827] leading-snug">
+      <h1 className="font-black text-3xl md:text-4xl text-[#111827] leading-snug">
         {pack.heroHeadline}
       </h1>
       <p className="mt-2 text-sm text-[#4B5563] leading-relaxed">
         {pack.subheadline}
       </p>
 
-      {/* Bundle cover strip */}
-      <div className="mt-3 flex justify-center gap-2">
-        {pack.books.slice(0, 3).map((b, i) => (
+      {/* All 6 book covers in a clean 2-row grid */}
+      <div className="mt-4 grid grid-cols-3 gap-2.5">
+        {pack.books.map((b, i) => (
           <div
             key={b.id}
-            className={`relative w-1/3 max-w-[110px] aspect-[3/4] overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm ${
+            className={`relative aspect-[3/4] overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm ${
               i === pack.giftBookIndex ? "ring-2 ring-[#111827]" : ""
             }`}
           >
             <BookCover title={b.title} src={b.coverUrl} className="h-full w-full object-cover" />
             {i === pack.giftBookIndex && (
-              <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[9px] font-extrabold py-0.5">
+              <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[10px] font-extrabold py-1">
                 🎁 هدية
               </span>
             )}
@@ -181,19 +181,20 @@ export function TrustSection({ pack }: { pack: PackConfig }) {
   ];
   return (
     <section className="mx-4 mt-4">
-      <div className={CARD}>
+      <div className="bg-[#F9F9F9] rounded-2xl border border-[#E5E5E5] shadow-sm p-4">
         <h2 className={HEADING}>لماذا تثق بطلبك من دار الوِراقة؟</h2>
         <ul className="space-y-2.5">
           {items.map((it, i) => {
             const Icon = it.icon;
+            const isCOD = it.icon === Banknote;
             return (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#111827]/10 text-[#111827]">
-                  <Icon className="w-4 h-4" />
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#111827]/10 text-[#111827]">
+                  <Icon className="w-5 h-5" />
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-[#111827]">{it.t}</p>
-                  <p className="text-xs text-[#4B5563]">{it.d}</p>
+                  <p className={`text-sm ${isCOD ? "font-extrabold" : "font-bold"} text-[#111827]`}>{it.t}</p>
+                  <p className={`text-xs text-[#4B5563] ${isCOD ? "font-bold" : ""}`}>{it.d}</p>
                 </div>
               </li>
             );

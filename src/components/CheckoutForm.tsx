@@ -60,7 +60,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
       className="mx-auto max-w-2xl px-4 py-10 scroll-mt-20"
       aria-labelledby="checkout-title"
     >
-        <div className="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-6 md:p-8 shadow-sm">
+        <div className="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-5 md:p-6 shadow-sm">
         <div className="mb-6 text-center">
           <h2 id="checkout-title" className="text-2xl md:text-3xl font-black text-gray-900">
             إتمام الطلب — {pack.packName}
@@ -84,7 +84,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
             <label
               htmlFor="name"
@@ -190,6 +190,10 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               <ShoppingCart className="w-6 h-6 shrink-0" />
               <span>{submitting ? "جاري التأكيد..." : pack.ctaText}</span>
           </button>
+
+          <p className="text-center text-xs text-[#6B7280] mt-3 flex items-center justify-center gap-1">
+            🔒 الدفع آمن - لن تدفع شيئاً حتى يأتيك الموزع إلى باب منزلك
+          </p>
         </form>
       </div>
     </section>
