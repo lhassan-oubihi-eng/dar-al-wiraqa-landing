@@ -46,7 +46,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
               )}
             </div>
             <p className="mt-1 text-center text-[11px] font-bold text-[#111827] leading-tight line-clamp-2">
-              {b.title}
+              كتاب {b.title}
             </p>
           </div>
         ))}
