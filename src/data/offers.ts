@@ -208,7 +208,7 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     heroHeadline: pack.heroHeadline ?? pack.heroH1,
     socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ (${pack.trustLine})`,
     formHeader: pack.formHeader ?? "لإتمام الطلب، يرجى تعبئة النموذج",
-    ctaText: pack.ctaText ?? "تأكيد الطلب — الدفع عند الاستلام",
+    ctaText: pack.ctaText ?? "تأكيد الطلب",
     category: pack.category ?? pack.packName,
     outcomes: pack.outcomes ?? [],
     forYouIf: pack.forYouIf ?? [],

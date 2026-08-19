@@ -25,8 +25,12 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         {pack.heroHeadline}
       </h1>
 
+      <p className="mt-4 text-center text-sm font-bold text-[#1E3A8A]">
+        أسماء الكتب
+      </p>
+
       {/* Book covers with titles underneath, 3 per row */}
-      <div className="mt-3 grid grid-cols-3 gap-2.5">
+      <div className="mt-2 grid grid-cols-3 gap-2.5">
         {pack.books.map((b, i) => (
           <div key={b.id} className="flex flex-col">
             <div
