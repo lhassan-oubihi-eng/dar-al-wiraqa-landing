@@ -33,11 +33,12 @@ export function StickyMobileCTA({ pack }: { pack: PackConfig }) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md p-3 border-t border-gray-200 shadow-2xl flex items-center justify-between md:hidden">
       {/* Price on the right (first child in RTL) */}
-      <div className="flex items-center gap-1.5 pl-3">
-        <span className="text-[11px] font-bold text-gray-500 leading-tight text-right max-w-[90px] line-clamp-1">
+      <div className="flex flex-col items-start pl-3 leading-tight">
+        <span className="text-[10px] font-bold text-gray-500 max-w-[110px] line-clamp-1">
           {pack.packName}
         </span>
-        <span className="font-black text-lg text-gray-900">{pack.price} د.م</span>
+        <span className="font-black text-base text-gray-900">{pack.price} درهم</span>
+        <span className="text-[9px] font-bold text-[#047857]">الدفع عند الاستلام</span>
       </div>
 
       {/* CTA on the left (second child in RTL) */}

@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { PackConfig } from "@/data/offers";
 import { StickyBanner } from "@/components/StickyBanner";
 import { PackUrgencyBanner } from "@/components/PackUrgencyBanner";
+import { TrustRibbon } from "@/components/TrustRibbon";
 import { BundleShowcase } from "@/components/BundleShowcase";
 import { CheckoutSection } from "@/components/CheckoutSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
@@ -60,6 +61,9 @@ export function PackLanding({ pack }: PackLandingProps) {
       <main className="mx-auto max-w-[420px] pb-8 bg-white min-h-screen">
         {/* 2. HERO — attention + clarity + CTA */}
         <ProductHero pack={pack} />
+
+        {/* 2b. TRUST BAR — early reassurance for cold ad traffic */}
+        <TrustRibbon />
 
         {/* 3. OUTCOMES — desire / what's in it for me */}
         <OutcomeSection pack={pack} />

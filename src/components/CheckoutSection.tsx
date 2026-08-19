@@ -253,6 +253,10 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
              <span>{isSubmitting ? "جاري تأكيد الطلب..." : pack.ctaText}</span>
         </button>
 
+        <p className="text-center text-xs text-[#6B7280] mt-2">
+          لا تدفع الآن — يُدفع نقداً عند استلام الطلب
+        </p>
+
       </form>
     </section>
   );
