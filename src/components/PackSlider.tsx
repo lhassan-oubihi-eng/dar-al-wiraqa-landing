@@ -61,8 +61,8 @@ export function PackSlider({ pack, ctaText = "شراء الآن" }: PackSliderPr
             className="h-full w-full object-cover transition-all duration-500 scale-100"
           />
           {currentIndex === books.length - 1 && (
-            <span className="absolute inset-x-0 top-0 z-10 py-1.5 text-center text-[10px] font-extrabold text-white bg-[#15803D] shadow-sm">
-              <Gift className="w-4 h-4 text-emerald-100 inline-block ml-1.5 align-sub" /> هدية مجانية
+            <span className="absolute inset-x-0 top-0 z-10 py-1.5 text-center text-[10px] font-extrabold text-white bg-[#111827] shadow-sm">
+              <Gift className="w-4 h-4 text-gray-100 inline-block ml-1.5 align-sub" /> هدية مجانية
             </span>
           )}
 
@@ -71,14 +71,14 @@ export function PackSlider({ pack, ctaText = "شراء الآن" }: PackSliderPr
             <>
               <button
                 onClick={(e) => { e.preventDefault(); prevSlide(); }}
-                className="absolute left-1 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow-md hover:bg-white hover:text-[#15803D] transition-all"
+                className="absolute left-1 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow-md hover:bg-white hover:text-[#111827] transition-all"
                 aria-label="الكتاب السابق"
               >
                 <ChevronRight size={18} />
               </button>
               <button
                 onClick={(e) => { e.preventDefault(); nextSlide(); }}
-                className="absolute right-1 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow-md hover:bg-white hover:text-[#15803D] transition-all"
+                className="absolute right-1 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2937] shadow-md hover:bg-white hover:text-[#111827] transition-all"
                 aria-label="الكتاب التالي"
               >
                 <ChevronLeft size={18} />
@@ -102,7 +102,7 @@ export function PackSlider({ pack, ctaText = "شراء الآن" }: PackSliderPr
               key={i}
               onClick={(e) => { e.preventDefault(); goToSlide(i); }}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === currentIndex ? "w-6 bg-[#15803D]" : "w-1.5 bg-[#D1D5DB]"
+                i === currentIndex ? "w-6 bg-[#111827]" : "w-1.5 bg-[#D1D5DB]"
               }`}
               aria-label={`الانتقال للكتاب ${i + 1}`}
             />
@@ -120,15 +120,15 @@ export function PackSlider({ pack, ctaText = "شراء الآن" }: PackSliderPr
       <div className="mt-auto pt-2">
         <div className="mb-3 flex items-center justify-center gap-2">
           <del className="text-sm text-[#9CA3AF] line-through">{pack.originalPrice} د.م</del>
-          <span className="text-2xl md:text-3xl font-black text-[#15803D]">{pack.price} درهم</span>
-          <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-[#15803D]">
+          <span className="text-2xl md:text-3xl font-black text-[#111827]">{pack.price} درهم</span>
+          <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white bg-[#111827]">
             وفر {savings}
           </span>
         </div>
 
         <Link
           href={`/checkout/${pack.slug}`}
-          className="flex items-center justify-center gap-2 w-full py-4 rounded-xl font-extrabold text-lg md:text-xl text-white bg-emerald-600 hover:bg-emerald-700 shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all"
+          className="flex items-center justify-center gap-2 w-full py-4 rounded-xl font-extrabold text-lg md:text-xl text-white bg-[#111827] hover:bg-[#111827] shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all"
         >
           <span>{ctaText}</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

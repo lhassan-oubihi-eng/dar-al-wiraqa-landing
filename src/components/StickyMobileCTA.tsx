@@ -38,14 +38,14 @@ export function StickyMobileCTA({ pack }: { pack: PackConfig }) {
           {pack.packName}
         </span>
         <span className="font-black text-base text-gray-900">{pack.price} درهم</span>
-        <span className="text-[9px] font-bold text-[#047857]">الدفع عند الاستلام</span>
+        <span className="text-[9px] font-bold text-[#111827]">الدفع عند الاستلام</span>
       </div>
 
       {/* CTA on the left (second child in RTL) */}
       <button
         onClick={scrollToForm}
         type="button"
-        className="bg-[#047857] text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+        className="bg-[#111827] text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
       >
         <ShoppingBag className="w-5 h-5 shrink-0" />
         <span>تأكيد الطلب الآن</span>

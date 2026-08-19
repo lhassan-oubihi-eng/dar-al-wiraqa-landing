@@ -12,7 +12,7 @@ interface CheckoutStepProps {
 }
 
 const INPUT_CLASSES =
-  "w-full px-4 py-3.5 rounded-xl border border-[#D1D5DB] bg-white text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#15803D] focus:ring-1 focus:ring-[#15803D]";
+  "w-full px-4 py-3.5 rounded-xl border border-[#D1D5DB] bg-white text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#111827] focus:ring-1 focus:ring-[#111827]";
 
 /** The checkout step inside the drawer: lead capture form + WhatsApp confirm. */
 export function CheckoutStep({
@@ -93,7 +93,7 @@ export function CheckoutStep({
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 py-4 text-lg font-extrabold text-white transition active:scale-[0.98] flex items-center justify-center gap-1.5"
+        className="w-full rounded-xl bg-[#111827] hover:bg-[#111827] py-4 text-lg font-extrabold text-white transition active:scale-[0.98] flex items-center justify-center gap-1.5"
       >
         {submitting ? (
           <span className="animate-pulse">جاري إرسال الطلب…</span>
@@ -114,7 +114,7 @@ export function CheckoutStep({
       <button
         type="button"
         onClick={onWhatsApp}
-        className="w-full rounded-xl border border-[#D1D5DB] py-3 text-sm font-bold text-[#6B7280] transition hover:text-[#15803D]"
+        className="w-full rounded-xl border border-[#D1D5DB] py-3 text-sm font-bold text-[#6B7280] transition hover:text-[#111827]"
       >
         أو أرسل الطلب مباشرة على الواتساب
       </button>

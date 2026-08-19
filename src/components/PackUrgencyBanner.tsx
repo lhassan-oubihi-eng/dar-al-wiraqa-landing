@@ -5,8 +5,8 @@ import { DailyOfferCountdown } from "@/components/DailyOfferCountdown";
 
 export function PackUrgencyBanner({ pack }: { pack: PackConfig }) {
   return (
-    <div className="bg-[#047857] text-white border-b border-white/15">
-      <div className="mx-auto max-w-[420px] px-4 py-5">
+    <div className="bg-[#111827] text-white border-b border-white/15">
+      <div className="mx-auto max-w-[420px] px-4 py-3">
         {/* Honest daily-offer countdown — ends at midnight Casablanca time */}
         <DailyOfferCountdown />
 

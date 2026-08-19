@@ -30,7 +30,7 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
                     className="h-full w-full object-cover"
                   />
                   {isGift && (
-                    <span className="absolute inset-x-0 bottom-0 bg-[#047857] text-white text-[10px] font-extrabold py-1 flex items-center justify-center gap-1">
+                    <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[10px] font-extrabold py-1 flex items-center justify-center gap-1">
                       <Gift className="w-3 h-3 text-amber-300" />
                       🎁 هدية مجانية
                     </span>
@@ -49,15 +49,15 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
           <span className="text-gray-400 line-through text-base">
             {pack.originalPrice} درهم
           </span>
-          <span className="text-3xl font-black text-[#047857]">
+          <span className="text-3xl font-black text-[#111827]">
             {pack.price} درهم
           </span>
           <span className="bg-[#D97706] text-white text-xs font-bold px-2 py-0.5 rounded-full">
             وفر {savings} د.م
           </span>
         </div>
-        <p className="text-center text-sm font-bold text-[#047857] mt-1 flex items-center justify-center gap-1">
-          <Truck className="w-4 h-4 text-[#047857]" />
+        <p className="text-center text-sm font-bold text-[#111827] mt-1 flex items-center justify-center gap-1">
+          <Truck className="w-4 h-4 text-[#111827]" />
           شامل التوصيل المجاني
         </p>
 
@@ -68,9 +68,9 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
             return (
               <div
                 key={g.label}
-                className="flex-1 flex items-center justify-center gap-1.5 border border-[#047857]/20 rounded-lg bg-white px-1.5 py-2"
+                className="flex-1 flex items-center justify-center gap-1.5 border border-[#111827]/20 rounded-lg bg-white px-1.5 py-2"
               >
-                <Icon className="w-4 h-4 text-[#047857] shrink-0" />
+                <Icon className="w-4 h-4 text-[#111827] shrink-0" />
                 <span className="text-[10px] font-bold text-[#111827] leading-tight">{g.label}</span>
               </div>
             );
@@ -85,8 +85,8 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
                 key={book.id}
                 className="flex items-center gap-2 text-sm font-medium text-[#111827]"
               >
-                <Check className="w-4 h-4 text-[#047857] shrink-0" />
-                <span className={i === pack.giftBookIndex ? "text-[#047857] font-extrabold" : ""}>
+                <Check className="w-4 h-4 text-[#111827] shrink-0" />
+                <span className={i === pack.giftBookIndex ? "text-[#111827] font-extrabold" : ""}>
                   {book.title}
                 </span>
               </li>

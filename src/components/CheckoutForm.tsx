@@ -68,16 +68,16 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
         </div>
 
         {/* Honest offer banner (no fake scarcity) */}
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 mb-4 text-right shadow-sm">
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-3.5 mb-4 text-right shadow-sm">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-emerald-100 text-emerald-700 rounded-lg shrink-0">
-              <Truck className="w-5 h-5 text-emerald-700"/>
+            <div className="p-2 bg-gray-100 text-[#111827] rounded-lg shrink-0">
+              <Truck className="w-5 h-5 text-[#111827]"/>
             </div>
             <div>
-              <h4 className="font-bold text-emerald-900 text-sm md:text-base">
+              <h4 className="font-bold text-gray-900 text-sm md:text-base">
                 توصيل مجاني + الدفع عند الاستلام
               </h4>
-              <p className="text-xs md:text-sm text-emerald-700 font-medium mt-0.5">
+              <p className="text-xs md:text-sm text-[#111827] font-medium mt-0.5">
                 {pack.price} درهم فقط — لا تدفع شيئاً حتى تستلم طلبك
               </p>
             </div>
@@ -92,7 +92,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               الاسم الكامل <span className="text-red-500">*</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#047857] focus-within:ring-2 focus-within:ring-[#047857]/20 transition-all bg-white">
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#111827] focus-within:ring-2 focus-within:ring-[#111827]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
                 <User className="w-5 h-5 text-gray-400" />
               </div>
@@ -119,7 +119,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#047857] focus-within:ring-2 focus-within:ring-[#047857]/20 transition-all bg-white">
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#111827] focus-within:ring-2 focus-within:ring-[#111827]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
                 <Phone className="w-5 h-5 text-gray-400" />
               </div>
@@ -147,7 +147,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             >
               المدينة والحَيّ (أو العنوان بالتفصيل) <span className="text-red-500">*</span>
             </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#047857] focus-within:ring-2 focus-within:ring-[#047857]/20 transition-all bg-white">
+            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#111827] focus-within:ring-2 focus-within:ring-[#111827]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
                 <MapPin className="w-5 h-5 text-gray-400" />
               </div>
@@ -168,16 +168,16 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
 
           <div className="flex items-center justify-between p-3.5 bg-gray-50 border border-gray-100 rounded-xl mb-4">
             <span className="font-semibold text-gray-700 text-sm md:text-base">ثمن الباقة</span>
-            <span className="font-bold text-emerald-700 text-base md:text-lg">{pack.price} درهم</span>
+            <span className="font-bold text-[#111827] text-base md:text-lg">{pack.price} درهم</span>
           </div>
 
-          <div className="rounded-xl bg-[#F0FDF4] p-4 text-center border border-[#BBF7D0] mb-5">
-            <p className="text-sm text-[#15803D]">
+          <div className="rounded-xl bg-[#F9FAFB] p-4 text-center border border-[#E5E7EB] mb-5">
+            <p className="text-sm text-[#111827]">
               الدفع نقداً عند الاستلام — لا تدفع شيئاً حتى تستلم طلبك
             </p>
           </div>
 
-            <p className="text-center text-xs font-bold text-[#047857] mb-3 flex items-center justify-center gap-1">
+            <p className="text-center text-xs font-bold text-[#111827] mb-3 flex items-center justify-center gap-1">
             <span aria-hidden>⭐⭐⭐⭐⭐</span>
             <span>{pack.trustLine}</span>
           </p>
@@ -185,7 +185,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <button
             type="submit"
             disabled={submitting}
-              className="w-full bg-[#047857] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#111827] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-6 h-6 shrink-0" />
               <span>{submitting ? "جاري التأكيد..." : pack.ctaText}</span>

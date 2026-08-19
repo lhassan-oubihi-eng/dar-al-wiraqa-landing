@@ -40,9 +40,9 @@ export function DailyOfferCountdown() {
 
   return (
     <div className="flex justify-center mb-3" role="timer" aria-live="polite">
-      <span className="bg-white text-emerald-800 px-3 py-1.5 rounded-full text-xs md:text-sm font-bold flex items-center gap-2 shadow">
+      <span className="bg-white text-[#111827] px-3 py-1.5 rounded-full text-xs md:text-sm font-bold flex items-center gap-2 shadow">
         عرض اليوم فقط — ينتهي الساعة 00:00
-        <span className="bg-emerald-800 text-white font-mono tabular-nums px-2 py-0.5 rounded-md text-sm">
+        <span className="bg-[#111827] text-white font-mono tabular-nums px-2 py-0.5 rounded-md text-sm">
           {formatRemaining(remaining)}
         </span>
       </span>

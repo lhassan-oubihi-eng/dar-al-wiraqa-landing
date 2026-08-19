@@ -6,7 +6,7 @@ import { Sparkles, ArrowDown, ShoppingBag } from "lucide-react";
 
 const PACK_SLIDES = [
   {
-    bg: "linear-gradient(135deg,#F0FDF4 0%,#FFFFFF 100%)",
+    bg: "linear-gradient(135deg,#F9FAFB 0%,#FFFFFF 100%)",
     badge: "عرض لفترة محدودة",
     title: "باقة علم النفس",
     headline: "الباقة الأكثر مبيعاً في المغرب — افهم عقلك ونفسيتك بـ 199 درهم فقط!",
@@ -24,7 +24,7 @@ const PACK_SLIDES = [
     href: "/checkout/finance",
   },
   {
-    bg: "linear-gradient(135deg,#D1FAE5 0%,#FFFFFF 100%)",
+    bg: "linear-gradient(135deg,#F3F4F6 0%,#FFFFFF 100%)",
     badge: "عرض لفترة محدودة",
     title: "باقة الكتب الدينية",
     headline: "زوّد معرفتك الدينية — كتب إسلامية قيمة + هدية مجانية وتوصيل مجاني!",
@@ -92,7 +92,7 @@ export function HeroBanner() {
         </div>
 
         <div className="mx-auto max-w-lg">
-          <h2 className="text-base font-bold text-[#15803D] uppercase tracking-wide mb-1">
+          <h2 className="text-base font-bold text-[#111827] uppercase tracking-wide mb-1">
             {slide.title}
           </h2>
           <h1 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight mb-2">
@@ -106,7 +106,7 @@ export function HeroBanner() {
         <Link
           href={slide.href || "#"}
           onClick={handleCtaClick}
-          className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 px-8 py-4 text-base font-extrabold text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
+          className="inline-flex items-center gap-2 rounded-full bg-[#111827] hover:bg-[#111827] px-8 py-4 text-base font-extrabold text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
         >
           <span>{slide.cta}</span>
           {slide.isScroll ? <ArrowDown size={18} /> : <ShoppingBag size={18} />}
@@ -119,7 +119,7 @@ export function HeroBanner() {
             key={i}
             onClick={() => setIdx(i)}
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === idx ? "w-6 bg-[#15803D]" : "w-1.5 bg-[#9CA3AF]"
+              i === idx ? "w-6 bg-[#111827]" : "w-1.5 bg-[#9CA3AF]"
             }`}
             aria-label={`الذهاب إلى الشريحة ${i + 1}`}
           />

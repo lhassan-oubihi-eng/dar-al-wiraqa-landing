@@ -8,7 +8,7 @@ export default function Home() {
     <main className="mx-auto max-w-[640px] bg-white min-h-screen">
       {/* Intro — customer intent first */}
       <section className="px-4 pt-8 pb-2 text-center">
-        <p className="text-sm font-bold text-[#047857]">دار الوِراقة — مكتبتك المغربية</p>
+        <p className="text-sm font-bold text-[#111827]">دار الوِراقة — مكتبتك المغربية</p>
         <h1 className="mt-1 font-black text-2xl text-[#111827] leading-snug">
           اختر مجموعتك القادمة من الكتب
         </h1>
@@ -39,7 +39,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <p className="text-center text-xs font-bold text-[#047857]">{pack.category}</p>
+            <p className="text-center text-xs font-bold text-[#111827]">{pack.category}</p>
             <h2 className="text-center font-black text-lg text-[#111827] mt-0.5 line-clamp-1">
               {pack.packName}
             </h2>
@@ -47,9 +47,9 @@ export default function Home() {
               {pack.outcomes[0] ?? pack.desc}
             </p>
             <div className="flex items-center justify-center gap-2 mt-2">
-              <span className="text-xl font-black text-[#047857]">{pack.price} درهم</span>
+              <span className="text-xl font-black text-[#111827]">{pack.price} درهم</span>
             </div>
-            <span className="mt-3 block w-full text-center bg-[#047857] text-white font-extrabold text-sm py-3 rounded-xl">
+            <span className="mt-3 block w-full text-center bg-[#111827] text-white font-extrabold text-sm py-3 rounded-xl">
               اكتشف الباقة
             </span>
           </Link>

@@ -21,13 +21,13 @@
   --color-gold: #D4AF37;           /* gold accents — reserved, premium */
   --color-gold-light: #E5E0C8;
   --color-gold-soft: #FEFDF8;     /* soft gold backgrounds */
-  --color-green: #047857;          /* unified premium emerald */
-  --color-green-hover: #047857;    /* single shade — no hover shift */
+  --color-green: #111827;          /* unified premium emerald */
+  --color-green-hover: #111827;    /* single shade — no hover shift */
   --color-border: #E5E5E5;         /* warm light borders */
   --color-urgent: #DC2626;
   --color-urgent-text: #FFFFFF;
-  --color-success: #047857;
-  --color-accent: #047857;         /* rebrand primary accent = unified emerald */
+  --color-success: #111827;
+  --color-accent: #111827;         /* rebrand primary accent = unified emerald */
   --color-input: #F9F9F9;
 }
 

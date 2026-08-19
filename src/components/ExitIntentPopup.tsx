@@ -98,7 +98,7 @@ export function ExitIntentPopup({
           لا تغادر الباقة الآن!
         </h3>
         <p className="text-base text-[#F3E6C4] leading-relaxed mb-4">
-          «{packName}» بـ <strong className="text-[#16a34a] text-lg">{price} درهم</strong>{" "}
+          «{packName}» بـ <strong className="text-[#111827] text-lg">{price} درهم</strong>{" "}
           شامل التوصيل — والدفع <strong>عند الاستلام</strong>. احجز مكانك الآن
           وبلا أي دفع مسبق.
         </p>
@@ -107,7 +107,7 @@ export function ExitIntentPopup({
             setOpen(false);
             onReserve();
           }}
-          className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 py-4 text-lg font-extrabold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full rounded-xl bg-[#111827] hover:bg-[#111827] py-4 text-lg font-extrabold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
         >
           احجز الباقة الآن — بلا دفع مسبق
         </button>

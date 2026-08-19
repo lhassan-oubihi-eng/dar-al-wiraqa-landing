@@ -11,7 +11,7 @@ export function GuaranteeSection({ guarantee }: GuaranteeSectionProps) {
     <section
       className="mx-4 my-10 rounded-2xl border border-[#E5E5E5] text-center py-10 px-6 bg-white"
     >
-      <div className="flex justify-center mb-3 text-[#15803D]">
+      <div className="flex justify-center mb-3 text-[#111827]">
         <Shield size={44} />
       </div>
       <h2 className="font-black text-2xl md:text-3xl text-gray-900 mb-2">{guarantee.title}</h2>

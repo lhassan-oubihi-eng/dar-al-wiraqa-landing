@@ -249,7 +249,7 @@ export function ThankYouClient() {
       className="flex min-h-screen items-center justify-center p-4 bg-[#F9F9F9]"
     >
       <div className="mx-auto w-full max-w-md rounded-2xl p-8 text-center shadow-lg bg-white border border-[#E5E5E5]">
-        <div className="mb-4 flex justify-center text-[#15803D]">
+        <div className="mb-4 flex justify-center text-[#111827]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="48"
@@ -277,7 +277,7 @@ export function ThankYouClient() {
         <hr className="border-[#E5E5E5] my-4" />
         <p className="text-base text-[#4B5563] mb-4">
           إجمالي الطلب:{" "}
-          <span className="text-[#15803D] font-black text-xl">{finalTotal} درهم</span>
+          <span className="text-[#111827] font-black text-xl">{finalTotal} درهم</span>
           {upsellCount > 0 && (
             <span className="text-sm text-[#6B7280]">
               {" "}
@@ -295,7 +295,7 @@ export function ThankYouClient() {
             أضف باقات إضافية لطلبيتك بخصم خاص
           </h2>
           <p className="mb-4 text-base text-[#6B7280]">
-            <span className="font-bold text-[#15803D]">
+            <span className="font-bold text-[#111827]">
               {UPSELL_PRICE} درهم للباقة
             </span>{" "}
             بدلاً من{" "}
@@ -319,11 +319,11 @@ export function ThankYouClient() {
                   aria-pressed={isSelected}
                   className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-right transition-all duration-200 ${
                     isSelected
-                      ? "border-[#15803D] bg-white shadow-[0_0_12px_rgba(22,163,74,.15)]"
-                      : "border-[#E5E5E5] bg-white hover:border-[#15803D]/60"
+                      ? "border-[#111827] bg-white shadow-[0_0_12px_rgba(22,163,74,.15)]"
+                      : "border-[#E5E5E5] bg-white hover:border-[#111827]/60"
                   }`}
                 >
-                  <BookOpen className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  <BookOpen className="w-5 h-5 text-[#111827] flex-shrink-0" />
                   <span className="flex-1">
                     <span className="block text-sm font-bold text-[#1F2937] leading-snug">
                       {p.packName}
@@ -331,7 +331,7 @@ export function ThankYouClient() {
                     <span
                       className={`block text-[10px] ${
                         isSelected
-                          ? "font-bold text-[#15803D]"
+                          ? "font-bold text-[#111827]"
                           : "text-[#9CA3AF]"
                       }`}
                     >
@@ -341,7 +341,7 @@ export function ThankYouClient() {
                     </span>
                   </span>
                   {isSelected && (
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#15803D] text-white">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#111827] text-white">
                       <Check className="w-3 h-3" strokeWidth={3} />
                     </span>
                   )}
@@ -355,7 +355,7 @@ export function ThankYouClient() {
               key={p.slug}
               className="mb-4 rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] p-3 text-right last:mb-0"
             >
-              <p className="mb-2 text-[11px] font-bold text-[#15803D]">
+              <p className="mb-2 text-[11px] font-bold text-[#111827]">
                 محتوى باقة {p.packName}:
               </p>
               <div className="grid grid-cols-3 gap-2">
@@ -370,7 +370,7 @@ export function ThankYouClient() {
                       {b.gift && (
                         <span
                           className="absolute top-0 right-0 rounded px-1 text-[7px] font-black"
-                          style={{ background: "#15803D", color: "#fff" }}
+                          style={{ background: "#111827", color: "#fff" }}
                         >
                           هدية
                         </span>
@@ -388,7 +388,7 @@ export function ThankYouClient() {
           {upsellCount > 0 && (
             <p className="mt-3 text-[11px] text-[#6B7280]">
               تمت إضافة{" "}
-              <span className="font-bold text-[#15803D]">
+              <span className="font-bold text-[#111827]">
                 {upsellCount} باقة
               </span>{" "}
               — زر الواتساب أسفل الصفحة سيرسل فاتورة موحدة بكل الباقات.
@@ -411,7 +411,7 @@ export function ThankYouClient() {
               </>
             )}
             <span className="mx-1 text-[#9CA3AF]">=</span>
-            <span className="font-black text-[#15803D]">{finalTotal} درهم</span>
+            <span className="font-black text-[#111827]">{finalTotal} درهم</span>
           </p>
           <p className="mt-1 text-[11px] text-[#6B7280]">
             (+ توصيل مجاني — الدفع عند الاستلام)

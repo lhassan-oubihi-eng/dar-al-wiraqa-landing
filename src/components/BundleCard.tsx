@@ -47,7 +47,7 @@ export function BundleCard({
                 {isGift && (
                   <span
                     className="absolute inset-x-0 top-0 z-10 py-0.5 text-center text-[8px] font-extrabold text-white"
-                    style={{ background: "linear-gradient(90deg,#15803D,#22c55e)" }}
+                    style={{ background: "linear-gradient(90deg,#111827,#22c55e)" }}
                   >
                     هدية
                   </span>
@@ -91,11 +91,11 @@ export function BundleCard({
           <del className="text-base text-[#9CA3AF] line-through">
             {pack.originalPrice} درهم
           </del>
-          <span className="text-2xl md:text-3xl font-black text-[#15803D]">
+          <span className="text-2xl md:text-3xl font-black text-[#111827]">
             {pack.price} درهم
           </span>
         </div>
-        <span className="text-sm font-bold text-[#15803D]">
+        <span className="text-sm font-bold text-[#111827]">
          وفرت {savings} درهم
         </span>
       </div>
@@ -103,7 +103,7 @@ export function BundleCard({
       {/* CTA — Direct Buy Now as Link */}
       <Link
         href={`/checkout/${pack.slug}`}
-        className="w-full py-4 px-4 rounded-xl font-extrabold text-lg md:text-xl text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-sm hover:shadow-md flex items-center justify-center"
+        className="w-full py-4 px-4 rounded-xl font-extrabold text-lg md:text-xl text-white bg-[#111827] hover:bg-[#111827] transition-colors shadow-sm hover:shadow-md flex items-center justify-center"
       >
         {ctaText}
       </Link>

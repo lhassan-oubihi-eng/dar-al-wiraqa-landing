@@ -84,9 +84,9 @@ export function CategorySection({
       {/* Section Header with Marketing Hook */}
       <div className="mb-8 text-center">
         {hook && (
-          <div className="mb-4 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#F0FDF4] to-[#D1FAE5] border border-[#BBF7D0]">
-            {icon && <span className="text-[#15803D]">{icon}</span>}
-            <span className="text-base font-bold text-[#15803D]">{hook}</span>
+          <div className="mb-4 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#F9FAFB] to-[#F3F4F6] border border-[#E5E7EB]">
+            {icon && <span className="text-[#111827]">{icon}</span>}
+            <span className="text-base font-bold text-[#111827]">{hook}</span>
           </div>
         )}
         <h2 className="text-2xl font-black text-gray-900 md:text-4xl">

@@ -13,7 +13,7 @@ import { BookCover } from "@/components/BookCover";
  * the full conversion architecture automatically.
  * ============================================================ */
 
-const ACCENT = "#047857";
+const ACCENT = "#111827";
 const CARD = "bg-white rounded-2xl border border-[#E5E5E5] shadow-sm p-4";
 const HEADING = "text-center font-black text-xl text-[#111827] mb-3";
 
@@ -41,12 +41,12 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
           <div
             key={b.id}
             className={`relative w-1/3 max-w-[110px] aspect-[3/4] overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm ${
-              i === pack.giftBookIndex ? "ring-2 ring-[#047857]" : ""
+              i === pack.giftBookIndex ? "ring-2 ring-[#111827]" : ""
             }`}
           >
             <BookCover title={b.title} src={b.coverUrl} className="h-full w-full object-cover" />
             {i === pack.giftBookIndex && (
-              <span className="absolute inset-x-0 bottom-0 bg-[#047857] text-white text-[9px] font-extrabold py-0.5">
+              <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[9px] font-extrabold py-0.5">
                 🎁 هدية
               </span>
             )}
@@ -59,20 +59,20 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         <span className="text-gray-400 line-through text-base">
           {pack.originalPrice} درهم
         </span>
-        <span className="text-3xl font-black text-[#047857]">
+        <span className="text-3xl font-black text-[#111827]">
           {pack.price} درهم
         </span>
         <span className="bg-[#D97706] text-white text-xs font-bold px-2 py-0.5 rounded-full">
           وفّر {savings} د.م
         </span>
       </div>
-      <p className="text-center text-sm font-bold text-[#047857] mt-1 flex items-center justify-center gap-1">
+      <p className="text-center text-sm font-bold text-[#111827] mt-1 flex items-center justify-center gap-1">
         <Truck className="w-4 h-4" /> توصيل مجاني + الدفع عند الاستلام
       </p>
 
       <button
         onClick={scrollToForm}
-        className="mt-3 w-full bg-[#047857] text-white font-extrabold text-lg py-4 rounded-xl shadow-lg active:scale-[0.98] transition-all"
+        className="mt-3 w-full bg-[#111827] text-white font-extrabold text-lg py-4 rounded-xl shadow-lg active:scale-[0.98] transition-all"
       >
         {pack.ctaText}
       </button>
@@ -93,7 +93,7 @@ export function OutcomeSection({ pack }: { pack: PackConfig }) {
         <ul className="space-y-2">
           {pack.outcomes.map((o, i) => (
             <li key={i} className="flex items-start gap-2 text-sm font-medium text-[#111827]">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#047857]/10 text-[#047857] text-xs font-bold">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#111827]/10 text-[#111827] text-xs font-bold">
                 {i + 1}
               </span>
               <span>{o}</span>
@@ -115,7 +115,7 @@ export function ForYouIfSection({ pack }: { pack: PackConfig }) {
         <ul className="space-y-2">
           {pack.forYouIf.map((x, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-[#111827]">
-              <Check className="w-4 h-4 text-[#047857] shrink-0 mt-0.5" />
+              <Check className="w-4 h-4 text-[#111827] shrink-0 mt-0.5" />
               <span>{x}</span>
             </li>
           ))}
@@ -188,7 +188,7 @@ export function TrustSection({ pack }: { pack: PackConfig }) {
             const Icon = it.icon;
             return (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#047857]/10 text-[#047857]">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#111827]/10 text-[#111827]">
                   <Icon className="w-4 h-4" />
                 </span>
                 <div>
@@ -223,7 +223,7 @@ export function FaqSection({ pack }: { pack: PackConfig }) {
               >
                 <span className="text-sm font-bold text-[#111827]">{f.q}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-[#047857] transition-transform shrink-0 ${
+                  className={`w-4 h-4 text-[#111827] transition-transform shrink-0 ${
                     open === i ? "rotate-180" : ""
                   }`}
                 />
@@ -267,7 +267,7 @@ export function CrossSellSection({ pack }: { pack: PackConfig }) {
               <p className="text-sm font-bold text-[#111827] line-clamp-1">{r.packName}</p>
               <p className="text-xs text-[#6B7280] line-clamp-1">{r.outcomes[0] ?? r.desc}</p>
             </div>
-            <span className="text-sm font-black text-[#047857] whitespace-nowrap">
+            <span className="text-sm font-black text-[#111827] whitespace-nowrap">
               {r.price} درهم
             </span>
           </Link>
