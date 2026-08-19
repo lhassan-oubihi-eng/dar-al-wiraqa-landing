@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { PackConfig } from "@/data/offers";
-import { StickyBanner } from "@/components/StickyBanner";
 import { ProductHero } from "@/components/product/ProductSections";
 import { CheckoutSection } from "@/components/CheckoutSection";
 
@@ -39,15 +38,12 @@ export function PackLanding({ pack }: PackLandingProps) {
 
   return (
     <>
-      {/* Persistent site header with free-shipping text */}
-      <StickyBanner text={pack.announcement} />
-
       <main className="mx-auto max-w-[460px] pb-12 bg-white min-h-screen">
         {/* HERO — attention + clarity */}
         <ProductHero pack={pack} />
 
         {/* ORDER — the only remaining conversion step */}
-        <div id="checkout-form" className="mx-4 mt-4 scroll-mt-24">
+        <div id="checkout-form" className="mx-4 mt-10 scroll-mt-24">
           <CheckoutSection pack={pack} onCtaClick={() => {}} />
         </div>
       </main>

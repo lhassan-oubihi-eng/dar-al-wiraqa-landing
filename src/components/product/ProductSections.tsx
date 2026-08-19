@@ -49,7 +49,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
       </div>
 
       {/* Price block */}
-      <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
+      <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
         <span className="text-gray-400 line-through text-base">
           {pack.originalPrice} درهم
         </span>
