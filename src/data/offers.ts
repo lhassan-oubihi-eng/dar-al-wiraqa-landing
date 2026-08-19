@@ -161,9 +161,9 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     announcement: pack.announcement ?? "🚚 توصيل مجاني + الدفع عند الاستلام بعد معاينة وفحص الكتب!",
     urgencyText: pack.urgencyText ?? `🔥 عرض خاص محدود: ${pack.packName} كاملة بـ ${pack.price} درهم فقط`,
     heroHeadline: pack.heroHeadline ?? pack.heroH1,
-    socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ ${pack.packName} الأكثر طلباً (${allBooks.length} كتب + هدية)`,
+    socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ (${pack.trustLine})`,
     formHeader: pack.formHeader ?? "📦 أدخل معلومات الاستلام (التوصيل لباب منزلك)",
-    ctaText: pack.ctaText ?? "تأكيد الطلب الآن — الدفع عند الاستلام 👈",
+    ctaText: pack.ctaText ?? "تأكيد الطلب الآن — الدفع عند الاستلام",
     valuePropTitle,
     benefits: allBooks.map((b) => ({
       title: b.title,

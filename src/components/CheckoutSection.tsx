@@ -136,13 +136,13 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           </h2>
       </div>
 
-      <form onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
+      <form id="order-form" onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
         {/* Name Field */}
         <div>
           <label htmlFor="nameInput"             className="block mb-1.5 text-sm font-bold text-[#111827]">
             الاسم الكامل <span className="text-red-500">*</span>
           </label>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#047857] focus-within:ring-2 focus-within:ring-[#047857]/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <User className="w-5 h-5 text-gray-700" />
             </div>
@@ -167,7 +167,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <label htmlFor="phone"             className="block mb-1.5 text-sm font-bold text-[#111827]">
             رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
           </label>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#047857] focus-within:ring-2 focus-within:ring-[#047857]/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <Phone className="w-5 h-5 text-gray-700" />
             </div>
@@ -190,10 +190,10 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
         {/* Address Field */}
         <div>
-          <label htmlFor="address"             className="block mb-1.5 text-sm font-bold text-[#111827]">
-            المدينة والعنوان <span className="text-red-500">*</span>
+            <label htmlFor="address"             className="block mb-1.5 text-sm font-bold text-[#111827]">
+            المدينة والحَيّ (أو العنوان بالتفصيل) <span className="text-red-500">*</span>
           </label>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#047857] focus-within:ring-2 focus-within:ring-[#047857]/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <MapPin className="w-5 h-5 text-gray-700" />
             </div>
@@ -207,7 +207,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.address}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#111827] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="المدينة والعنوان بالكامل"
+                placeholder="المدينة والحَيّ (أو العنوان بالتفصيل)"
               disabled={isSubmitting}
             />
           </div>
@@ -239,7 +239,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         </datalist>
 
         {/* Sleek CTA Button */}
-        <p className="text-center text-xs font-bold text-[#15803D] mb-3 flex items-center justify-center gap-1">
+        <p className="text-center text-xs font-bold text-[#047857] mb-3 flex items-center justify-center gap-1">
           <span aria-hidden>⭐⭐⭐⭐⭐</span>
           <span>{pack.trustLine}</span>
         </p>
@@ -247,7 +247,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-[#059669] hover:bg-[#047857] text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="bg-[#047857] text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-[#047857]/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5" />
              <span>{isSubmitting ? "جاري تأكيد الطلب..." : pack.ctaText}</span>

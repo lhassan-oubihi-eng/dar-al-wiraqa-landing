@@ -21,13 +21,13 @@
   --color-gold: #D4AF37;           /* gold accents — reserved, premium */
   --color-gold-light: #E5E0C8;
   --color-gold-soft: #FEFDF8;     /* soft gold backgrounds */
-  --color-green: #15803D;          /* primary CTA — deep trustworthy green */
-  --color-green-hover: #16a34a;    /* CTA hover state */
+  --color-green: #047857;          /* unified premium emerald */
+  --color-green-hover: #047857;    /* single shade — no hover shift */
   --color-border: #E5E5E5;         /* warm light borders */
   --color-urgent: #DC2626;
   --color-urgent-text: #FFFFFF;
-  --color-success: #15803D;
-  --color-accent: #15803D;         /* rebrand primary accent = deep green */
+  --color-success: #047857;
+  --color-accent: #047857;         /* rebrand primary accent = unified emerald */
   --color-input: #F9F9F9;
 }
 
@@ -58,4 +58,11 @@ h3 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 1rem;
+}
+
+/* ===== Strict RTL for form controls ===== */
+input,
+textarea {
+  direction: rtl !important;
+  text-align: right !important;
 }

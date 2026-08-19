@@ -8,7 +8,9 @@ export function StickyMobileCTA({ pack }: { pack: PackConfig }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const form = document.getElementById("checkout-form");
+    const form =
+      document.getElementById("order-form") ||
+      document.querySelector("form");
     if (!form) return;
 
     const observer = new IntersectionObserver(
@@ -42,7 +44,7 @@ export function StickyMobileCTA({ pack }: { pack: PackConfig }) {
       <button
         onClick={scrollToForm}
         type="button"
-        className="bg-[#059669] hover:bg-[#047857] text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+        className="bg-[#047857] text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
       >
         <ShoppingBag className="w-5 h-5 shrink-0" />
         <span>تأكيد الطلب الآن</span>
