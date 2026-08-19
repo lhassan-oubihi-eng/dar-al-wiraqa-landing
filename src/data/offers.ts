@@ -207,7 +207,7 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     urgencyText: pack.urgencyText ?? `${pack.packName} كاملة بـ ${pack.price} درهم — توصيل مجاني والدفع عند الاستلام`,
     heroHeadline: pack.heroHeadline ?? pack.heroH1,
     socialProof: pack.socialProof ?? `⭐⭐⭐⭐⭐ (${pack.trustLine})`,
-    formHeader: pack.formHeader ?? "ملء الاستمارة قبل نفاذ الكمية",
+    formHeader: pack.formHeader ?? "املأ الاستمارة",
     ctaText: pack.ctaText ?? "تأكيد الطلب",
     category: pack.category ?? pack.packName,
     outcomes: pack.outcomes ?? [],
