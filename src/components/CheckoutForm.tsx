@@ -4,8 +4,6 @@ import { useState, FormEvent } from "react";
 import { PackConfig } from "@/data/offers";
 import { ShoppingCart, Truck, User, Phone, MapPin } from "lucide-react";
 
-const PHONE_RE = /^(06|07)\d{8}$/;
-
 interface CheckoutFormProps {
   pack: PackConfig;
   onSuccess: () => void;
@@ -14,21 +12,9 @@ interface CheckoutFormProps {
 export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
   const [form, setForm] = useState({ name: "", phone: "", city: "", address: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(null);
-
-    if (!form.name || !form.phone || !form.city || !form.address) {
-      setError("رجاءً املأ جميع الحقول.");
-      return;
-    }
-    if (!PHONE_RE.test(form.phone)) {
-      setError("المرجو إدخال رقم هاتف مغربي صحيح (06XX / 07XX)");
-      return;
-    }
-
     setSubmitting(true);
 
     try {
@@ -61,12 +47,12 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
       }
 
       onSuccess();
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "خطأ غير متوقع. يرجى المحاولة مرة أخرى.";
-      setError(message);
-      setSubmitting(false);
-    }
+      } catch (err: unknown) {
+        const message =
+          err instanceof Error ? err.message : "خطأ غير متوقع. يرجى المحاولة مرة أخرى.";
+        console.error(message);
+        setSubmitting(false);
+      }
   };
 
   return (
@@ -98,15 +84,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             </div>
           </div>
         </div>
-
-        {error && (
-          <div
-            className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700 border border-red-200"
-            role="alert"
-          >
-            {error}
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           <div>

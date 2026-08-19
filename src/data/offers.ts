@@ -54,7 +54,7 @@ export interface PackConfig {
 export const STORE = {
   name: "دار الوِراقة",
   tagline: "مكتبتك المغربية — كتب مختارة بعناية، توصل لباب دارك",
-  copyright: "دار الوِراقة © 2026 — كتب مختارة بعناية، توصيل لباب دارك",
+  copyright: "دار الوِراقة © 2026",
   price: 199,
 };
 
@@ -90,7 +90,7 @@ const checkoutFeminine = {
   submitText: "تأكيد الطلب والدفع عند الاستلام",
 };
 
-const footerCopyright = "دار الوِراقة © 2026 — كتب مختارة بعناية، توصيل لباب دارك";
+const footerCopyright = "دار الوِراقة © 2026";
 const valuePropTitle = "الكتب المشمولة في الباقة";
 
 interface RawBook {

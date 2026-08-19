@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { User, Phone, MapPin, ShoppingCart, CheckCircle2 } from "lucide-react";
+import React, { useState } from "react";
+import { User, Phone, MapPin, ShoppingCart } from "lucide-react";
 import { PackConfig } from "@/data/offers";
-
-const PHONE_RE = /^(06|07)\d{8}$/;
 
 interface CheckoutSectionProps {
   pack: PackConfig;
@@ -18,43 +16,19 @@ interface FormData {
 }
 
 /**
-  * High-converting CRO checkout form matching exact requested specifications.
-  */
+ * High-converting CRO checkout form matching exact requested specifications.
+ */
 export function CheckoutSection({ pack }: CheckoutSectionProps) {
   const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    if (error) setError(null);
   };
-
-  const handleBlur = (name: string) => {
-    setTouched((prev) => ({ ...prev, [name]: true }));
-  };
-
-  const trimmedName = form.name.trim();
-  const phoneValid = PHONE_RE.test(form.phone);
-  const nameValid = trimmedName.length >= 5 || trimmedName.includes(" ");
-  const addressValid = form.address.trim().length >= 3;
-  const allValid = nameValid && phoneValid && addressValid;
 
   const handleOrderSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-
-    setTouched({ name: true, phone: true, address: true });
-    setIsSubmitted(true);
-
-    if (!allValid) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
     setIsSubmitting(true);
 
     const books = pack.books
@@ -66,12 +40,9 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
       .join("\n");
 
     const formData = {
-      _subject: `طلب جديد من دار الوِراقة — ${pack.packName}`,
-      _captcha: "false",
-      _template: "table",
-      name: form.name,
-      phone: form.phone,
-      address: form.address,
+      o_name: form.name,
+      o_phone: form.phone,
+      o_address: form.address,
       offer: pack.packName,
       books,
       price: `${pack.price} درهم`,
@@ -159,18 +130,11 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
 
   return (
     <section id="orderForm" className="mt-3 rounded-2xl bg-white shadow-xl p-4 sm:p-5 border-2 border-dashed border-gray-300">
-      
       <div className="text-center mb-3">
         <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
           ادخل معلوماتك للطلب
         </h2>
       </div>
-
-      {error && (
-        <div className="mb-3 text-center text-xs font-bold text-red-700 bg-red-50 border border-red-200 rounded-xl py-2" role="alert">
-          {error}
-        </div>
-      )}
 
       <form onSubmit={handleOrderSubmit} className="space-y-4" noValidate>
         {/* Name Field */}
@@ -178,28 +142,24 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-gray-700">
             الاسم الكامل / Nom Complet <span className="text-red-500">*</span>
           </label>
-          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.name) && !nameValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
-              <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-                {touched.name && nameValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <User className="w-5 h-5 text-gray-700" />}
-              </div>
-              <input
-                id="nameInput"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                value={form.name}
-                onChange={handleChange}
-                onBlur={() => handleBlur("name")}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-                placeholder="الاسم الكامل / Nom Complet"
-                disabled={isSubmitting}
-                autoFocus
-              />
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <User className="w-5 h-5 text-gray-700" />
+            </div>
+            <input
+              id="nameInput"
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              value={form.name}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+              placeholder="الاسم الكامل / Nom Complet"
+              disabled={isSubmitting}
+              autoFocus
+            />
           </div>
-          {(isSubmitted || touched.name) && !nameValid && (
-            <p className="text-xs text-red-500 font-medium mt-1">المرجو إدخال الاسم الكامل بشكل صحيح (الاسم والنسب)</p>
-          )}
         </div>
 
         {/* Phone Field */}
@@ -207,29 +167,25 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <label htmlFor="phone" className="block mb-1.5 text-sm font-bold text-gray-700">
             رقم الهاتف / Numéro <span className="text-red-500">*</span>
           </label>
-          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.phone) && !phoneValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
-              <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-                {touched.phone && phoneValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <Phone className="w-5 h-5 text-gray-700" />}
-              </div>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                required
-                value={form.phone}
-                onChange={handleChange}
-                onBlur={() => handleBlur("phone")}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-                placeholder="رقم الهاتف / Numéro"
-                inputMode="tel"
-                maxLength={10}
-                disabled={isSubmitting}
-              />
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <Phone className="w-5 h-5 text-gray-700" />
+            </div>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              required
+              value={form.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+              placeholder="رقم الهاتف / Numéro"
+              inputMode="tel"
+              maxLength={10}
+              disabled={isSubmitting}
+            />
           </div>
-          {(isSubmitted || touched.phone) && !phoneValid && (
-            <p className="text-xs text-red-500 font-medium mt-1">المرجو إدخال رقم هاتف مغربي صحيح (06XX / 07XX)</p>
-          )}
         </div>
 
         {/* Address Field */}
@@ -237,28 +193,24 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <label htmlFor="address" className="block mb-1.5 text-sm font-bold text-gray-700">
             العنوان / Adresse <span className="text-red-500">*</span>
           </label>
-          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.address) && !addressValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
-              <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-                {touched.address && addressValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <MapPin className="w-5 h-5 text-gray-700" />}
-              </div>
-              <input
-                id="address"
-                name="address"
-                type="text"
-                autoComplete="address-level2"
-                list="moroccan-cities"
-                required
-                value={form.address}
-                onChange={handleChange}
-                onBlur={() => handleBlur("address")}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-                placeholder="العنوان / Adresse"
-                disabled={isSubmitting}
-              />
+          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
+            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+              <MapPin className="w-5 h-5 text-gray-700" />
+            </div>
+            <input
+              id="address"
+              name="address"
+              type="text"
+              autoComplete="address-level2"
+              list="moroccan-cities"
+              required
+              value={form.address}
+              onChange={handleChange}
+              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+              placeholder="العنوان / Adresse"
+              disabled={isSubmitting}
+            />
           </div>
-          {(isSubmitted || touched.address) && !addressValid && (
-            <p className="text-xs text-red-500 font-medium mt-1">المرجو كتابة المدينة وعنوان التوصيل بوضوح</p>
-          )}
         </div>
 
         {/* Major Moroccan cities — lightweight autocomplete with free-text fallback */}
@@ -289,7 +241,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Sleek CTA Button */}
         <button
           type="submit"
-          disabled={isSubmitting || !allValid}
+          disabled={isSubmitting}
           className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5" />

@@ -3,7 +3,7 @@
 import React from "react";
 import { PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
-import { Gift, Check, Truck } from "lucide-react";
+import { Gift, Truck } from "lucide-react";
 
 export function BundleShowcase({ pack }: { pack: PackConfig }) {
   const savings = pack.originalPrice - pack.price;
@@ -11,33 +11,32 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
   return (
     <section className="mx-4 mt-4">
       <div className="bg-white rounded-2xl border border-[#E5E5E5] shadow-sm p-4">
-        <h2 className="text-center font-black text-xl text-gray-900 mb-0.5">
+        <h2 className="text-center font-black text-xl text-gray-900 mb-3">
           {pack.packName}
         </h2>
-        <p className="text-center text-xs text-gray-500 mb-3">
-          {pack.books.length} كتب مختارة بعناية + هدية مجانية
-        </p>
 
-        {/* Static grid — all books visible at a glance */}
+        {/* Book covers with titles directly underneath */}
         <div className="grid grid-cols-3 gap-2.5">
           {pack.books.map((book, i) => {
             const isGift = i === pack.giftBookIndex;
             return (
-              <div
-                key={book.id}
-                className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm"
-              >
-                <BookCover
-                  title={book.title}
-                  src={book.coverUrl}
-                  className="h-full w-full object-cover"
-                />
-                {isGift && (
-                  <span className="absolute inset-x-0 bottom-0 bg-[#15803D] text-white text-[10px] font-extrabold py-1 flex items-center justify-center gap-1">
-                    <Gift className="w-3 h-3 text-amber-300" />
-                    🎁 هدية مجانية
-                  </span>
-                )}
+              <div key={book.id} className="flex flex-col">
+                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm">
+                  <BookCover
+                    title={book.title}
+                    src={book.coverUrl}
+                    className="h-full w-full object-cover"
+                  />
+                  {isGift && (
+                    <span className="absolute inset-x-0 bottom-0 bg-[#15803D] text-white text-[10px] font-extrabold py-1 flex items-center justify-center gap-1">
+                      <Gift className="w-3 h-3 text-amber-300" />
+                      🎁 هدية مجانية
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-center text-[11px] font-bold text-gray-800 leading-tight line-clamp-2">
+                  {book.title}
+                </p>
               </div>
             );
           })}
@@ -59,27 +58,6 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
           <Truck className="w-4 h-4 text-emerald-600" />
           شامل التوصيل المجاني
         </p>
-      </div>
-
-      {/* What's inside — compact bullets */}
-      <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl">
-        <ul className="space-y-1.5">
-        {pack.books.map((book, i) => (
-          <li
-            key={book.id}
-            className="flex items-center gap-2 text-sm font-medium text-gray-800"
-          >
-            {i === pack.giftBookIndex ? (
-              <Gift className="w-4 h-4 text-emerald-600 shrink-0" />
-            ) : (
-              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-            )}
-            <span className={i === pack.giftBookIndex ? "text-emerald-700 font-extrabold" : ""}>
-              {book.title}
-            </span>
-          </li>
-        ))}
-      </ul>
       </div>
     </section>
   );
