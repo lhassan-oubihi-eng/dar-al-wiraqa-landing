@@ -47,9 +47,8 @@ export function PackLanding({ pack }: PackLandingProps) {
         {/* Main headline + ethical social proof */}
         <section className="px-4 pt-4 text-center">
           <h1 className="font-black text-2xl md:text-3xl text-[#111827] leading-tight">{pack.heroHeadline}</h1>
-          <p className="mt-2 text-sm font-bold text-[#111827] flex items-center justify-center gap-1">
-            <span aria-hidden>⭐⭐⭐⭐⭐</span>
-            <span>{pack.socialProof}</span>
+          <p className="mt-2 text-sm font-bold text-[#111827] text-center">
+            {pack.socialProof}
           </p>
         </section>
 
