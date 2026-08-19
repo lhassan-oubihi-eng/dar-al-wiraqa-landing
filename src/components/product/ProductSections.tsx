@@ -25,10 +25,6 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         {pack.heroHeadline}
       </h1>
 
-      <p className="mt-4 text-center text-sm font-bold text-[#1E3A8A]">
-        أسماء الكتب
-      </p>
-
       {/* Book covers with titles underneath, 3 per row */}
       <div className="mt-3 grid grid-cols-3 gap-3">
         {pack.books.map((b, i) => (
@@ -62,7 +58,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         </span>
       </div>
       <p className="text-center text-sm font-bold text-[#1E3A8A] mt-2">
-        توصيل مجاني + الدفع عند الاستلام
+        الدفع عند الاستلام
       </p>
     </section>
   );

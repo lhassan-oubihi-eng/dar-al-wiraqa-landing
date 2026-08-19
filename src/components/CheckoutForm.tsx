@@ -75,7 +75,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             </div>
             <div>
               <h4 className="font-bold text-gray-900 text-sm md:text-base">
-                توصيل مجاني + الدفع عند الاستلام
+                الدفع عند الاستلام
               </h4>
               <p className="text-xs md:text-sm text-[#1E3A8A] font-medium mt-0.5">
                 {pack.price} درهم فقط — لا تدفع شيئاً حتى تستلم طلبك
