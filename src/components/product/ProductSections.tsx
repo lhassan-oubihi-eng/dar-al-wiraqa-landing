@@ -50,7 +50,7 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
 
       {/* Price block */}
       <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
-        <span className="text-gray-400 line-through text-base">
+        <span className="text-gray-500 line-through text-lg font-bold">
           {pack.originalPrice} درهم
         </span>
         <span className="text-3xl font-black text-[#1E3A8A]">
