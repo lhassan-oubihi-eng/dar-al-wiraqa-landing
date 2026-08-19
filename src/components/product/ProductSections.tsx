@@ -35,14 +35,10 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
               }`}
             >
               <BookCover title={b.title} src={b.coverUrl} className="h-full w-full object-cover" />
-              {i === pack.giftBookIndex && (
-                <span className="absolute inset-x-0 bottom-0 bg-[#1E3A8A] text-white text-[10px] font-extrabold py-1">
-                  🎁 هدية
-                </span>
-              )}
             </div>
             <p className="mt-1 text-center text-[11px] font-bold text-[#111827] leading-tight line-clamp-2">
               كتاب {b.title}
+              {i === pack.giftBookIndex && <span className="text-[#1E3A8A]"> (هدية)</span>}
             </p>
           </div>
         ))}

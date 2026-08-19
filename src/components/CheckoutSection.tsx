@@ -245,7 +245,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           className="bg-[#22C55E] text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-[#22C55E]/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer animate-soft-pulse"
         >
           <ShoppingCart className="w-5 h-5" />
-             <span>{isSubmitting ? "جاري تأكيد الطلب..." : pack.ctaText}</span>
+             <span>{isSubmitting ? "جاري إرسال الطلب..." : pack.ctaText}</span>
         </button>
 
       </form>
