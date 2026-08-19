@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { User, Phone, MapPin, ShoppingBag, CheckCircle2 } from "lucide-react";
+import { User, Phone, MapPin, ShoppingCart, CheckCircle2 } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
@@ -164,9 +164,6 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <h2 className="font-extrabold text-xl md:text-2xl text-gray-900">
           ادخل معلوماتك للطلب
         </h2>
-        <p className="text-sm text-gray-500 mt-1">
-          {pack.price} درهم فقط — توصيل مجاني والدفع عند الاستلام
-        </p>
       </div>
 
       {error && (
@@ -179,7 +176,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Name Field */}
         <div>
           <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-gray-700">
-            الاسم الكامل <span className="text-red-500">*</span>
+            الاسم الكامل / Nom Complet <span className="text-red-500">*</span>
           </label>
           <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.name) && !nameValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
               <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -195,7 +192,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
                 onChange={handleChange}
                 onBlur={() => handleBlur("name")}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-                placeholder="مثال: محمد العلوي"
+                placeholder="الاسم الكامل / Nom Complet"
                 disabled={isSubmitting}
                 autoFocus
               />
@@ -208,7 +205,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Phone Field */}
         <div>
           <label htmlFor="phone" className="block mb-1.5 text-sm font-bold text-gray-700">
-            رقم الهاتف <span className="text-red-500">*</span>
+            رقم الهاتف / Numéro <span className="text-red-500">*</span>
           </label>
           <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.phone) && !phoneValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
               <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -224,7 +221,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
                 onChange={handleChange}
                 onBlur={() => handleBlur("phone")}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-                placeholder="0612345678"
+                placeholder="رقم الهاتف / Numéro"
                 inputMode="tel"
                 maxLength={10}
                 disabled={isSubmitting}
@@ -238,7 +235,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Address Field */}
         <div>
           <label htmlFor="address" className="block mb-1.5 text-sm font-bold text-gray-700">
-            العنوان أو المدينة <span className="text-red-500">*</span>
+            العنوان / Adresse <span className="text-red-500">*</span>
           </label>
           <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.address) && !addressValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
               <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -255,7 +252,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
                 onChange={handleChange}
                 onBlur={() => handleBlur("address")}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-                placeholder="مثال: الدار البيضاء، حي الأمل"
+                placeholder="العنوان / Adresse"
                 disabled={isSubmitting}
               />
           </div>
@@ -293,10 +290,10 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         <button
           type="submit"
           disabled={isSubmitting || !allValid}
-          className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          <ShoppingBag className="w-5 h-5" />
-          <span>{isSubmitting ? "جاري تأكيد الطلب..." : "تأكيد طلبي الآن"}</span>
+          <ShoppingCart className="w-5 h-5" />
+          <span>{isSubmitting ? "جاري تأكيد الطلب..." : "اضغط هنا للطلب"}</span>
         </button>
 
       </form>

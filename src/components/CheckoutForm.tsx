@@ -80,9 +80,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           <h2 id="checkout-title" className="text-2xl md:text-3xl font-black text-gray-900">
             إتمام الطلب — {pack.packName}
           </h2>
-          <p className="mt-2 text-base text-[#6B7280]">
-            {pack.checkout.subtitle}
-          </p>
         </div>
 
         {/* Honest offer banner (no fake scarcity) */}
@@ -133,7 +130,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
-                placeholder="مثال: محمد علي / Ex: Mohammed"
+                placeholder="الاسم الكامل / Nom Complet"
                 disabled={submitting}
               />
             </div>
@@ -144,7 +141,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="phone"
               className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
-              رقم الهاتف / Numéro (06 / 07) <span className="text-red-500">*</span>
+              رقم الهاتف / Numéro <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
@@ -160,7 +157,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
-                placeholder="مثال: 0612345678 / Ex: 0612345678"
+                placeholder="رقم الهاتف / Numéro"
                 disabled={submitting}
                 maxLength={10}
               />
@@ -187,7 +184,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none"
-                placeholder="مثال: الدار البيضاء / Ex: Casablanca"
+                placeholder="المدينة / Ville"
                 disabled={submitting}
               />
             </div>
@@ -213,7 +210,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
                 rows={3}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none resize-none"
-                placeholder="مثال: شارع الحسن الثاني، حي الأمل... / Ex: Street, Neighborhood..."
+                placeholder="العنوان / Adresse"
                 disabled={submitting}
               />
             </div>
@@ -235,8 +232,8 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             disabled={submitting}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <span>{submitting ? "جاري التأكيد..." : "اضغط هنا للطلب"}</span>
               <ShoppingCart className="w-6 h-6 shrink-0" />
+              <span>{submitting ? "جاري التأكيد..." : "اضغط هنا للطلب"}</span>
           </button>
         </form>
       </div>
