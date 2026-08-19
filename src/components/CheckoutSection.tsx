@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { User, Phone, MapPin, ShoppingBag, PackageCheck, Truck, ShieldCheck, Zap, CheckCircle2 } from "lucide-react";
+import { User, Phone, MapPin, Zap, CheckCircle2 } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
@@ -168,33 +168,6 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         </p>
       </div>
 
-      {/* In-Form Order Summary Box */}
-      <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-4 text-base font-medium text-gray-700 space-y-2.5">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-500">ثمن الباقة (5 كتب + هدية)</span>
-          <span className="font-bold text-gray-900">{pack.price}.00 درهم</span>
-        </div>
-        {pack.originalPrice && (
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-gray-400">الثمن الأصلي</span>
-            <span className="text-gray-400 line-through font-medium">{pack.originalPrice}.00 درهم</span>
-          </div>
-        )}
-        <div className="flex justify-between items-center border-t border-gray-200 pt-2">
-          <span className="text-gray-500">التوصيل</span>
-          <span className="font-bold text-emerald-600">مجاني</span>
-        </div>
-        <div className="flex justify-between items-center border-t border-gray-200 pt-2 text-xl font-black">
-          <span className="text-gray-800">المجموع</span>
-          <span className="text-[#15803D]">{pack.price}.00 درهم</span>
-        </div>
-        {pack.originalPrice && (
-          <div className="bg-emerald-100 text-emerald-800 text-center text-sm font-bold rounded-lg py-1.5 mt-1">
-            وفرت {pack.originalPrice - pack.price} درهم (خصم {(100 - Math.round((pack.price / pack.originalPrice) * 100))}%)
-          </div>
-        )}
-      </div>
-
       {error && (
         <div className="mb-3 text-center text-xs font-bold text-red-700 bg-red-50 border border-red-200 rounded-xl py-2" role="alert">
           {error}
@@ -208,23 +181,23 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             الاسم الكامل <span className="text-red-500">*</span>
           </label>
           <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.name) && !nameValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
-            <input
-              id="nameInput"
-              name="name"
-              type="text"
-              autoComplete="name"
-              required
-              value={form.name}
-              onChange={handleChange}
-              onBlur={() => handleBlur("name")}
-              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="مثال: محمد العلوي"
-              disabled={isSubmitting}
-              autoFocus
-            />
-            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-              {touched.name && nameValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <User className="w-5 h-5 text-gray-700" />}
-            </div>
+              <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+                {touched.name && nameValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <User className="w-5 h-5 text-gray-700" />}
+              </div>
+              <input
+                id="nameInput"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                value={form.name}
+                onChange={handleChange}
+                onBlur={() => handleBlur("name")}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
+                placeholder="مثال: محمد العلوي"
+                disabled={isSubmitting}
+                autoFocus
+              />
           </div>
           {(isSubmitted || touched.name) && !nameValid && (
             <p className="text-xs text-red-500 font-medium mt-1">رجاءً أدخل اسمك الكامل (حرفين على الأقل).</p>
@@ -237,24 +210,24 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             رقم الهاتف <span className="text-red-500">*</span>
           </label>
           <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.phone) && !phoneValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              required
-              value={form.phone}
-              onChange={handleChange}
-              onBlur={() => handleBlur("phone")}
-              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="0612345678"
-              inputMode="tel"
-              maxLength={10}
-              disabled={isSubmitting}
-            />
-            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-              {touched.phone && phoneValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <Phone className="w-5 h-5 text-gray-700" />}
-            </div>
+              <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+                {touched.phone && phoneValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <Phone className="w-5 h-5 text-gray-700" />}
+              </div>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                required
+                value={form.phone}
+                onChange={handleChange}
+                onBlur={() => handleBlur("phone")}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
+                placeholder="0612345678"
+                inputMode="tel"
+                maxLength={10}
+                disabled={isSubmitting}
+              />
           </div>
           {(isSubmitted || touched.phone) && !phoneValid && (
             <p className="text-xs text-red-500 font-medium mt-1">أدخل رقم يبدأ بـ 06 أو 07 (10 أرقام).</p>
@@ -267,23 +240,23 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             العنوان أو المدينة <span className="text-red-500">*</span>
           </label>
           <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${(isSubmitted || touched.address) && !addressValid ? "border-red-400 ring-2 ring-red-100" : "border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20"}`}>
-            <input
-              id="address"
-              name="address"
-              type="text"
-              autoComplete="address-level2"
-              list="moroccan-cities"
-              required
-              value={form.address}
-              onChange={handleChange}
-              onBlur={() => handleBlur("address")}
-              className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
-              placeholder="مثال: الدار البيضاء، حي الأمل"
-              disabled={isSubmitting}
-            />
-            <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
-              {touched.address && addressValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <MapPin className="w-5 h-5 text-gray-700" />}
-            </div>
+              <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
+                {touched.address && addressValid ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <MapPin className="w-5 h-5 text-gray-700" />}
+              </div>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                autoComplete="address-level2"
+                list="moroccan-cities"
+                required
+                value={form.address}
+                onChange={handleChange}
+                onBlur={() => handleBlur("address")}
+                className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder-gray-400 focus:outline-none"
+                placeholder="مثال: الدار البيضاء، حي الأمل"
+                disabled={isSubmitting}
+              />
           </div>
           {(isSubmitted || touched.address) && !addressValid && (
             <p className="text-xs text-red-500 font-medium mt-1">رجاءً أدخل عنوانك أو مدينتك.</p>
@@ -325,25 +298,6 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <span>{isSubmitting ? "جاري تأكيد الطلب..." : "تأكيد طلبي الآن"}</span>
         </button>
 
-        {/* Trust Badges — compact 2-column grid */}
-        <div className="grid grid-cols-2 gap-2 text-xs md:text-sm my-4">
-          <div className="flex items-center gap-2 p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-lg text-emerald-900">
-            <PackageCheck className="w-5 h-5 text-emerald-600 shrink-0"/>
-            <span><strong>معاينة قبل الدفع:</strong> افتح الطرد وتأكد من جودة الكتب قبل التسليم.</span>
-          </div>
-          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
-            <Truck className="w-5 h-5 text-gray-600 shrink-0"/>
-            <span><strong>توصيل سريع ومضمون:</strong> خلال 24 إلى 48 ساعة لجميع المدن.</span>
-          </div>
-          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
-            <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0"/>
-            <span><strong>ضمان استرجاع 14 يوماً:</strong> إن لم تكن راضياً نسترجع المبلغ كاملاً.</span>
-          </div>
-          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-500">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0"/>
-            <span>طباعة عالية الجودة وورق ممتاز مريح للقراءة.</span>
-          </div>
-        </div>
       </form>
     </section>
   );

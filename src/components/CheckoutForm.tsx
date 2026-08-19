@@ -120,6 +120,9 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               الاسم الكامل <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                <User className="w-5 h-5 text-gray-400" />
+              </div>
               <input
                 type="text"
                 id="name"
@@ -133,9 +136,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 placeholder="مثال: محمد علي"
                 disabled={submitting}
               />
-              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
-                <User className="w-5 h-5 text-gray-400" />
-              </div>
             </div>
           </div>
 
@@ -147,6 +147,9 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               رقم الهاتف (يبدأ بـ 06 أو 07) <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                <Phone className="w-5 h-5 text-gray-400" />
+              </div>
               <input
                 type="tel"
                 id="phone"
@@ -161,9 +164,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 disabled={submitting}
                 maxLength={10}
               />
-              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-gray-400" />
-              </div>
             </div>
           </div>
 
@@ -175,6 +175,9 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               المدينة <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-gray-400" />
+              </div>
               <input
                 type="text"
                 id="city"
@@ -187,9 +190,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 placeholder="مثال: الدار البيضاء"
                 disabled={submitting}
               />
-              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
-                <MapPin className="w-5 h-5 text-gray-400" />
-              </div>
             </div>
           </div>
 
@@ -201,6 +201,9 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               العنوان بالتفصيل (الشارع، الحي، رقم المنزل/الشقة) <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
+              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
+                <MapPin className="w-5 h-5 text-gray-400" />
+              </div>
               <textarea
                 id="address"
                 name="address"
@@ -213,9 +216,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 placeholder="مثال: شارع الحسن الثاني، حي الأمل، رقم 45، الطابق 2، شقة 3"
                 disabled={submitting}
               />
-              <div className="bg-gray-50 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
-                <MapPin className="w-5 h-5 text-gray-400" />
-              </div>
             </div>
           </div>
 
