@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { User, Phone, MapPin, Zap, CheckCircle2 } from "lucide-react";
+import { User, Phone, MapPin, ShoppingBag, CheckCircle2 } from "lucide-react";
 import { PackConfig } from "@/data/offers";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
@@ -37,8 +37,9 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
     setTouched((prev) => ({ ...prev, [name]: true }));
   };
 
+  const trimmedName = form.name.trim();
   const phoneValid = PHONE_RE.test(form.phone);
-  const nameValid = form.name.trim().length >= 2;
+  const nameValid = trimmedName.length >= 5 || trimmedName.includes(" ");
   const addressValid = form.address.trim().length >= 3;
   const allValid = nameValid && phoneValid && addressValid;
 
@@ -200,7 +201,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               />
           </div>
           {(isSubmitted || touched.name) && !nameValid && (
-            <p className="text-xs text-red-500 font-medium mt-1">رجاءً أدخل اسمك الكامل (حرفين على الأقل).</p>
+            <p className="text-xs text-red-500 font-medium mt-1">المرجو إدخال الاسم الكامل بشكل صحيح (الاسم والنسب)</p>
           )}
         </div>
 
@@ -230,7 +231,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               />
           </div>
           {(isSubmitted || touched.phone) && !phoneValid && (
-            <p className="text-xs text-red-500 font-medium mt-1">أدخل رقم يبدأ بـ 06 أو 07 (10 أرقام).</p>
+            <p className="text-xs text-red-500 font-medium mt-1">المرجو إدخال رقم هاتف مغربي صحيح (06XX / 07XX)</p>
           )}
         </div>
 
@@ -259,7 +260,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               />
           </div>
           {(isSubmitted || touched.address) && !addressValid && (
-            <p className="text-xs text-red-500 font-medium mt-1">رجاءً أدخل عنوانك أو مدينتك.</p>
+            <p className="text-xs text-red-500 font-medium mt-1">المرجو كتابة المدينة وعنوان التوصيل بوضوح</p>
           )}
         </div>
 
@@ -294,7 +295,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           disabled={isSubmitting || !allValid}
           className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          <Zap className="w-5 h-5 fill-white" />
+          <ShoppingBag className="w-5 h-5" />
           <span>{isSubmitting ? "جاري تأكيد الطلب..." : "تأكيد طلبي الآن"}</span>
         </button>
 

@@ -25,7 +25,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
       return;
     }
     if (!PHONE_RE.test(form.phone)) {
-      setError("أدخل رقم هاتف صحيح يبدأ بـ 06 أو 07.");
+      setError("المرجو إدخال رقم هاتف مغربي صحيح (06XX / 07XX)");
       return;
     }
 
