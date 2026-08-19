@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { PackConfig } from "@/data/offers";
-import { ShoppingBag, PackageCheck, Truck, ShieldCheck, CheckCircle2, User, Phone, MapPin } from "lucide-react";
+import { ShoppingBag, Truck, User, Phone, MapPin } from "lucide-react";
 
 const PHONE_RE = /^(06|07)\d{8}$/;
 
@@ -239,26 +239,6 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             <ShoppingBag className="w-6 h-6 shrink-0" />
           </button>
         </form>
-
-        {/* Lucide Trust Badges — 2x2 compact grid */}
-        <div className="mt-5 grid grid-cols-2 gap-2.5 pt-4 border-t border-gray-100 text-right text-xs">
-          <div className="flex items-center gap-2 p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-lg text-emerald-900">
-            <PackageCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-            <span><strong>معاينة قبل الدفع</strong></span>
-          </div>
-          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
-            <Truck className="w-5 h-5 text-gray-600 shrink-0" />
-            <span><strong>توصيل 24-48 ساعة</strong></span>
-          </div>
-          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
-            <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-            <span><strong>ضمان استرجاع 14 يوماً</strong></span>
-          </div>
-          <div className="flex items-center gap-2 p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-gray-700">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-            <span><strong>طباعة فاخرة</strong></span>
-          </div>
-        </div>
       </div>
     </section>
   );
