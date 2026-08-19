@@ -30,15 +30,28 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         {pack.subheadline}
       </p>
 
-      {/* Book titles included in the bundle */}
-      <ul className="mt-3 space-y-1 text-right">
+      {/* Book covers with titles underneath, 3 per row */}
+      <div className="mt-3 grid grid-cols-3 gap-2.5">
         {pack.books.map((b, i) => (
-          <li key={b.id} className="text-sm font-bold text-[#111827] leading-snug">
-            {b.title}
-            {i === pack.giftBookIndex && " 🎁 (هدية)"}
-          </li>
+          <div key={b.id} className="flex flex-col">
+            <div
+              className={`relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm ${
+                i === pack.giftBookIndex ? "ring-2 ring-[#111827]" : ""
+              }`}
+            >
+              <BookCover title={b.title} src={b.coverUrl} className="h-full w-full object-cover" />
+              {i === pack.giftBookIndex && (
+                <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[10px] font-extrabold py-1">
+                  🎁 هدية
+                </span>
+              )}
+            </div>
+            <p className="mt-1 text-center text-[11px] font-bold text-[#111827] leading-tight line-clamp-2">
+              {b.title}
+            </p>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {/* Price block */}
       <div className="mt-3 flex items-center justify-center gap-2 flex-wrap">
