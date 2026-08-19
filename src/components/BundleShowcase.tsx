@@ -32,9 +32,6 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
                   src={book.coverUrl}
                   className="h-full w-full object-cover"
                 />
-                <span className="absolute top-1 inset-x-1 text-center text-[9px] font-bold leading-tight text-gray-700 line-clamp-2 px-0.5">
-                  {book.title}
-                </span>
                 {isGift && (
                   <span className="absolute inset-x-0 bottom-0 bg-[#15803D] text-white text-[10px] font-extrabold py-1 flex items-center justify-center gap-1">
                     <Gift className="w-3 h-3 text-amber-300" />
