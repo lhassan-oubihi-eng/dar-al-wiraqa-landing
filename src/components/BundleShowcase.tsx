@@ -3,7 +3,7 @@
 import React from "react";
 import { PackConfig } from "@/data/offers";
 import { BookCover } from "@/components/BookCover";
-import { Gift, Check } from "lucide-react";
+import { Gift, Check, Truck } from "lucide-react";
 
 export function BundleShowcase({ pack }: { pack: PackConfig }) {
   const savings = pack.originalPrice - pack.price;
@@ -55,8 +55,9 @@ export function BundleShowcase({ pack }: { pack: PackConfig }) {
             وفر {savings} د.م
           </span>
         </div>
-        <p className="text-center text-sm font-bold text-[#15803D] mt-1">
-          {pack.price} درهم — شامل التوصيل المجاني
+        <p className="text-center text-sm font-bold text-[#15803D] mt-1 flex items-center justify-center gap-1">
+          <Truck className="w-4 h-4 text-emerald-600" />
+          شامل التوصيل المجاني
         </p>
       </div>
 
