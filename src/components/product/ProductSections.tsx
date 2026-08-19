@@ -17,14 +17,9 @@ const ACCENT = "#111827";
 const CARD = "bg-white rounded-2xl border border-[#E5E5E5] shadow-sm p-4";
 const HEADING = "text-center font-black text-xl text-[#111827] mb-3";
 
-/* ---------- 1. HERO: attention + clarity + primary CTA ---------- */
+/* ---------- 1. HERO: attention + clarity ---------- */
 export function ProductHero({ pack }: { pack: PackConfig }) {
   const savings = pack.originalPrice - pack.price;
-  const scrollToForm = () => {
-    document
-      .getElementById("order-form")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   return (
     <section className="px-4 pt-4 text-center">
@@ -35,24 +30,15 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
         {pack.subheadline}
       </p>
 
-      {/* All 6 book covers in a clean 2-row grid */}
-      <div className="mt-4 grid grid-cols-3 gap-2.5">
+      {/* Book titles included in the bundle */}
+      <ul className="mt-3 space-y-1 text-right">
         {pack.books.map((b, i) => (
-          <div
-            key={b.id}
-            className={`relative aspect-[3/4] overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] shadow-sm ${
-              i === pack.giftBookIndex ? "ring-2 ring-[#111827]" : ""
-            }`}
-          >
-            <BookCover title={b.title} src={b.coverUrl} className="h-full w-full object-cover" />
-            {i === pack.giftBookIndex && (
-              <span className="absolute inset-x-0 bottom-0 bg-[#111827] text-white text-[10px] font-extrabold py-1">
-                🎁 هدية
-              </span>
-            )}
-          </div>
+          <li key={b.id} className="text-sm font-bold text-[#111827] leading-snug">
+            {b.title}
+            {i === pack.giftBookIndex && " 🎁 (هدية)"}
+          </li>
         ))}
-      </div>
+      </ul>
 
       {/* Price block */}
       <div className="mt-3 flex items-center justify-center gap-2 flex-wrap">
@@ -68,16 +54,6 @@ export function ProductHero({ pack }: { pack: PackConfig }) {
       </div>
       <p className="text-center text-sm font-bold text-[#111827] mt-1 flex items-center justify-center gap-1">
         <Truck className="w-4 h-4" /> توصيل مجاني + الدفع عند الاستلام
-      </p>
-
-      <button
-        onClick={scrollToForm}
-        className="mt-3 w-full bg-[#111827] text-white font-extrabold text-lg py-4 rounded-xl shadow-lg active:scale-[0.98] transition-all"
-      >
-        {pack.ctaText}
-      </button>
-      <p className="mt-2 text-center text-xs text-[#6B7280] flex items-center justify-center gap-1">
-        <Banknote className="w-4 h-4" /> لا تدفع شيئاً الآن — ادفع عند الاستلام
       </p>
     </section>
   );
