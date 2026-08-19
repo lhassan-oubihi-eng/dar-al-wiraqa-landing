@@ -145,7 +145,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="address"
               className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
             >
-              المدينة والحَيّ (أو العنوان بالتفصيل) <span className="text-red-500">*</span>
+              المدينة والحَيّ <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
@@ -160,7 +160,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
                 rows={3}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
-                placeholder="المدينة والحَيّ (أو العنوان بالتفصيل)"
+                placeholder="المدينة والحَيّ"
                 disabled={submitting}
               />
             </div>
@@ -182,7 +182,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             disabled={submitting}
               className="w-full bg-[#22C55E] text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <ShoppingCart className="w-6 h-6 shrink-0 text-[#F87171]" />
+              <ShoppingCart className="w-6 h-6 shrink-0" />
               <span>{submitting ? "جاري التأكيد..." : pack.ctaText}</span>
           </button>
 
