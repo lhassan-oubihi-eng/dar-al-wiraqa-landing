@@ -91,7 +91,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="name"
               className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
-              الاسم الكامل / Nom Complet <span className="text-red-500">*</span>
+              الاسم الكامل <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
@@ -107,7 +107,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="الاسم الكامل / Nom Complet"
+                placeholder="الاسم الكامل"
                 disabled={submitting}
               />
             </div>
@@ -118,7 +118,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="phone"
               className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
-              رقم الهاتف / Numéro <span className="text-red-500">*</span>
+              رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
@@ -134,7 +134,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="رقم الهاتف / Numéro"
+                placeholder="رقم الهاتف (الواتساب)"
                 disabled={submitting}
                 maxLength={10}
               />
@@ -146,7 +146,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="city"
               className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
-              المدينة / Ville <span className="text-red-500">*</span>
+              المدينة <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
@@ -161,7 +161,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="المدينة / Ville"
+                placeholder="المدينة"
                 disabled={submitting}
               />
             </div>
@@ -172,7 +172,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
               htmlFor="address"
               className="block mb-1.5 text-lg font-bold text-[#374151]"
             >
-              العنوان / Adresse <span className="text-red-500">*</span>
+              المدينة والعنوان <span className="text-red-500">*</span>
             </label>
             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#15803D] focus-within:ring-2 focus-within:ring-[#15803D]/20 transition-all bg-white">
               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
@@ -187,7 +187,7 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
                 rows={3}
                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
-                placeholder="العنوان / Adresse"
+                placeholder="المدينة والعنوان"
                 disabled={submitting}
               />
             </div>
@@ -204,13 +204,18 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
             </p>
           </div>
 
+          <p className="text-center text-xs font-bold text-[#15803D] mb-3 flex items-center justify-center gap-1">
+            <span aria-hidden>⭐⭐⭐⭐⭐</span>
+            <span>{pack.trustLine}</span>
+          </p>
+
           <button
             type="submit"
             disabled={submitting}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-6 h-6 shrink-0" />
-              <span>{submitting ? "جاري التأكيد..." : "اضغط هنا للطلب"}</span>
+              <span>{submitting ? "جاري التأكيد..." : "تأكيد الطلب (الدفع عند الاستلام)"}</span>
           </button>
         </form>
       </div>

@@ -34,6 +34,7 @@ export interface PackConfig {
   price: number;
   tagline: string;
   urgency: string;
+  trustLine: string;
   valuePropTitle: string;
   benefits: Benefit[];
   guarantee: {
@@ -102,6 +103,7 @@ interface RawBook {
 interface RawPack {
   slug: string;
   packName: string;
+  trustLine?: string;
   feminine?: boolean;
   namePlaceholder?: string;
   desc: string;
@@ -143,6 +145,7 @@ export const offers: PackConfig[] = (packs as RawPack[]).map((pack) => {
     price: Number(pack.price),
     tagline: feminine ? taglineFeminine : tagline,
     urgency: pack.urgency,
+    trustLine: pack.trustLine ?? "باقة مختارة بعناية من دار الوِراقة",
     valuePropTitle,
     benefits: allBooks.map((b) => ({
       title: b.title,

@@ -140,7 +140,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Name Field */}
         <div>
           <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-gray-700">
-            الاسم الكامل / Nom Complet <span className="text-red-500">*</span>
+            الاسم الكامل <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -155,7 +155,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.name}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-              placeholder="الاسم الكامل / Nom Complet"
+                placeholder="الاسم الكامل"
               disabled={isSubmitting}
               autoFocus
             />
@@ -165,7 +165,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Phone Field */}
         <div>
           <label htmlFor="phone" className="block mb-1.5 text-sm font-bold text-gray-700">
-            رقم الهاتف / Numéro <span className="text-red-500">*</span>
+            رقم الهاتف (الواتساب) <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -180,7 +180,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.phone}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-              placeholder="رقم الهاتف / Numéro"
+                placeholder="رقم الهاتف (الواتساب)"
               inputMode="tel"
               maxLength={10}
               disabled={isSubmitting}
@@ -191,7 +191,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         {/* Address Field */}
         <div>
           <label htmlFor="address" className="block mb-1.5 text-sm font-bold text-gray-700">
-            العنوان / Adresse <span className="text-red-500">*</span>
+            المدينة والعنوان <span className="text-red-500">*</span>
           </label>
           <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20">
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
@@ -207,7 +207,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               value={form.address}
               onChange={handleChange}
               className="w-full px-4 py-3.5 text-lg font-bold text-[#1F2937] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-              placeholder="العنوان / Adresse"
+                placeholder="المدينة والعنوان"
               disabled={isSubmitting}
             />
           </div>
@@ -239,13 +239,18 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
         </datalist>
 
         {/* Sleek CTA Button */}
+        <p className="text-center text-xs font-bold text-[#15803D] mb-3 flex items-center justify-center gap-1">
+          <span aria-hidden>⭐⭐⭐⭐⭐</span>
+          <span>{pack.trustLine}</span>
+        </p>
+
         <button
           type="submit"
           disabled={isSubmitting}
           className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg md:text-xl py-4 rounded-xl shadow-lg shadow-emerald-600/30 w-full flex items-center justify-center gap-2.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingCart className="w-5 h-5" />
-          <span>{isSubmitting ? "جاري تأكيد الطلب..." : "اضغط هنا للطلب"}</span>
+             <span>{isSubmitting ? "جاري تأكيد الطلب..." : "تأكيد الطلب (الدفع عند الاستلام)"}</span>
         </button>
 
       </form>
