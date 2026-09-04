@@ -11,10 +11,22 @@ interface CheckoutFormProps {
 
 export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
   const [form, setForm] = useState({ name: "", phone: "", address: "" });
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string }>({});
   const [submitting, setSubmitting] = useState(false);
+
+  const validate = () => {
+    const e: typeof errors = {};
+    if (!form.name.trim() || form.name.trim().length < 2) e.name = "المرجو إدخال الاسم الكامل";
+    if (!form.phone.trim()) e.phone = "المرجو إدخال رقم الهاتف";
+    else if (!/^(06|07)\d{8}$/.test(form.phone.trim())) e.phone = "رقم غير صالح — يجب أن يبدأ بـ 06 أو 07 ويتكون من 10 أرقام";
+    if (!form.address.trim() || form.address.trim().length < 4) e.address = "المرجو إدخال العنوان الكامل";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     setSubmitting(true);
 
     try {
@@ -84,87 +96,93 @@ export function CheckoutForm({ pack, onSuccess }: CheckoutFormProps) {
           </div>
         </div>
 
-         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-           <div>
-             <label
-               htmlFor="name"
-               className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
-             >
-               الاسم <span className="text-red-500">*</span>
-             </label>
-             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
-               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
-                 <User className="w-5 h-5 text-gray-400" />
-               </div>
-               <input
-                 type="text"
-                 id="name"
-                 name="name"
-                 autoComplete="name"
-                 required
-                 autoFocus
-                 value={form.name}
-                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                 className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                  placeholder="الاسم"
-                 disabled={submitting}
-               />
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <div>
+              <label
+                htmlFor="name"
+                className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
+              >
+                الاسم <span className="text-red-500">*</span>
+              </label>
+              <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${errors.name ? "border-red-500 ring-2 ring-red-500/20" : "border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20"}`}>
+                <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                  <User className="w-5 h-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  autoComplete="name"
+                  required
+                  autoFocus
+                  value={form.name}
+                  onChange={(e) => { setForm({ ...form, name: e.target.value }); if(errors.name) setErrors(prev=>({...prev, name: undefined})); }}
+                  aria-invalid={!!errors.name}
+                  className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                   placeholder="الاسم"
+                  disabled={submitting}
+                />
+              </div>
+              {errors.name && <p className="mt-1 text-sm font-bold text-red-600 text-right">{errors.name}</p>}
+            </div>
+
+            <div>
+              <label
+                htmlFor="phone"
+                className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
+              >
+                رقم الهاتف <span className="text-red-500">*</span>
+              </label>
+              <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${errors.phone ? "border-red-500 ring-2 ring-red-500/20" : "border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20"}`}>
+                <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-gray-400" />
+                </div>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  autoComplete="tel"
+                  required
+                  inputMode="tel"
+                  value={form.phone}
+                  onChange={(e) => { const v=e.target.value.replace(/\D/g,"").slice(0,10); setForm({ ...form, phone: v }); if(errors.phone) setErrors(prev=>({...prev, phone: undefined})); }}
+                  aria-invalid={!!errors.phone}
+                  className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
+                  placeholder="06XXXXXXXX"
+                  disabled={submitting}
+                  maxLength={10}
+                />
              </div>
+             {errors.phone && <p className="mt-1 text-sm font-bold text-red-600 text-right">{errors.phone}</p>}
            </div>
 
            <div>
              <label
-               htmlFor="phone"
+               htmlFor="address"
                className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
              >
-               رقم الهاتف <span className="text-red-500">*</span>
+               العنوان <span className="text-red-500">*</span>
              </label>
-             <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
-               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-center justify-center">
-                 <Phone className="w-5 h-5 text-gray-400" />
+             <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${errors.address ? "border-red-500 ring-2 ring-red-500/20" : "border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20"}`}>
+               <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
+                 <MapPin className="w-5 h-5 text-gray-400" />
                </div>
-               <input
-                 type="tel"
-                 id="phone"
-                 name="phone"
-                 autoComplete="tel"
+               <textarea
+                 id="address"
+                 name="address"
+                 autoComplete="street-address"
                  required
-                 inputMode="tel"
-                 value={form.phone}
-                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                 className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                 placeholder="رقم الهاتف"
+                 value={form.address}
+                 onChange={(e) => { setForm({ ...form, address: e.target.value }); if(errors.address) setErrors(prev=>({...prev, address: undefined})); }}
+                 aria-invalid={!!errors.address}
+                 rows={3}
+                 className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
+                 placeholder="العنوان"
                  disabled={submitting}
-                 maxLength={10}
                />
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="address"
-              className="block mb-1.5 text-lg font-bold text-[#1E3A8A]"
-            >
-              العنوان <span className="text-red-500">*</span>
-            </label>
-            <div className="flex rounded-xl overflow-hidden border border-[#D1D5DB] focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20 transition-all bg-white">
-              <div className="bg-gray-100 border-l border-[#D1D5DB] px-3 flex items-start pt-3.5 justify-center">
-                <MapPin className="w-5 h-5 text-gray-400" />
-              </div>
-              <textarea
-                id="address"
-                name="address"
-                autoComplete="street-address"
-                required
-                value={form.address}
-                onChange={(e) => setForm({ ...form, address: e.target.value })}
-                rows={3}
-                className="w-full px-4 py-3.5 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none resize-none"
-                placeholder="العنوان"
-                disabled={submitting}
-              />
-            </div>
-          </div>
+             </div>
+             {errors.address && <p className="mt-1 text-sm font-bold text-red-600 text-right">{errors.address}</p>}
+           </div>
 
           <div className="flex items-center justify-between p-3.5 bg-gray-50 border border-gray-100 rounded-xl mb-4">
             <span className="font-semibold text-gray-700 text-sm md:text-base">ثمن الباقة</span>

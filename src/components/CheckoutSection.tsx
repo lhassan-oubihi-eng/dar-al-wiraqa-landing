@@ -20,15 +20,29 @@ interface FormData {
  */
 export function CheckoutSection({ pack }: CheckoutSectionProps) {
   const [form, setForm] = useState<FormData>({ name: "", phone: "", address: "" });
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const validate = () => {
+    const e: typeof errors = {};
+    if (!form.name.trim() || form.name.trim().length < 2) e.name = "المرجو إدخال الاسم الكامل";
+    if (!form.phone.trim()) e.phone = "المرجو إدخال رقم الهاتف";
+    else if (!/^(06|07)\d{8}$/.test(form.phone.trim())) e.phone = "رقم غير صالح — يجب أن يبدأ بـ 06 أو 07 ويتكون من 10 أرقام";
+    if (!form.address.trim() || form.address.trim().length < 4) e.address = "المرجو إدخال العنوان الكامل";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const v = name === "phone" ? value.replace(/\D/g, "").slice(0, 10) : value;
+    setForm((prev) => ({ ...prev, [name]: v }));
+    if (errors[name as keyof FormData]) setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   const handleOrderSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validate()) return;
     setIsSubmitting(true);
 
     const books = pack.books
@@ -142,7 +156,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <label htmlFor="nameInput" className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
             الاسم <span className="text-red-500">*</span>
           </label>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
+          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${errors.name ? "border-red-500 ring-2 ring-red-500/20" : "border-gray-300 focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20"}`}>
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <User className="w-5 h-5 text-gray-700" />
             </div>
@@ -152,6 +166,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               type="text"
               autoComplete="name"
               required
+              aria-invalid={!!errors.name}
               value={form.name}
               onChange={handleChange}
               className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
@@ -160,6 +175,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               autoFocus
             />
           </div>
+          {errors.name && <p className="mt-1 text-sm font-bold text-red-600 text-right">{errors.name}</p>}
         </div>
 
         {/* Phone Field */}
@@ -167,7 +183,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
           <label htmlFor="phone"             className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
             رقم الهاتف <span className="text-red-500">*</span>
           </label>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
+          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${errors.phone ? "border-red-500 ring-2 ring-red-500/20" : "border-gray-300 focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20"}`}>
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <Phone className="w-5 h-5 text-gray-700" />
             </div>
@@ -177,15 +193,17 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               type="tel"
               autoComplete="tel"
               required
+              aria-invalid={!!errors.phone}
               value={form.phone}
               onChange={handleChange}
               className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
-                placeholder="رقم الهاتف"
+                placeholder="06XXXXXXXX"
               inputMode="tel"
               maxLength={10}
               disabled={isSubmitting}
             />
           </div>
+          {errors.phone && <p className="mt-1 text-sm font-bold text-red-600 text-right">{errors.phone}</p>}
         </div>
 
         {/* Address Field */}
@@ -193,7 +211,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
             <label htmlFor="address"             className="block mb-1.5 text-sm font-bold text-[#1E3A8A]">
             العنوان <span className="text-red-500">*</span>
           </label>
-          <div className="flex rounded-xl overflow-hidden border border-gray-300 transition-all bg-white focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20">
+          <div className={`flex rounded-xl overflow-hidden border transition-all bg-white ${errors.address ? "border-red-500 ring-2 ring-red-500/20" : "border-gray-300 focus-within:border-[#1E3A8A] focus-within:ring-2 focus-within:ring-[#1E3A8A]/20"}`}>
             <div className="bg-gray-100 border-l border-gray-300 px-3 flex items-center justify-center">
               <MapPin className="w-5 h-5 text-gray-700" />
             </div>
@@ -204,6 +222,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               autoComplete="address-level2"
               list="moroccan-cities"
               required
+              aria-invalid={!!errors.address}
               value={form.address}
               onChange={handleChange}
               className="w-full px-4 py-4 text-lg font-bold text-[#1E3A8A] placeholder:text-xs placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
@@ -211,6 +230,7 @@ export function CheckoutSection({ pack }: CheckoutSectionProps) {
               disabled={isSubmitting}
             />
           </div>
+          {errors.address && <p className="mt-1 text-sm font-bold text-red-600 text-right">{errors.address}</p>}
         </div>
 
         {/* Major Moroccan cities — lightweight autocomplete with free-text fallback */}
